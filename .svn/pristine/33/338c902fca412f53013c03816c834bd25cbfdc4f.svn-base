@@ -1,0 +1,486 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets2014.jsp" %>
+    <title>一达机票-确认支付页</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link media="all" rel="stylesheet" href="./america/css/pay.css"/>
+</head>
+
+<body>
+<!-- 头部-浮动 -->
+<jsp:include page="/top"></jsp:include>
+<div style="clear:both;"></div>
+<!-- 主体内容 -->
+<div style=" height:70px;"></div>
+
+<div id="jindu" class="wapper">
+	<ul>
+    	<li>1.订单资料填写</li>
+        <li>2.订单确认</li>
+        <li>3.订单支付</li>
+        <li class="wei">4.订单预定成功</li>
+    </ul>
+</div>
+
+
+<div class="odmain">
+      <div class="odmainm">
+          <div class="orderr_info">
+              <ul>
+                  <li class="date">日期</li>
+                  <li class="trip">行程</li>
+                  <li class="danhao">订单号</li>
+                  <li class="money">待支付金额</li>
+              </ul>
+              <div class="orderr_dtfo">
+                  <span class="datet">
+                        <span class="list_date">
+                          <span>2017-04-28</span>
+                          <span>2017-05-17 </span>
+                        </span>                  
+                  </span>
+                  <span class="tript">
+                        <span class="flight_go"><em class="go_ico">去</em><i>广州</i><em class="jiantou">&nbsp;</em><i>首尔</i></span>
+                        <span class="flight_back"><em class="back_ico">回</em><i>首尔</i><em class="jiantou">&nbsp;</em><i>广州</i></span>
+                  </span>
+                  <span class="danhaot">
+                        <span>99887766554433</span>
+                  </span>
+                  <span class="moneyt">
+                        <em class="yen">¥</em><em class="money_data">3706</em>
+                  </span>
+              </div>
+          </div>
+          <div style=" clear:both;"></div>
+          <p class="addmy"><em>总计：</em>¥3049</p>  
+      </div>   
+</div>
+<div style=" clear:both;"></div>
+<div class="PayMain">
+        <p class="zhanshi"><span class="zhanshia" id="hidden_e">展开/收起订单详情 v</span></p>
+        <div class="Main">
+               <div class="Payleft">
+                      <div class="c_plane_info">
+                                          <h3 class="c_plane_hd">
+                                              <span class="vendor"></span>
+                                              <span class="arr_to">广州-东京</span>
+                                          </h3>
+                                              <!---->
+                                              <div class="c_flight fix">
+                                                  <div class="c_fl_1">
+                                                    <div style="position:relative;">
+                                                      <img src="./america/images/pay/fm.jpg" class="c_icon" >
+                                                      <div class="c_company">
+                                                          <p>上海航空</p>
+                                                          <p>FM9306</p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div class="c_fl_2">
+                                                      <p class="c_flight_info c_first">
+                                                          <span class="c_info_1">起飞</span>
+                                                          <span class="c_info_2">2017-04-30</span>
+                                                          <span class="c_info_3">09:30</span>
+                                                          <span class="c_info_4">白云机场</span>
+                                                      </p>
+                                                      <p class="c_flight_info">
+                                                          <span class="c_info_1">到达</span>
+                                                          <span class="c_info_2">2017-04-30</span>
+                                                                  <span class="c_info_3">
+                                                                      11:55
+                                                                  </span>
+                                                          <span class="c_info_4">虹桥机场T2</span>
+                                                      </p>
+                                                  </div>
+                                                  <div class="c_fl_3">
+                                                      <span>飞行</span>
+                                                  </div>
+                                                  <div class="c_fl_4">
+                                                      <span>约2小时25分</span>
+                                                  </div>
+                                              </div>
+                                              <div style=" clear:both;"></div>
+                                              <!---->
+                                              <div style="margin-top: 12px;" class="avt_col_sp">
+                                                  中转上海 5小时
+                                              </div>
+                                              <!---->
+                                              <!-- -->
+                                              <div class="c_flight fix">
+                                                  <div class="c_fl_1">
+                                                    <div style="position:relative;">
+                                                      <img src="./america/images/pay/fm.jpg" class="c_icon" >
+                                                      <div class="c_company">
+                                                          <p>东方航空</p>
+                                                          <p>MU271</p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div class="c_fl_2">
+                                                      <p class="c_flight_info c_first">
+                                                          <span class="c_info_1">起飞</span>
+                                                          <span class="c_info_2">2017-04-30</span>
+                                                          <span class="c_info_3">16:55</span>
+                                                          <span class="c_info_4">浦东机场T1</span>
+                                                      </p>
+                                                      <p class="c_flight_info">
+                                                          <span class="c_info_1">到达</span>
+                                                          <span class="c_info_2">2017-04-30</span>
+                                                                  <span class="c_info_3">
+                                                                      20:55
+                                                                  </span>
+                                                          <span class="c_info_4">成田机场T2</span>
+                                                      </p>
+                                                  </div>
+                                                  <div class="c_fl_3">
+                                                      <span>飞行</span>
+                                                  </div>
+                                                  <div class="c_fl_4">
+                                                      <span>约3小时</span>
+                                                  </div>
+                      </div>
+                      </div>  
+                      <div style=" clear:both;"></div>     
+                      <div class="c_plane_info">
+                                          <h3 class="c_plane_hd">
+                                              <span class="vendor"></span>
+                                              <span class="arr_to">广州-东京</span>
+                                          </h3>
+                                              <!---->
+                                              <div class="c_flight fix">
+                                                  <div class="c_fl_1">
+                                                    <div style="position:relative;">
+                                                      <img src="./america/images/pay/fm.jpg" class="c_icon" >
+                                                      <div class="c_company">
+                                                          <p>上海航空</p>
+                                                          <p>FM9306</p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div class="c_fl_2">
+                                                      <p class="c_flight_info c_first">
+                                                          <span class="c_info_1">起飞</span>
+                                                          <span class="c_info_2">2017-04-30</span>
+                                                          <span class="c_info_3">09:30</span>
+                                                          <span class="c_info_4">白云机场</span>
+                                                      </p>
+                                                      <p class="c_flight_info">
+                                                          <span class="c_info_1">到达</span>
+                                                          <span class="c_info_2">2017-04-30</span>
+                                                                  <span class="c_info_3">
+                                                                      11:55
+                                                                  </span>
+                                                          <span class="c_info_4">虹桥机场T2</span>
+                                                      </p>
+                                                  </div>
+                                                  <div class="c_fl_3">
+                                                      <span>飞行</span>
+                                                  </div>
+                                                  <div class="c_fl_4">
+                                                      <span>约2小时25分</span>
+                                                  </div>
+                                              </div>
+                                              <div style=" clear:both;"></div>
+                                              <!---->
+                                              <div style="margin-top: 12px;" class="avt_col_sp">
+                                                  中转上海 5小时
+                                              </div>
+                                              <!---->
+                                              <!-- -->
+                                              <div class="c_flight fix">
+                                                  <div class="c_fl_1">
+                                                    <div style="position:relative;">
+                                                      <img src="./america/images/pay/fm.jpg" class="c_icon" >
+                                                      <div class="c_company">
+                                                          <p>东方航空</p>
+                                                          <p>MU271</p>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div class="c_fl_2">
+                                                      <p class="c_flight_info c_first">
+                                                          <span class="c_info_1">起飞</span>
+                                                          <span class="c_info_2">2017-04-30</span>
+                                                          <span class="c_info_3">16:55</span>
+                                                          <span class="c_info_4">浦东机场T1</span>
+                                                      </p>
+                                                      <p class="c_flight_info">
+                                                          <span class="c_info_1">到达</span>
+                                                          <span class="c_info_2">2017-04-30</span>
+                                                                  <span class="c_info_3">
+                                                                      20:55
+                                                                  </span>
+                                                          <span class="c_info_4">成田机场T2</span>
+                                                      </p>
+                                                  </div>
+                                                  <div class="c_fl_3">
+                                                      <span>飞行</span>
+                                                  </div>
+                                                  <div class="c_fl_4">
+                                                      <span>约3小时</span>
+                                                  </div>
+                      </div>
+                      </div>  
+                      <div style=" clear:both;"></div>  
+                      <!--退改签规则-->  
+                      <div class="om-order-rule">
+                                  <div class="e_rrticket">
+                                      <span class="lnk_view">退改签规则：</span>
+                                  </div>
+                                  <div class="tgq om-ruletxt">
+                                      <table>
+                                          <tbody><tr>
+                                              <td class="rule-lab">退票规定</td>
+                                              <td class="rule-inf" style="width:100%;">成人: 不得签转改期。退票收取300退票手续费。部分使用仅退未使用部分的税费。  儿童: 不得签转改期。退票收取300退票手续费。部分使用仅退未使用部分的税费。</td>
+                                          </tr>
+                                          <tr>
+                                              <td class="rule-lab">改签规定</td>
+                                              <td class="rule-inf" style="width:100%;">根据航空公司规定执行</td>
+                                          </tr>
+                                          <tr>
+                                              <td class="rule-lab">特殊说明</td>
+                                              <td class="rule-inf" style="width:100%;">以上均为乘客自愿退改签的规则，非自愿退改签规则以可适用法律及航空公司规定为准，航空公司规定以各航空公司官方网站的公示为准。</td>
+                                          </tr>
+                                          <tr>
+                                              <td class="rule-lab">行李规定</td>
+                                              <td class="rule-inf" style="width:100%;">第1段航程行李额限制:2PC 第2段航程行李额限制:2PC 第3段航程行李额限制:2PC 第4段航程行李额限制:2PC</td>
+                                          </tr>
+                                          <tr>
+                                              <td class="rule-lab">误机罚金</td>
+                                              <td class="rule-inf" style="width:100%;">根据航空公司规定执行</td>
+                                          </tr>
+                                          <tr>
+                                              <td class="rule-lab">其他</td>
+                                              <td class="rule-inf" style="width:100%;">国际保险一旦购买不能单独退保。</td>
+                                          </tr>
+                                      </tbody></table>
+                                  </div>
+                      </div>                      
+                      <div style=" clear:both;"></div> 
+                       <!--乘机人信息-->
+                       <div class="c_pass_info">
+                            <h3 class="c_pass_hd">乘机人信息</h3>
+                            <table class="c_pass_bd">
+                                <tbody><tr>
+                                    <th width="90">姓名</th>
+                                    <th width="60">类型</th>
+                                    <th width="120">证件号</th>
+                                    <th width="70">证件有效期</th>
+                                    <th width="100">保险</th>
+                                </tr>
+            
+                                <tr>
+                                    <td>OU/PENG</td>
+                                    <td>成人票</td>
+                                    <td>护照：GE*****38</td>
+                                    <td>2023-04-06</td>
+                                    <td>延误险4份&nbsp;旅行险1份&nbsp;</td>
+                                </tr>
+                            </tbody></table>
+            
+                            <h3 class="c_pass_hd">联系人信息</h3>
+                            <div class="c_pass_list fix">
+                                <div class="c_pass_1">姓名：欧鹏</div>
+                                <div class="c_pass_2">手机：156****8760</div>
+                                <div class="c_pass_3">电子邮件：540******@qq.com</div>
+                            </div>
+                        </div>                       
+                        <div style=" clear:both;"></div>
+               </div>
+               <div class="Payright">
+                        <h3 class="c_po_hd">
+                            <p class="c_po_title">订单总价</p>
+                            <span class="c_po_total"><i class="rmb">¥</i>3049</span>
+                        </h3>
+                        <ul class="c_po_detail">
+                            <li>
+                                <span class="c_po_text">票价<em>(成人)</em></span>
+                                <span class="c_po_cont rmb font-arail"><i class="rmb">¥</i>1540</span>
+                                <span class="c_po_num">
+                                        x1
+                                        /人
+                                </span>
+                            </li>
+                            <li>
+                                <span class="c_po_text">税费<em>(成人)</em></span>
+                                <span class="c_po_cont rmb font-arail"><i class="rmb">¥</i>919</span>
+                                <span class="c_po_num">
+                                        x1
+                                        /人
+                                </span>
+                            </li>
+                            <li>
+                                <span class="c_po_text">旅行险<em>(成人)</em></span>
+                                <span class="c_po_cont rmb font-arail"><i class="rmb">¥</i>470</span>
+                                <span class="c_po_num">
+                                        x1
+                                        /人
+                                </span>
+                            </li>
+                            <li>
+                                <span class="c_po_text">延误险</span>
+                                <span class="c_po_cont rmb font-arail"><i class="rmb">¥</i>120</span>
+                                <span class="c_po_num">
+                                        x1
+                                        /人
+                                </span>
+                            </li>
+                        </ul>
+                       <div style=" clear:both;"></div>
+               </div>
+               <div style=" clear:both;"></div>
+        </div>
+</div>
+<div style=" clear:both;"></div>
+<div class="paytyle">
+      <div class="tab_nav">
+            <span>银行卡支付</span>
+            <span >支付平台支付</span>
+            <span >境外卡支付</span>
+       </div>
+       <div style=" clear:both;"></div>
+       <div class="e_tab_content">
+              <div class="b_write_card">
+                <table cellspacing="0" cellpadding="0" height="100%" width="100%">
+                  <tbody>
+                    <tr>
+                      <td class="left_ctn"><div class="title">银行卡</div></td>
+                      <td><span class="norate_tips" id="noRate">跳转至银行卡页面支付<em class="amountStrong" data-nocard="count">3049.00</em>元 </span></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td><ul class="inline platbank-list">
+                          <li class="e_open_ibank">
+                            <input pmcode="QRCODE" name="bankCode" value="WECHAT" class="radio_box" checked="" type="radio">
+                            <label class="bank_logo_box"><span class="bank_logo"><img title="微信扫码支付" src="http://www.lutao.com/front/pay/img/logo/bank_cmb.png"></span></label>
+                          </li>
+                          <li class="e_open_ibank">
+                            <input pmcode="GWCARD" name="bankCode" value="TENPAY" class="radio_box" type="radio">
+                            <label class="bank_logo_box"><span class="bank_logo"><img title="财付通" src="http://www.lutao.com/front/pay/img/logo/bank_icbc.png"></span></label>
+                          </li>
+                          <li class="e_open_ibank">
+                            <input pmcode="GWCARD" name="bankCode" value="ALIPAY" class="radio_box" type="radio">
+                            <label class="bank_logo_box"><span class="bank_logo"><img title="支付宝" src="http://www.lutao.com/front/pay/img/logo/bank_abc.png"></span></label>
+                          </li>
+                        </ul></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <a class="ordera-submit">确认并支付</a>
+       </div>
+       
+       <div class="e_tab_content" style=" display:none;">
+              <div class="b_write_card">
+                <table cellspacing="0" cellpadding="0" height="100%" width="100%">
+                  <tbody>
+                    <tr>
+                      <td class="left_ctn"><div class="title">支付平台</div></td>
+                      <td><span class="norate_tips" id="noRate">跳转至平台页面支付<em class="amountStrong" data-nocard="count">3049.00</em>元 </span></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td><ul class="inline platbank-list">
+                          <li class="e_open_ibank">
+                            <input pmcode="QRCODE" name="bankCode" value="WECHAT" class="radio_box" checked="" type="radio">
+                            <label class="bank_logo_box"><span class="bank_logo"><img title="微信扫码支付" src="http://www.lutao.com/front/pay/img/weipay.jpg"></span></label>
+                          </li>
+                          <li class="e_open_ibank">
+                            <input pmcode="GWCARD" name="bankCode" value="TENPAY" class="radio_box" type="radio">
+                            <label class="bank_logo_box"><span class="bank_logo"><img title="财付通" src="http://www.lutao.com/front/pay/tenpay/tenpay.png"></span></label>
+                          </li>
+                          <li class="e_open_ibank">
+                            <input pmcode="GWCARD" name="bankCode" value="ALIPAY" class="radio_box" type="radio">
+                            <label class="bank_logo_box"><span class="bank_logo"><img title="支付宝" src="http://www.lutao.com/front/pay/alipay/alipay.png"></span></label>
+                          </li>
+                        </ul></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <a class="ordera-submit">确认并支付</a>
+       </div>
+
+       <div class="e_tab_content" style=" display:none;">
+              <div class="b_write_card">
+                <table cellspacing="0" cellpadding="0" height="100%" width="100%">
+                  <tbody>
+                    <tr>
+                      <td class="left_ctn"><div class="title">境外卡支付</div></td>
+                      <td><span class="norate_tips" id="noRate">跳转至境外卡页面支付<em class="amountStrong" data-nocard="count">3049.00</em>元 </span><em class="inter_tips">（含3%服务费91.47元， 境内卡请选择境内卡支付方式免服务费）</em></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td><ul class="inline platbank-list">
+                          <li class="e_open_ibank">
+                            <input pmcode="QRCODE" name="bankCode" value="WECHAT" class="radio_box" checked="" type="radio">
+                            <label class="bank_logo_box"><span class="bank_logo"><img title="微信扫码支付" src="./america/images/pay/paypal_2.jpg"></span></label>
+                          </li>
+                          <li class="e_open_ibank">
+                            <input pmcode="GWCARD" name="bankCode" value="TENPAY" class="radio_box" type="radio">
+                            <label class="bank_logo_box"><span class="bank_logo"><img title="财付通" src="./america/images/pay/master.png"></span></label>
+                          </li>
+                          <li class="e_open_ibank">
+                            <input pmcode="GWCARD" name="bankCode" value="ALIPAY" class="radio_box" type="radio">
+                            <label class="bank_logo_box"><span class="bank_logo"><img title="支付宝" src="./america/images/pay/visa.png"></span></label>
+                          </li>
+                        </ul></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <a class="ordera-submit">确认并支付</a>
+       </div>
+       
+       
+       
+       
+       <div style=" clear:both;"></div>
+</div>
+<div style="clear:both;"></div>
+<!-- 底部 -->
+<div class="page-footer">
+	<div class="clearfix">
+	<ul class="links-list">
+    	<li><a href="" target="_blank" class="ng-binding">关于我们</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">美洲机票产品</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">特价申请</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">服务条款</a></li>
+    </ul>
+    <p>地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼</p>
+    <p>全国服务电话:400-651-8800(免费) 投诉建议:13800138000  一达美洲机票</p>
+    </div>
+</div>
+
+<script>
+		seajs.use(["$",'hidden_e','tabs'], function($,hidden_e,Tabs) {		
+		new Tabs({
+		element: '.paytyle',
+		triggers: '.paytyle .tab_nav span',
+		panels: '.paytyle .e_tab_content',
+		activeTriggerClass: 'active',
+		triggerType:'click',
+		});		
+		
+		$('#hidden_e').toggle(
+			  function(){
+				//$('.conceal-quanbu').css('height', 'auto');
+				$('.PayMain').css('height', 'auto');
+				$(this).html("收起订单详情 ▲");
+			  },
+			  function(){
+				  $('.PayMain').css('height', '');
+				  $(this).html("展开订单详情 ▼");
+			  }
+		  );
+    });
+
+</script>
+
+</body>
+</html>

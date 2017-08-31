@@ -1,0 +1,10 @@
+package com.lutao.common.utils;
+
+public class StringUtil {
+	public static boolean IsNullOrEmptory(Object src){
+		if(null==src || ""==src){return true;}
+		String temp = src.toString().replaceAll(" ", "");
+		if(""==temp){return true;}
+		return false;
+	}
+}

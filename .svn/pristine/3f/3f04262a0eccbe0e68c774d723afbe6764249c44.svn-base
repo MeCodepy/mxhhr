@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lutao.america.dao.PasgsectMapper" >
+  <resultMap id="PasgsectMap" type="com.lutao.america.model.Pasgsect" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PASG_INFO_ID" property="pasgInfoId" jdbcType="DECIMAL" />
+    <result column="T_O_ID" property="tOId" jdbcType="DECIMAL" />
+    <result column="DEPDAY" property="depday" jdbcType="TIMESTAMP" />
+    <result column="ARVDAY" property="arvday" jdbcType="TIMESTAMP" />
+    <result column="EI" property="ei" jdbcType="VARCHAR" />
+    <result column="CABIN" property="cabin" jdbcType="VARCHAR" />
+    <result column="CABIN_CLASS" property="cabinClass" jdbcType="VARCHAR" />
+    <result column="CABIN_MEMO" property="cabinMemo" jdbcType="VARCHAR" />
+    <result column="SHARE_FL_ID" property="shareFlId" jdbcType="VARCHAR" />
+    <result column="IS_REFUND" property="isRefund" jdbcType="DECIMAL" />
+    <result column="REFUND_PRICE" property="refundPrice" jdbcType="DECIMAL" />
+    <result column="SUPPLE_PRICE" property="supplePrice" jdbcType="DECIMAL" />
+    <result column="REFUND_MEMO" property="refundMemo" jdbcType="VARCHAR" />
+    <result column="REFUND_ORDER_NO" property="refundOrderNo" jdbcType="DECIMAL" />
+    <result column="AIRLINE_CODE" property="airlineCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PASG_INFO_ID, T_O_ID, DEPDAY, ARVDAY, EI, CABIN, CABIN_CLASS, CABIN_MEMO, SHARE_FL_ID, 
+    IS_REFUND, REFUND_PRICE, SUPPLE_PRICE, REFUND_MEMO, REFUND_ORDER_NO, AIRLINE_CODE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="PasgsectMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_odm_pasgsect
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_odm_pasgsect
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lutao.america.model.Pasgsect" >
+    insert into t_odm_pasgsect (ID, PASG_INFO_ID, T_O_ID, 
+      DEPDAY, ARVDAY, EI, 
+      CABIN, CABIN_CLASS, CABIN_MEMO, 
+      SHARE_FL_ID, IS_REFUND, REFUND_PRICE, 
+      SUPPLE_PRICE, REFUND_MEMO, REFUND_ORDER_NO, 
+      AIRLINE_CODE)
+    values (#{id,jdbcType=DECIMAL}, #{pasgInfoId,jdbcType=DECIMAL}, #{tOId,jdbcType=DECIMAL}, 
+      #{depday,jdbcType=TIMESTAMP}, #{arvday,jdbcType=TIMESTAMP}, #{ei,jdbcType=VARCHAR}, 
+      #{cabin,jdbcType=VARCHAR}, #{cabinClass,jdbcType=VARCHAR}, #{cabinMemo,jdbcType=VARCHAR}, 
+      #{shareFlId,jdbcType=VARCHAR}, #{isRefund,jdbcType=DECIMAL}, #{refundPrice,jdbcType=DECIMAL}, 
+      #{supplePrice,jdbcType=DECIMAL}, #{refundMemo,jdbcType=VARCHAR}, #{refundOrderNo,jdbcType=DECIMAL}, 
+      #{airlineCode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lutao.america.model.Pasgsect" >
+    insert into t_odm_pasgsect
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="pasgInfoId != null" >
+        PASG_INFO_ID,
+      </if>
+      <if test="tOId != null" >
+        T_O_ID,
+      </if>
+      <if test="depday != null" >
+        DEPDAY,
+      </if>
+      <if test="arvday != null" >
+        ARVDAY,
+      </if>
+      <if test="ei != null" >
+        EI,
+      </if>
+      <if test="cabin != null" >
+        CABIN,
+      </if>
+      <if test="cabinClass != null" >
+        CABIN_CLASS,
+      </if>
+      <if test="cabinMemo != null" >
+        CABIN_MEMO,
+      </if>
+      <if test="shareFlId != null" >
+        SHARE_FL_ID,
+      </if>
+      <if test="isRefund != null" >
+        IS_REFUND,
+      </if>
+      <if test="refundPrice != null" >
+        REFUND_PRICE,
+      </if>
+      <if test="supplePrice != null" >
+        SUPPLE_PRICE,
+      </if>
+      <if test="refundMemo != null" >
+        REFUND_MEMO,
+      </if>
+      <if test="refundOrderNo != null" >
+        REFUND_ORDER_NO,
+      </if>
+      <if test="airlineCode != null" >
+        AIRLINE_CODE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="pasgInfoId != null" >
+        #{pasgInfoId,jdbcType=DECIMAL},
+      </if>
+      <if test="tOId != null" >
+        #{tOId,jdbcType=DECIMAL},
+      </if>
+      <if test="depday != null" >
+        #{depday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="arvday != null" >
+        #{arvday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ei != null" >
+        #{ei,jdbcType=VARCHAR},
+      </if>
+      <if test="cabin != null" >
+        #{cabin,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinClass != null" >
+        #{cabinClass,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinMemo != null" >
+        #{cabinMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="shareFlId != null" >
+        #{shareFlId,jdbcType=VARCHAR},
+      </if>
+      <if test="isRefund != null" >
+        #{isRefund,jdbcType=DECIMAL},
+      </if>
+      <if test="refundPrice != null" >
+        #{refundPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="supplePrice != null" >
+        #{supplePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="refundMemo != null" >
+        #{refundMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="refundOrderNo != null" >
+        #{refundOrderNo,jdbcType=DECIMAL},
+      </if>
+      <if test="airlineCode != null" >
+        #{airlineCode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lutao.america.model.Pasgsect" >
+    update t_odm_pasgsect
+    <set >
+      <if test="pasgInfoId != null" >
+        PASG_INFO_ID = #{pasgInfoId,jdbcType=DECIMAL},
+      </if>
+      <if test="tOId != null" >
+        T_O_ID = #{tOId,jdbcType=DECIMAL},
+      </if>
+      <if test="depday != null" >
+        DEPDAY = #{depday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="arvday != null" >
+        ARVDAY = #{arvday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ei != null" >
+        EI = #{ei,jdbcType=VARCHAR},
+      </if>
+      <if test="cabin != null" >
+        CABIN = #{cabin,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinClass != null" >
+        CABIN_CLASS = #{cabinClass,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinMemo != null" >
+        CABIN_MEMO = #{cabinMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="shareFlId != null" >
+        SHARE_FL_ID = #{shareFlId,jdbcType=VARCHAR},
+      </if>
+      <if test="isRefund != null" >
+        IS_REFUND = #{isRefund,jdbcType=DECIMAL},
+      </if>
+      <if test="refundPrice != null" >
+        REFUND_PRICE = #{refundPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="supplePrice != null" >
+        SUPPLE_PRICE = #{supplePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="refundMemo != null" >
+        REFUND_MEMO = #{refundMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="refundOrderNo != null" >
+        REFUND_ORDER_NO = #{refundOrderNo,jdbcType=DECIMAL},
+      </if>
+      <if test="airlineCode != null" >
+        AIRLINE_CODE = #{airlineCode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lutao.america.model.Pasgsect" >
+    update t_odm_pasgsect
+    set PASG_INFO_ID = #{pasgInfoId,jdbcType=DECIMAL},
+      T_O_ID = #{tOId,jdbcType=DECIMAL},
+      DEPDAY = #{depday,jdbcType=TIMESTAMP},
+      ARVDAY = #{arvday,jdbcType=TIMESTAMP},
+      EI = #{ei,jdbcType=VARCHAR},
+      CABIN = #{cabin,jdbcType=VARCHAR},
+      CABIN_CLASS = #{cabinClass,jdbcType=VARCHAR},
+      CABIN_MEMO = #{cabinMemo,jdbcType=VARCHAR},
+      SHARE_FL_ID = #{shareFlId,jdbcType=VARCHAR},
+      IS_REFUND = #{isRefund,jdbcType=DECIMAL},
+      REFUND_PRICE = #{refundPrice,jdbcType=DECIMAL},
+      SUPPLE_PRICE = #{supplePrice,jdbcType=DECIMAL},
+      REFUND_MEMO = #{refundMemo,jdbcType=VARCHAR},
+      REFUND_ORDER_NO = #{refundOrderNo,jdbcType=DECIMAL},
+      AIRLINE_CODE = #{airlineCode,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="getMaxId" resultType="java.lang.Long">
+     select max(ID) from t_odm_pasgsect
+  </select>
+</mapper>

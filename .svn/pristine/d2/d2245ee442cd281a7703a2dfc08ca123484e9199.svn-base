@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.lutao.america.dao.OrderListMapper">
+	<select id="findBymember" resultType="OrderList">
+	SELECT
+		od.ORDER_ID orderId,
+		od.EXORDER_ID exorderId,
+		od.TOTAL_PRICE totalPrice,
+		oa.ORDER_TYPE orderType,
+		od.CREATE_DATE createDate,
+		od.STAT stat,
+		os.DEPDAY depDate,
+		os.ARVDAY arrDate
+	FROM
+		t_odm_order od
+		LEFT JOIN T_OMD_ORDER_ATTR oa ON od.ORDER_ID = oa.ORDER_ID
+		LEFT JOIN T_ODM_PASGINFO pasg ON oa.Id = pasg.ORDER_ATTR_ID
+		LEFT JOIN T_ODM_PAYINFO opay ON od.ORDER_ID = opay.ORDER_ID
+		LEFT JOIN T_ODM_PASGSECT os ON pasg.Id = os.PASG_INFO_ID
+		LEFT JOIN T_ODM_FLTINFO of ON os.T_O_ID = of.id
+	WHERE
+		od.MEMBER_ID = #{member} AND od.ORDER_SRC='MZ013' GROUP BY od.ORDER_ID ORDER BY od.EXORDER_ID DESC limit 0,10 
+
+	</select>
+	
+	<select id="queryPaging" resultType="OrderList" parameterType="java.util.Map">
+	SELECT
+		od.ORDER_ID orderId,
+		od.EXORDER_ID exorderId,
+		oa.NOPAY totalPrice,
+		oa.ORDER_TYPE orderType,
+		od.CREATE_DATE createDate,
+		od.STAT stat,
+		os.DEPDAY depDate,
+		os.ARVDAY arrDate
+	FROM
+		t_odm_order od
+		LEFT JOIN T_OMD_ORDER_ATTR oa ON od.ORDER_ID = oa.ORDER_ID
+		LEFT JOIN T_ODM_PASGINFO pasg ON oa.Id = pasg.ORDER_ATTR_ID
+		LEFT JOIN T_ODM_PAYINFO opay ON od.ORDER_ID = opay.ORDER_ID
+		LEFT JOIN T_ODM_PASGSECT os ON pasg.Id = os.PASG_INFO_ID
+		LEFT JOIN T_ODM_FLTINFO of ON os.T_O_ID = of.id
+	WHERE
+		od.MEMBER_ID = #{member} AND od.ORDER_SRC='MZ013' 
+		
+		<if test="stat != null">
+		  AND od.STAT=#{stat}
+		</if>
+		 GROUP BY od.ORDER_ID ORDER BY od.EXORDER_ID DESC limit #{pages},#{pieces}
+
+	</select>
+	<select id="searchSegmentById" resultType="OrderListFlt" parameterType="long">
+	SELECT
+	    os.DEPDAY depday,of.*
+	FROM
+	    t_odm_order od
+	    LEFT JOIN T_OMD_ORDER_ATTR oa ON od.ORDER_ID = oa.ORDER_ID
+	    LEFT JOIN T_ODM_PASGINFO pasg ON oa.Id = pasg.ORDER_ATTR_ID
+	    LEFT JOIN T_ODM_PAYINFO opay ON od.ORDER_ID = opay.ORDER_ID
+	    LEFT JOIN T_ODM_PASGSECT os ON pasg.Id = os.PASG_INFO_ID
+	    LEFT JOIN T_ODM_FLTINFO of ON os.T_O_ID = of.id
+	WHERE
+	    od.ORDER_ID=#{id} AND od.ORDER_SRC='MZ013' ORDER BY os.DEPDAY ASC,od.EXORDER_ID DESC
+
+</select>
+<select id="countByMember" resultType="long" parameterType="java.util.Map">
+    select count(cnt) from(SELECT
+		count(*) as cnt
+	FROM
+		t_odm_order od
+		LEFT JOIN T_OMD_ORDER_ATTR oa ON od.ORDER_ID = oa.ORDER_ID
+		LEFT JOIN T_ODM_PASGINFO pasg ON oa.Id = pasg.ORDER_ATTR_ID
+		LEFT JOIN T_ODM_PAYINFO opay ON od.ORDER_ID = opay.ORDER_ID
+		LEFT JOIN T_ODM_PASGSECT os ON pasg.Id = os.PASG_INFO_ID
+		LEFT JOIN T_ODM_FLTINFO of ON os.T_O_ID = of.id
+	WHERE
+		od.MEMBER_ID = #{member} AND od.ORDER_SRC='MZ013'
+		<if test="stat != null">
+		  AND od.STAT=#{stat}
+		</if>
+		 GROUP BY od.ORDER_ID)as tab_all;
+</select>
+</mapper>

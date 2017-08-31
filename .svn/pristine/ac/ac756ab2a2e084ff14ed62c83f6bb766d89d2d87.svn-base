@@ -1,0 +1,96 @@
+package com.lutao.america.controller;
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.lutao.america.model.User;
+import com.lutao.america.service.UserService;
+
+@Controller
+@RequestMapping("/")
+public class IndexController {
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
+	@Autowired
+	private UserService userService;
+	
+	/**
+	 * 首页
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/index")
+	public String Index(HttpServletRequest req){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ucode", "dingwenzhao");
+		map.put("pwd", "1c44d3592cd1132fff7e1d9dae5cdf43");
+		Object id = userService.login(map);
+		System.out.println("login:"+id);
+		log.info("login:"+id);
+		
+		return "/index";
+	}
+	
+	/**
+	 * 登陆
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/login")
+	public String Login(HttpServletRequest req){
+		return "/login";
+	}
+	
+	public String Login(User user, HttpServletRequest req){
+		return "";
+	} 
+	
+	/**
+	 * 注册
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/register")
+	public String Register(HttpServletRequest req){
+		return "/register";
+	}
+	
+	@RequestMapping("/list")
+	public String List(HttpServletRequest req){
+		return "/flightList";
+	}
+	
+	@RequestMapping("/confirm")
+	public String Confirm(HttpServletRequest req){
+		return "/Orderknow";
+	}
+	
+	@RequestMapping("/detail")
+	public String Detail(HttpServletRequest req){
+		return "/OrderDetail";
+	}
+	
+	@RequestMapping("/myorder")
+	public String MyOrder(HttpServletRequest req){
+		return "/Myorder";
+	}
+	
+	@RequestMapping("/order")
+	public String Order(HttpServletRequest req){
+		return "/Order";
+	}
+	
+	@RequestMapping("/pay")
+	public String Pay(HttpServletRequest req){
+		return "/pay";
+	}
+}

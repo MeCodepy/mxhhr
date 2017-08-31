@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+ -->
+<mapper namespace="com.lutao.america.dao.PassengerMapper">
+	<resultMap type="Passenger" id="historysMap">
+		<result property="ptype" column="ptype" javaType="com.lutao.common.enums.EPassengerType" typeHandler="com.lutao.common.enums.EnumKeyTypeHandler"/>
+		<result property="idtype" column="idtype" javaType="com.lutao.common.enums.EIDType" typeHandler="com.lutao.common.enums.EnumKeyTypeHandler"/>
+		<result property="sex" column="sex" javaType="com.lutao.common.enums.ESex" typeHandler="com.lutao.common.enums.EnumKeyTypeHandler"/>
+	</resultMap>
+	<select id="historys" parameterType="INTEGER" statementType="CALLABLE" resultMap="historysMap">
+		call passengers_history_top5(#{memberid})
+	</select>
+</mapper>

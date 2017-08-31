@@ -1,0 +1,7 @@
+key =Lutao2016Lutao2016Lutao2016Lutao
+app_id =wx33e0b1c9014a8a17
+mch_id =1219683701
+subMchID =
+certPassword =
+pay_url=https://api.mch.weixin.qq.com/pay/unifiedorder
+pay_query_url =https://api.mch.weixin.qq.com/pay/orderquery

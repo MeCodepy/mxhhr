@@ -1,0 +1,23 @@
+#国际直连查询地址
+inter_search_url = http://59.41.215.186:8066/rest/gdsResource/queryLowPrice
+
+#
+app_requestPath=http://www.lutao.com
+
+#b2b查询地址
+b2b_inter_search_url=http://139.129.216.68/GJAPI/AVWithPolicy.aspx
+#b2b下单地址
+b2b_inter_order_url=http://139.129.216.68/GJAPI/MakeOrder.aspx
+
+
+#------------------------------创蓝短信配置-------------------------------------#
+#地址
+sms_253_url=http://sapi.253.com/msg/
+#账号
+sms_253_acc=VIP_aft
+#密码
+sms_253_pwd=Tch662785
+#营销账号
+sms_253_market_acc=AFTMY888
+#营销密码
+sms_253_market_pwd=Tch418838

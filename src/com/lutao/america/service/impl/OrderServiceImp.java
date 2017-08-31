@@ -1,0 +1,193 @@
+package com.lutao.america.service.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.lutao.america.dao.ContactMapper;
+import com.lutao.america.dao.FltInfoMapper;
+import com.lutao.america.dao.GeneratorMapper;
+import com.lutao.america.dao.InsuranceMapper;
+import com.lutao.america.dao.OrderAttrMapper;
+import com.lutao.america.dao.OrderMapper;
+import com.lutao.america.dao.PasInfoMapper;
+import com.lutao.america.dao.PasgInfoMapper;
+import com.lutao.america.dao.PasgsectMapper;
+import com.lutao.america.dao.PayInfoMapper;
+import com.lutao.america.model.Contact;
+import com.lutao.america.model.FltInfo;
+import com.lutao.america.model.Generator;
+import com.lutao.america.model.Insurance;
+import com.lutao.america.model.Order;
+import com.lutao.america.model.OrderAttr;
+import com.lutao.america.model.PasInfo;
+import com.lutao.america.model.PasgInfo;
+import com.lutao.america.model.Pasgsect;
+import com.lutao.america.model.PayInfo;
+import com.lutao.america.service.OrderAttrService;
+import com.lutao.america.service.OrderService;
+import com.lutao.common.enums.EPayInfo;
+
+import net.sf.json.JSONObject;
+@Service
+@Transactional
+public class OrderServiceImp implements OrderService{
+	private Log log = LogFactory.getLog(this.getClass().getName());
+    @Resource
+    private OrderMapper orderMapper;
+    @Resource
+    private ContactMapper contactMapper;
+    @Resource
+    private OrderAttrService orderAttrService;
+    @Resource
+    private OrderAttrMapper orderAttrMapper;
+    @Resource
+    private FltInfoMapper fltInfoMapper;
+    @Resource
+    private PasgInfoMapper pasgInfoMapper;
+    @Resource
+    private PasgsectMapper pasgsectMapper;
+    @Resource
+    private PasInfoMapper pasInfoMapper;
+    @Resource
+    private PayInfoMapper payInfoMapper;
+    @Resource
+    private InsuranceMapper insuranceMapper;
+    @Resource
+    private GeneratorMapper gtMapper;
+    
+    
+	public Order findById(Map<String,Object>queryParam) {
+		Order order=orderMapper.findOrderAllDetail(queryParam);
+		return order;
+	}
+	@Override
+	public String save(Order order) throws Exception {
+		JSONObject json=new JSONObject();
+		Generator gt=new Generator();
+		//分开表保存
+		try{
+			Subject sub = SecurityUtils.getSubject();
+			Object member = sub.getSession().getAttribute("member");
+			order.setOrderId(gtMapper.getValueByName("ORDER_PK"));//获取Generator表最新id增加1
+			    gt.setGEN_NAME("ORDER_PK");
+			    gt.setGEN_VALUE(order.getOrderId()+1);
+			    gtMapper.updateValueByName(gt);//更新Generator表值
+			if (order.getExorderId() == null || order.getExorderId().equals("")) {
+				order.setExorderId("lt" + order.getOrderId());//
+			}
+			/*联系人*/
+			   Contact c = order.getContact();
+			   c.setCustId((int)gtMapper.getValueByName("CONTACT_PK"));
+			       gt.setGEN_NAME("CONTACT_PK");
+		           gt.setGEN_VALUE(c.getCustId()+1);
+		           gtMapper.updateValueByName(gt);//更新Generator表值
+			   contactMapper.insertSelective(c);
+			order.setMemberId(Integer.parseInt(String.valueOf(member)));
+			order.setCustId(c.getCustId());
+			//order.setStat("012");//待支付状态
+			order.setOrderSrc("MZ013");//美洲专线订单
+			  json.put("orderId", order.getOrderId());
+			  json.put("exorderId", order.getExorderId());
+			   //关联表
+			   OrderAttr orderAttr=order.getOrderAttr();
+			   orderAttr.setId(gtMapper.getValueByName("ORDERATT_PK"));//获取Generator表最新id增加1
+			       gt.setGEN_NAME("ORDERATT_PK");
+			       gt.setGEN_VALUE(orderAttr.getId()+1);
+			       gtMapper.updateValueByName(gt);//更新Generator表值
+			   orderAttr.setOrderId(order.getOrderId());
+			insertSelective(order);
+			orderAttrService.insert(orderAttr);
+			   
+			      //支付信息
+			      PayInfo payInfo=order.getPayInfo();
+			      payInfo.setOrderId(order.getOrderId());
+			      payInfo.setId(gtMapper.getValueByName("PAYINFO_PK"));//获取Generator表最新id增加1
+			         gt.setGEN_NAME("PAYINFO_PK");
+			         gt.setGEN_VALUE(payInfo.getId()+1);
+			         gtMapper.updateValueByName(gt);//更新Generator表值
+			      payInfo.setPayState(Short.parseShort(EPayInfo.NOPAY.getKey()));//默认是未支付状态
+			      payInfoMapper.insert(payInfo);
+			Set<PasgInfo> pfSet=orderAttr.getPasgInfos();
+			List<Pasgsect> pasgsects=new ArrayList<Pasgsect>();
+			for(PasgInfo pasgInfo:pfSet){
+				pasgsects=pasgInfo.getPasgsects();
+				//乘机人信息
+				PasInfo pasInfo=pasgInfo.getPasInfo();
+				pasInfo.setPasgId(gtMapper.getValueByName("PASG_PK"));
+				    gt.setGEN_NAME("PASG_PK");
+				    gt.setGEN_VALUE(pasInfo.getPasgId()+1);
+				    gtMapper.updateValueByName(gt);//更新Generator表值
+				pasInfo.setCustId(Integer.parseInt(String.valueOf(member)));
+				    pasgInfo.setOrderAttrId(orderAttr.getId());
+				    pasgInfo.setId(gtMapper.getValueByName("PASGINFO_PK"));
+				        gt.setGEN_NAME("PASGINFO_PK");
+				        gt.setGEN_VALUE(pasgInfo.getId()+1);
+				         gtMapper.updateValueByName(gt);//更新Generator表值
+				    pasgInfo.setPasgId(pasInfo.getPasgId());
+				pasInfoMapper.insert(pasInfo);
+				pasgInfoMapper.insert(pasgInfo);
+				List<Insurance> insurance=pasgInfo.getInsurance();
+				for(Insurance ic:insurance){
+					ic.setPASG_ID(pasgInfo.getId());
+					insuranceMapper.save(ic);
+				}
+				for(Pasgsect pasgsect:pasgsects){
+					//航程信息
+					FltInfo fltinfo=pasgsect.getFltinfo();
+					fltinfo.setId(gtMapper.getValueByName("FLTINFO_PK"));
+					    gt.setGEN_NAME("FLTINFO_PK");
+					    gt.setGEN_VALUE(fltinfo.getId()+1);
+					    gtMapper.updateValueByName(gt);//更新Generator表值
+					
+					fltInfoMapper.insert(fltinfo);
+					   pasgsect.setPasgInfoId(pasgInfo.getId());
+					   pasgsect.settOId(fltinfo.getId());
+					   pasgsect.setId(gtMapper.getValueByName("PASGSECT_PK"));
+					      gt.setGEN_NAME("PASGSECT_PK");
+					      gt.setGEN_VALUE(pasgsect.getId()+1);
+					      gtMapper.updateValueByName(gt);//更新Generator表值
+					pasgsectMapper.insert(pasgsect);
+					
+				}
+			}
+		}catch(Exception e){
+			log.error("事务回滚--保存订单失败 ：" + e);
+			json.put("statu", "error");
+			throw new RuntimeException(); 
+		}
+		json.put("statu", "success");
+		return json.toString();
+	}
+	@Override
+	public long getMaxOrderId() {
+		return orderMapper.getMaxOrderId();
+	}
+	@Override
+	public int insertSelective(Order record) {
+		return orderMapper.insertSelective(record);
+	}
+	@Override
+	public int update(Order record) {
+		return orderMapper.updateByPrimaryKeySelective(record);
+	}
+	@Override
+	public Order selectByPrimaryKey(Long orderId) {
+		// TODO Auto-generated method stub
+		return orderMapper.selectByPrimaryKey(orderId);
+	}
+	
+}

@@ -1,0 +1,20 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/front/";
+%>
+<base href='<%=basePath%>'>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="<%=basePath%>images/favicon.ico" type="image/x-icon" />
+<link media="all" rel="stylesheet" href="css/alice.css" />
+<link media="all" rel="stylesheet" href="css/common.css" />
+
+
+<!-- 让ie6支持透明png -->
+<!--[if IE 6]>
+<script type="text/javascript" src="js/DD_belatedPNG.js" ></script>
+<script type="text/javascript">
+    DD_belatedPNG.fix('#bottom-links .phone');
+</script>
+<![endif]-->

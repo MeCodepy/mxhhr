@@ -1,0 +1,37 @@
+package com.lutao.america.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.lutao.america.dao.OrderListMapper;
+import com.lutao.america.model.OrderList;
+import com.lutao.america.model.OrderListFlt;
+import com.lutao.america.service.OrderListService;
+@Service
+@Transactional  //此处不再进行创建SqlSession和提交事务，都已交由spring去管理了。
+public class OrderListServiceImpl implements OrderListService {
+	@Resource
+	private OrderListMapper mapper;
+	
+	@Override
+	public List<OrderListFlt> searchSegmentById(long id) {
+		// TODO Auto-generated method stub
+		return mapper.searchSegmentById(id);
+	}
+	@Override
+	public List<OrderList> queryPaging(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return mapper.queryPaging(map);
+	}
+	@Override
+	public List<OrderList> findBymember(String member) {
+		// TODO Auto-generated method stub
+		return mapper.findBymember(member);
+	}
+	
+}

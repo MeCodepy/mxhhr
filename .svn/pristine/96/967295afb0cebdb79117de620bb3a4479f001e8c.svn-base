@@ -1,0 +1,336 @@
+@charset "utf-8";
+/* 机票查询列表页 */
+body{
+	background:#f0f0f0;}
+.wapper{
+	width:1190px;
+	margin:0 auto;}
+/******************************  头部样式   **************************************/
+.topNav{
+	width:99%;
+	padding:0 0.5%;
+	background:#000;
+	height:50px;
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:10;}
+
+.topNav .navLeft{
+	width:33%;
+	float:left;}
+
+.topNav .navLeft .nav-ui li{
+	float:left;
+	line-height:47px;
+	font-size:20px;
+	color:#fff;
+	margin-right:20px;
+	padding:0 10px;
+	cursor:pointer;}
+
+.topNav .navLeft .nav-ui li:hover{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navLeft .nav-ui .nav{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navcont{
+	width:33%;
+	float:left;
+	text-align:center;}
+
+.topNav .navRight{
+	width:33%;
+	float:left;}
+
+.topNav .navRight ul li{
+	float:right;
+	line-height:50px;
+	font-size:20px;
+	color:#fff;}
+
+/********* 主内容 **********/
+.MyorderMain{ width:1190px; margin:0 auto; margin-bottom:15px;}
+
+.MyorderMain .Myorderleft {
+    float: left;
+    margin-right: 20px;
+    padding:0 10px;
+    width: 168px;
+}
+.MyorderMain .Myorderleft .list{
+	border: 1px solid #e0dede;
+}
+
+.MyorderMain .Myorderleft .list li {
+	background:#FFF;
+    border-bottom: 1px solid #e0dede;
+    border-right: 1px solid #eee;
+    font-size: 15px;
+    line-height: 45px;
+    text-align: center;
+	cursor:pointer;
+}
+.MyorderMain .Myorderleft .list li:hover {
+	color:#ff7800;
+}
+
+.MyorderMain .Myorderright{ width:982px;float:left;}
+
+.MyorderMain .Myorderright .order_info {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #eee;
+    float: left;
+    width: 980px;
+}
+
+.MyorderMain .Myorderright .order_info ul li {
+    color: #777;
+    float: left;
+    font-size: 15px;
+    line-height: 22px;
+    padding: 10px 0;
+}
+.MyorderMain .Myorderright .order_info ul .pro_info {
+    text-align: center;
+    width: 350px;
+}
+.MyorderMain .Myorderright .order_info ul .money{
+	margin-left: 62px;
+    text-align: center;
+    width: 90px;
+}
+.MyorderMain .Myorderright .order_info ul .date {
+    margin-left: 31px;
+    text-align: center;
+    width: 130px;
+}
+.MyorderMain .Myorderright .order_info ul .state {
+    margin-left: 36px;
+    text-align: center;
+    width: 80px;
+}
+.MyorderMain .Myorderright .order_info ul .do {
+    margin-left: 37px;
+    text-align: center;
+    width: 82px;
+}
+
+.MyorderMain .Myorderright .prfe {
+    background: #fff none repeat scroll 0 0;
+    color: #333;
+    font-size: 14px;
+	border:3px solid #fbcc8e;
+	margin-top:15px;
+}
+
+.MyorderMain .Myorderright .prfe p {
+    background: #f2f5f9 none repeat scroll 0 0;
+    font-size: 14px;
+    padding-bottom: 8px;
+    padding-left: 15px;
+    padding-top: 8px;
+}
+.MyorderMain .Myorderright .prfe ul {
+    padding: 10px 15px 0;
+}
+
+.MyorderMain .Myorderright .prfe ul li {
+    border-bottom: 1px solid #eee;
+    float: left;
+    padding: 5px 0;
+}
+.MyorderMain .Myorderright .prfe ul .list_pic, .list_title, .list_money, .list_date, .list_people, .list_state, .list_cz {
+    float: left;
+}
+
+.MyorderMain .Myorderright .prfe ul li .list_pic {
+    width: 115px;
+}
+
+.MyorderMain .Myorderright .prfe ul li .list_pic img {
+    width: 115px;
+	margin-top:10px;
+	border:1px solid #eee;
+}
+
+.MyorderMain .Myorderright .prfe ul li .list_title {
+    line-height: 22px;
+    margin: 0 30px 0 12px;
+    width: 255px;
+}
+
+.MyorderMain .Myorderright .prfe ul li span.flight_go {
+    width: 300px;
+}
+.MyorderMain .Myorderright .prfe ul li .list_title span {
+    color: #333;
+	margin-top:10px;
+    display: block;
+}
+
+.MyorderMain .Myorderright .prfe ul li .go_ico, .back_ico {
+    background-color:#3fabf9;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 16px;
+    margin-right: 8px;
+    text-align: center;
+    width: 16px;
+}
+.MyorderMain .Myorderright .prfe ul li span.flight_go i,.flight_back i{
+	margin-right:1px;}
+
+.MyorderMain .Myorderright .prfe ul li address, cite, dfn, em, var, i {
+    font-style: normal;
+}
+
+.MyorderMain .Myorderright .prfe ul li .back_ico {
+    background-color:#f977ba;
+}
+
+.MyorderMain .Myorderright .prfe ul li .list_money {
+    color: #f63;
+    font-family: Arial;
+    font-size: 18px;
+    line-height: 22px;
+    width: 90px;
+	margin-top:26px;
+	padding-left:20px;
+}
+
+.MyorderMain .Myorderright .prfe ul li .money_data {
+    font-weight: 700;
+    text-align: center;
+}
+
+.MyorderMain .Myorderright .prfe ul li .list_date {
+    color: #333;
+    line-height: 22px;
+    margin-left: 10px;
+    text-align: center;
+    width: 140px;
+}
+
+.MyorderMain .Myorderright .prfe ul li .list_date span {
+    display: block;
+	margin-top:10px;
+	color:#444;
+}
+.MyorderMain .Myorderright .prfe ul li .list_state {
+    color: #333;
+    font-weight: 700;
+    line-height: 22px;
+    margin-left: 30px;
+    text-align: center;
+    width: 80px;
+	margin-top:26px;
+}
+
+
+.MyorderMain .Myorderright .prfe ul li .list_cz {
+    margin-left: 35px;
+}
+
+.MyorderMain .Myorderright .prfe ul li .order_pay {
+    font-weight: 700;
+	color:#fff !important;
+    background-color: #ff7800;
+}
+.MyorderMain .Myorderright .prfe ul li .order_pay,.order_cancel_gjjp{
+    border-radius: 2px;
+    display: block;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100px;
+}
+
+.MyorderMain .Myorderright .prfe ul li .order_cancel_gjjp {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #666;
+    cursor: pointer;
+}
+.MyorderMain .Myorderright .prfe ul li .order_cancel_gjjp:hover{color:#f63;}
+
+.infoorder {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 5px;
+    text-align: center;
+    width: 82px;
+	float:right;
+	cursor:pointer;
+}
+.infoorder:hover{
+	color:#f63;
+}
+
+
+/**********  翻页  *************/
+.page {
+	float:right;
+	margin-top:40px;}
+	
+.page .page_left,.page_right{
+	display:block;
+	float:left;
+	width:40px;
+	height:20px;
+	background:#ccc;
+	/* color:#FFF; */
+	text-align:center;
+	line-height:18px;
+	cursor:pointer;}
+
+.page .page_left:hover,.page_right:hover{
+	background:#F90;}
+
+.page .page_num{
+	display:block;
+	width:20px;
+	text-align:center;
+	float:left;
+	margin:0 5px;}
+
+
+/******************************  底部样式   **************************************/
+.page-footer{
+	clear: both;
+    background: #fff;
+    padding-bottom: 12px;
+    padding-top: 12px;}
+
+.page-footer .clearfix{
+	text-align:center;}
+
+.page-footer .clearfix .links-list li{
+	    margin: 0;
+    text-decoration: none;
+    border-right: 1px solid #969696;
+    padding-left: 50px;
+    text-align: center;
+    padding-right: 50px;
+    line-height: 50px;
+    display: inline;
+    color: #969696;}
+
+.page-footer .clearfix .links-list li .ng-binding{
+	color: #969696;
+    text-decoration: none;
+    font-weight: 400;}
+
+.page-footer .clearfix p{
+	text-align: center;
+    line-height: 1.3;
+    padding-top: 5px;
+    margin: 0;
+    color: #969696;}
+
+

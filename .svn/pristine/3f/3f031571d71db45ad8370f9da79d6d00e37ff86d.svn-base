@@ -1,0 +1,334 @@
+@charset "utf-8";
+/* 机票查询列表页 */
+body{
+	background:#f0f0f0;}
+.wapper{
+	width:1190px;
+	margin:0 auto;}
+/******************************  头部样式   **************************************/
+.topNav{
+	width:99%;
+	padding:0 0.5%;
+	background:#000;
+	height:50px;
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:10;}
+
+.topNav .navLeft{
+	width:33%;
+	float:left;}
+
+.topNav .navLeft .nav-ui li{
+	float:left;
+	line-height:47px;
+	font-size:20px;
+	color:#fff;
+	margin-right:20px;
+	padding:0 10px;
+	cursor:pointer;}
+
+.topNav .navLeft .nav-ui li:hover{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navLeft .nav-ui .nav{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navcont{
+	width:33%;
+	float:left;
+	text-align:center;}
+
+.topNav .navRight{
+	width:33%;
+	float:left;}
+
+.topNav .navRight ul li{
+	float:right;
+	line-height:50px;
+	font-size:20px;
+	color:#fff;}
+
+/********* 主内容 **********/
+.order_detail_main .main_box{
+	background: #fff none repeat scroll 0 0;
+    border-radius: 2px;
+    float: left;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 1170px;}
+
+.order_detail_main .main_box .eye-box-title{
+	background: #fff none repeat scroll 0 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    box-shadow: 0 1px 0 #fff;
+    height: 40px;
+    line-height: 40px;
+	border-bottom: 2px solid #eee;
+	margin-bottom:10px;
+}
+.order_detail_main .main_box .eye-box-title h6{
+    color: #666;
+    display: block;
+    float: left;
+    font-size: 16px;
+    line-height: inherit;
+    padding: 0 10px;
+    text-shadow: 0 1px #fff;
+    vertical-align: middle;
+}
+
+.order_detail_main .main_box .Opportunity{
+	background: #f2f5f9 none repeat scroll 0 0;
+    float: left;
+    padding: 20px 15px;
+    width: 1130px;
+}
+
+.order_detail_main .order_mation .mation_cont{
+	float:left;
+	width:900px;}
+
+.order_detail_main .order_mation .mation_cont p{
+	font-size: 12px;
+    padding-left: 10px;
+    color: #888;
+	margin-top:10px;}
+
+.order_detail_main .order_mation .mation_cont p span{
+	width: 82px;
+    color: #888;
+	display: inline-block;
+    line-height: 28px;}
+
+.order_detail_main .order_mation .mation_cont p em{
+	font-size:24px;
+	color:#ffb04a;}
+
+.order_detail_main .order_mation .metion_price{
+	float:left;
+	width:230px;}
+
+.order_detail_main .order_mation .metion_price p{
+	font-size: 12px;
+    padding-left: 10px;
+    color: #888;}
+
+.order_detail_main .order_mation .metion_price p span{
+	font-size:24px;
+	color:#ff8205 !important;}
+
+.order_detail_main .order_mation .metion_price a{
+	display:block;
+	height:38px;
+	width:160px;
+	line-height:38px;
+	font-size:16px;
+	text-align:center;
+	border-radius:5px;
+	margin-top:10px;}
+
+.order_detail_main .order_mation .metion_price .pay_btn{
+    background-color: #ff8500;
+    border-color: #ff8500;
+    color: #fff;}
+
+.order_detail_main .order_mation .metion_price .pay_btn:hover{
+    background-color: #e77d0a;
+    border-color: #e77d0a;
+    color: #fff;}
+
+.order_detail_main .order_mation .metion_price .cancel_btn{
+    border: 1px solid #d2d2d2;
+    color: #aeaeae;
+	background:none;}
+
+.order_detail_main .order_mation .metion_price .cancel_btn:hover{
+	border: 1px solid #0195ff;
+    color: #0195ff;}
+
+/****** 订单信息样式结束 ******/
+.order_detail_main .airplane_mation .line{
+	margin-top:15px;
+	height:1px;
+	width:100%;
+	background:#ececec !important;}
+.order_detail_main .airplane_mation .fix{
+	padding: 0 20px;
+    margin-top: 20px;
+    margin-left: -1px;}
+
+.order_detail_main .airplane_mation .fix li{
+	font-size: 16px;
+    width: 290px;
+    float: left;}
+
+.order_detail_main .airplane_mation .fix  li span{
+	margin-right: 10px;
+    display: inline-block;}
+
+.order_detail_main .airplane_mation .fix li.col1{
+	line-height: 30px;
+    padding-top: 10px;}
+
+.order_detail_main .airplane_mation .fix li.col2{
+	font-size: 12px;
+    line-height: 23px;}
+
+.order_detail_main .airplane_mation .fix li.col2 h3{
+	font-size: 16px;
+    line-height: 26px;
+    min-height: 26px;}
+
+.order_detail_main .airplane_mation .fix li.col2 span{
+	color:#888;}
+
+.order_detail_main .airplane_mation .fix li.col2 .tdcColor{
+	color:#0195ff;}
+
+.order_detail_main .airplane_mation .fix li.col3{
+	width:505px;}
+
+.order_detail_main .airplane_mation .fix li.col3 .scol1 {
+    position: relative;}
+
+.order_detail_main .airplane_mation .fix li.col3 h3{
+	font-size: 28px;
+    line-height: 36px;
+    color: #333;}
+
+.order_detail_main .airplane_mation .fix li.col3 p{
+	color: #888;
+    font-size: 12px;}
+
+.order_detail_main .airplane_mation .fix li.col3 .scol2 {
+    width: 120px;
+    margin: 0 23px;
+    text-align: center;
+    color: #555;
+    vertical-align: top;
+	margin-top:15px;}
+
+.order_detail_main .airplane_mation .fix li.col3 .scol2 .time {
+    height: 20px;
+    width: 100%;
+    color: #888;
+    font-size: 12px;
+    border-bottom: 1px solid #dfdfdf;
+}
+
+.order_detail_main .airplane_mation .fix li.col3 .scol3 {
+    text-align: right;
+    position: relative;
+}
+
+
+/*********  乘机人信息**************/
+.passenger_mation .passenger_navtop{
+	float:left;
+	color:#666;
+	width:1090px;
+	margin-left:20px;}
+
+.passenger_mation .passenger_navtop li{
+	width:180px;
+	height:48px;
+	line-height:48px;
+	font-size:12px;
+	text-align:left;
+	float:left;}
+
+/*********  联系人信息**************/
+.contact_mation .Opportunity p span{
+	margin-right:30px;
+	color:#666;
+	font-size:14px;
+	float:left;
+	width:310px;}
+
+.contact_mation .Opportunity p span em{
+	color:#999;
+	margin-right:5px;
+	font-size:12px;}
+
+/*********  保险信息**************/
+.insurance_mation .passenger_navtop{
+	float:left;
+	color:#666;
+	width:1090px;
+	margin-left:20px;}
+
+.insurance_mation .passenger_navtop li{
+	width:180px;
+	height:48px;
+	line-height:48px;
+	font-size:12px;
+	text-align:left;
+	float:left;}
+
+.instructions_box .Opportunity table{
+	border-color:#ccc;
+	margin-left:111px;}
+
+.instructions_box .Opportunity table tr{
+	font-size:12px;
+	border-color:#ccc;}
+
+.instructions_box .Opportunity table tr th{
+	width:180px;
+	line-height:48px;
+	font-size:14px;
+	border-color:#ccc;
+	color:#666;
+	text-align:center;}
+
+.instructions_box .Opportunity table tr td{
+	width:180px;
+	height:70px;
+	text-align:center;
+	border-color:#ccc;
+	color:#666;}
+
+.instructions_box .Opportunity p{
+	font-size:14px;
+	margin-left:111px;
+	margin-top:10px;
+	color:#666;}
+
+
+/******************************  底部样式   **************************************/
+.page-footer{
+	clear: both;
+    background: #fff;
+    padding-bottom: 12px;
+    padding-top: 12px;}
+
+.page-footer .clearfix{
+	text-align:center;}
+
+.page-footer .clearfix .links-list li{
+	    margin: 0;
+    text-decoration: none;
+    border-right: 1px solid #969696;
+    padding-left: 50px;
+    text-align: center;
+    padding-right: 50px;
+    line-height: 50px;
+    display: inline;
+    color: #969696;}
+
+.page-footer .clearfix .links-list li .ng-binding{
+	color: #969696;
+    text-decoration: none;
+    font-weight: 400;}
+
+.page-footer .clearfix p{
+	text-align: center;
+    line-height: 1.3;
+    padding-top: 5px;
+    margin: 0;
+    color: #969696;}
+
+

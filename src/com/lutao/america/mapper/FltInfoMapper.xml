@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lutao.america.dao.FltInfoMapper" >
+  <resultMap id="FltInfoMap" type="com.lutao.america.model.FltInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="FLT_NO" property="fltNo" jdbcType="VARCHAR" />
+    <result column="BRANCH" property="branch" jdbcType="VARCHAR" />
+    <result column="DEP" property="dep" jdbcType="VARCHAR" />
+    <result column="ARR" property="arr" jdbcType="VARCHAR" />
+    <result column="DEPNAME" property="depname" jdbcType="VARCHAR" />
+    <result column="ARRNAME" property="arrname" jdbcType="VARCHAR" />
+    <result column="DEPTIME" property="deptime" jdbcType="VARCHAR" />
+    <result column="ARRTIME" property="arrtime" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, FLT_NO, BRANCH, DEP, ARR, DEPNAME, ARRNAME, DEPTIME, ARRTIME, CREATE_DATE, MODEL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="FltInfoMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_odm_fltinfo
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_odm_fltinfo
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lutao.america.model.FltInfo" >
+    insert into t_odm_fltinfo (ID, FLT_NO, BRANCH, 
+      DEP, ARR, DEPNAME, 
+      ARRNAME, DEPTIME, ARRTIME, 
+      CREATE_DATE, MODEL)
+    values (#{id,jdbcType=DECIMAL}, #{fltNo,jdbcType=VARCHAR}, #{branch,jdbcType=VARCHAR}, 
+      #{dep,jdbcType=VARCHAR}, #{arr,jdbcType=VARCHAR}, #{depname,jdbcType=VARCHAR}, 
+      #{arrname,jdbcType=VARCHAR}, #{deptime,jdbcType=VARCHAR}, #{arrtime,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{model,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lutao.america.model.FltInfo" >
+    insert into t_odm_fltinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="fltNo != null" >
+        FLT_NO,
+      </if>
+      <if test="branch != null" >
+        BRANCH,
+      </if>
+      <if test="dep != null" >
+        DEP,
+      </if>
+      <if test="arr != null" >
+        ARR,
+      </if>
+      <if test="depname != null" >
+        DEPNAME,
+      </if>
+      <if test="arrname != null" >
+        ARRNAME,
+      </if>
+      <if test="deptime != null" >
+        DEPTIME,
+      </if>
+      <if test="arrtime != null" >
+        ARRTIME,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="model != null" >
+        MODEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="fltNo != null" >
+        #{fltNo,jdbcType=VARCHAR},
+      </if>
+      <if test="branch != null" >
+        #{branch,jdbcType=VARCHAR},
+      </if>
+      <if test="dep != null" >
+        #{dep,jdbcType=VARCHAR},
+      </if>
+      <if test="arr != null" >
+        #{arr,jdbcType=VARCHAR},
+      </if>
+      <if test="depname != null" >
+        #{depname,jdbcType=VARCHAR},
+      </if>
+      <if test="arrname != null" >
+        #{arrname,jdbcType=VARCHAR},
+      </if>
+      <if test="deptime != null" >
+        #{deptime,jdbcType=VARCHAR},
+      </if>
+      <if test="arrtime != null" >
+        #{arrtime,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="model != null" >
+        #{model,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lutao.america.model.FltInfo" >
+    update t_odm_fltinfo
+    <set >
+      <if test="fltNo != null" >
+        FLT_NO = #{fltNo,jdbcType=VARCHAR},
+      </if>
+      <if test="branch != null" >
+        BRANCH = #{branch,jdbcType=VARCHAR},
+      </if>
+      <if test="dep != null" >
+        DEP = #{dep,jdbcType=VARCHAR},
+      </if>
+      <if test="arr != null" >
+        ARR = #{arr,jdbcType=VARCHAR},
+      </if>
+      <if test="depname != null" >
+        DEPNAME = #{depname,jdbcType=VARCHAR},
+      </if>
+      <if test="arrname != null" >
+        ARRNAME = #{arrname,jdbcType=VARCHAR},
+      </if>
+      <if test="deptime != null" >
+        DEPTIME = #{deptime,jdbcType=VARCHAR},
+      </if>
+      <if test="arrtime != null" >
+        ARRTIME = #{arrtime,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="model != null" >
+        MODEL = #{model,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lutao.america.model.FltInfo" >
+    update t_odm_fltinfo
+    set FLT_NO = #{fltNo,jdbcType=VARCHAR},
+      BRANCH = #{branch,jdbcType=VARCHAR},
+      DEP = #{dep,jdbcType=VARCHAR},
+      ARR = #{arr,jdbcType=VARCHAR},
+      DEPNAME = #{depname,jdbcType=VARCHAR},
+      ARRNAME = #{arrname,jdbcType=VARCHAR},
+      DEPTIME = #{deptime,jdbcType=VARCHAR},
+      ARRTIME = #{arrtime,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      MODEL = #{model,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="getMaxId" resultType="java.lang.Long">
+     select max(ID) from t_odm_fltinfo
+  </select>
+</mapper>

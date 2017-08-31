@@ -1,0 +1,62 @@
+package com.lutao.america.service.impl;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.ws.rs.core.MediaType;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.lutao.america.mapper.LtCityMapper;
+import com.lutao.america.service.LtCityService;
+import com.lutao.america.vo.QueryParameter;
+import com.lutao.america.vo.SearchCondition;
+import com.lutao.common.utils.AmericaUtil;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+
+
+import net.sf.json.JSONObject;
+
+
+
+@Service
+@Transactional  //此处不再进行创建SqlSession和提交事务，都已交由spring去管理了。
+public class LtCityServiceImpl implements LtCityService{
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	@Resource
+	private LtCityMapper ltMapper;
+	
+	@Override
+	public Object search(QueryParameter query) {
+		SearchCondition searchCondition=new SearchCondition();
+		searchCondition.setChannel("online");
+		searchCondition.setDepCode(query.getOrg_city());
+		searchCondition.setDesCode(query.getDst_city());
+		searchCondition.setChdCount(query.getInf());
+		searchCondition.setDepDate(query.getOrg_date());
+		searchCondition.setReturnDate(query.getDst_date());
+		searchCondition.setGdsSource(SearchCondition.DataGdsSource.Amadeus.value);
+		searchCondition.setTripType(query.getTrip_type());
+		JSONObject json = JSONObject.fromObject(searchCondition);
+		try {
+			String searchStr="";
+			Client client = new Client();
+			WebResource resource = client.resource(AmericaUtil.INTER_SEARCH_URL);
+			searchStr="searchCondition=" + json.toString() ;
+			log.info("国际航班请求参数:" + searchStr);
+			ClientResponse response = resource.type(MediaType.APPLICATION_FORM_URLENCODED).accept(MediaType.APPLICATION_JSON).post(ClientResponse.class, searchStr);
+			String result = response.getEntity(String.class);
+			log.info("国际航班查询结果:" + result);
+			return JSONObject.fromObject(result).get("searchRsVO");
+		} catch (Exception e) {
+			log.info("国际航班查询失败 :" + e);
+		}
+		return null;
+	}
+	
+}

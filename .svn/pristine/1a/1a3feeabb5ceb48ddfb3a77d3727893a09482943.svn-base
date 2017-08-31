@@ -1,0 +1,28 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!-- 头部-浮动 -->
+<div class="topNav">
+	<div class="navLeft">
+    	<ul class="nav-ui">
+        	 <a href="index"><li class="nav" id="ticket" >机票</li></a>
+            <a href="air/myorder"><li id="myOrder">我的订单</li></a>
+        </ul>
+    </div>
+    <div class="navcont">
+    	<a href="index"><img src="./america/images/logo.png"/></a>
+    </div>
+    <div class="navRight">
+    	<ul>
+    		<c:if test="${login}">
+       		<li><a href="logout" title="退出">退出</a></li>
+       		</c:if>
+        	<li>
+        		<c:choose>
+        			<c:when test="${login}">${name}</c:when>
+        			<c:otherwise><a href="login">登录</a></c:otherwise>
+        		</c:choose>
+       		</li>
+        </ul>
+    </div>
+</div>

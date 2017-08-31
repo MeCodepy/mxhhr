@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lutao.america.dao.OrderMapper" >
+  <resultMap id="OrderMap" type="Order" >
+    <id column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="ORDER_SRC" property="orderSrc" jdbcType="VARCHAR" />
+    <result column="CUST_ID" property="custId" jdbcType="INTEGER" />
+    <result column="MEMBER_ID" property="memberId" jdbcType="INTEGER" />
+    <result column="ORDER_TYPE" property="orderType" jdbcType="DECIMAL" />
+    <result column="EXORDER_ID" property="exorderId" jdbcType="VARCHAR" />
+    <result column="TOTAL_PRICE" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="TRADE_SEQ" property="tradeSeq" jdbcType="VARCHAR" />
+    <result column="ISDELIVERY" property="isdelivery" jdbcType="CHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="SYNCHRO_DATE" property="synchroDate" jdbcType="TIMESTAMP" />
+    <result column="REALORDER_ID" property="realorderId" jdbcType="VARCHAR" />
+    <result column="RUFUND_MEMO" property="rufundMemo" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="OPER_STAFF" property="operStaff" jdbcType="DECIMAL" />
+    <result column="STAT" property="stat" jdbcType="CHAR" />
+    <result column="LOCK_STAT" property="lockStat" jdbcType="CHAR" />
+    <result column="TEN_ID" property="tenId" jdbcType="DECIMAL" />
+    <result column="DELIVERY_STAT" property="deliveryStat" jdbcType="CHAR" />
+    <result column="REFUND_TIME" property="refundTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER" property="createUser" jdbcType="DECIMAL" />
+    <result column="INTENTION_INFO" property="intentionInfo" jdbcType="VARCHAR" />
+    <result column="INTENTION_ID" property="intentionId" jdbcType="INTEGER" />
+    <result column="ORDER_BUSINESS" property="orderBusiness" jdbcType="VARCHAR" />
+    <result column="ORDER_CONSULTTYPE" property="orderConsulttype" jdbcType="VARCHAR" />
+    <result column="ORDER_FOR" property="orderFor" jdbcType="TINYINT" />
+    <result column="SYNCHRO_ORDER" property="synchroOrder" jdbcType="TINYINT" />
+    <result column="AUDIT_DATE" property="auditDate" jdbcType="VARCHAR" />
+    <result column="AUDITOR" property="auditor" jdbcType="DECIMAL" />
+    <result column="AUDIT_MEMO" property="auditMemo" jdbcType="VARCHAR" />
+    <result column="PROMOTE_USER_ID" property="promoteUserId" jdbcType="INTEGER" />
+    <result column="DOWN_ORDER_STATUS" property="downOrderStatus" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.lutao.america.model.Order" extends="OrderMap" >
+    <result column="CHECK_PRICE_DATA" property="checkPriceData" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  
+  
+  <resultMap type="Order" id="OrderDetailMap" extends="OrderMap">
+	  <association property="payInfo" javaType="PayInfo">
+	   <id column="ID" property="id" jdbcType="DECIMAL" />
+	    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+	    <result column="PAYTYPE_ID" property="paytypeId" jdbcType="DECIMAL" />
+	    <result column="PAY_ACCOUNT" property="payAccount" jdbcType="VARCHAR" />
+	    <result column="PAY_PRICE" property="payPrice" jdbcType="DECIMAL" />
+	    <result column="PAY_STATE" property="payState" jdbcType="DECIMAL" />
+	    <result column="PAY_DATETIME" property="payDatetime" jdbcType="TIMESTAMP" />
+	    <result column="TRANE_NO" property="traneNo" jdbcType="VARCHAR" />
+	    <result column="ORDERNO" property="orderno" jdbcType="VARCHAR" />
+	  </association>
+	<association property="contact" javaType="Contact">
+	   <id column="CUST_ID" property="custId" jdbcType="INTEGER" />
+	    <result column="P_ID" property="pId" jdbcType="INTEGER" />
+	    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+	    <result column="PASSWORD" property="password" jdbcType="CHAR" />
+	    <result column="SALT" property="salt" jdbcType="CHAR" />
+	    <result column="LAST_LOGIN_TIME" property="lastLoginTime" jdbcType="TIMESTAMP" />
+	    <result column="LAST_LOGIN_IP" property="lastLoginIp" jdbcType="VARCHAR" />
+	    <result column="LOGIN_COUNT" property="loginCount" jdbcType="INTEGER" />
+	    <result column="CONT_NAME" property="contName" jdbcType="VARCHAR" />
+	    <result column="CONT_MOBILE" property="contMobile" jdbcType="VARCHAR" />
+	    <result column="CONT_TEL" property="contTel" jdbcType="VARCHAR" />
+	    <result column="CONT_EMAIL" property="contEmail" jdbcType="VARCHAR" />
+	    <result column="SEX" property="sex" jdbcType="DECIMAL" />
+	    <result column="OTHER_TYPE" property="otherType" jdbcType="VARCHAR" />
+	    <result column="OTHER_INFO" property="otherInfo" jdbcType="VARCHAR" />
+	    <result column="SOURCE" property="source" jdbcType="VARCHAR" />
+	    <result column="OWNER_COMPANY" property="ownerCompany" jdbcType="VARCHAR" />
+	    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+	    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+	    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+	    <result column="CONT_INTRO" property="contIntro" jdbcType="VARCHAR" />
+	    <result column="QQ_OPEN_ID" property="qqOpenId" jdbcType="VARCHAR" />
+	</association>
+    <association property="orderAttr"  javaType="OrderAttr">
+   	  	<id column="ORDERATTR_ID" property="id" jdbcType="DECIMAL" />
+	    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+	    <result column="NOPAY" property="nopay" jdbcType="DECIMAL" />
+	    <result column="TICKETMODE" property="ticketmode" jdbcType="VARCHAR" />
+	    <result column="POLICYFRIENDLY" property="policyfriendly" jdbcType="VARCHAR" />
+	    <result column="PRO_TYPE" property="proType" jdbcType="VARCHAR" />
+	    <result column="ORDER_TYPE" property="orderType" jdbcType="DECIMAL" />
+	    <result column="RELATIVE_ORDER" property="relativeOrder" jdbcType="VARCHAR" />
+	    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+	    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+	    <result column="EXTRA" property="extra" jdbcType="VARCHAR" />
+	    <result column="CABIN_NOTE" property="cabinNote" jdbcType="VARCHAR" />
+	    <result column="PRINTTIME" property="printtime" jdbcType="TIMESTAMP" />
+	    <result column="FROM_ORDER_ID" property="fromOrderId" jdbcType="DECIMAL" />
+	    <result column="SETTLE_DATE" property="settleDate" jdbcType="TIMESTAMP" />
+	    <result column="SETTLER" property="settler" jdbcType="DECIMAL" />
+	    <result column="IS_NEED_CHANGE_IDCARD" property="isNeedChangeIdcard" jdbcType="DECIMAL" />
+	    <result column="CHANGE_IDCARD_STATUS" property="changeIdcardStatus" jdbcType="DECIMAL" />
+	    <result column="CHANGE_FLT_STATUS" property="changeFltStatus" jdbcType="DECIMAL" />
+	    <result column="DROPTANKSDATE" property="droptanksdate" jdbcType="TIMESTAMP" />
+	    <result column="DROPTANKSER" property="droptankser" jdbcType="VARCHAR" />
+	    <collection  property="pasgInfos" ofType="PasgInfo">
+	       	<id column="PASGINFO_ID" property="id" jdbcType="DECIMAL" />
+		    <result column="ORDER_ATTR_ID" property="orderAttrId" jdbcType="DECIMAL" />
+		    <result column="PASG_ID" property="pasgId" jdbcType="DECIMAL" />
+		    <result column="PID" property="pid" jdbcType="VARCHAR" />
+		    <result column="AGETYPE" property="agetype" jdbcType="DECIMAL" />
+		    <result column="TICKETNUM" property="ticketnum" jdbcType="VARCHAR" />
+		    <result column="PNR" property="pnr" jdbcType="VARCHAR" />
+		    <result column="EXT_INFO" property="extInfo" jdbcType="VARCHAR" />
+		    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		    <result column="TICKET_PRICE" property="ticketPrice" jdbcType="DECIMAL" />
+		    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+		    <result column="RETMONEY" property="retmoney" jdbcType="DECIMAL" />
+		    <result column="RETPOIINT" property="retpoiint" jdbcType="DECIMAL" />
+		    <result column="CONSTRUCTION_FEE" property="constructionFee" jdbcType="DECIMAL" />
+		    <result column="FULE_TAX" property="fuleTax" jdbcType="DECIMAL" />
+		    <result column="INSURANCE_PRICE" property="insurancePrice" jdbcType="DECIMAL" />
+		    <result column="INSURANCE_COST" property="insuranceCost" jdbcType="DECIMAL" />
+		    <result column="INSURANCE_COMPANY" property="insuranceCompany" jdbcType="VARCHAR" />
+		    <result column="INSURANCE_NAME" property="insuranceName" jdbcType="VARCHAR" />
+		    <result column="INSURNO" property="insurno" jdbcType="VARCHAR" />
+		    <result column="INSURANCEUNITPRICE" property="insuranceunitprice" jdbcType="DECIMAL" />
+		    <result column="INSURANCE_COUNT" property="insuranceCount" jdbcType="DECIMAL" />
+		    <result column="STAT" property="stat" jdbcType="CHAR" />
+		    <result column="SETTLE_PRICE" property="settlePrice" jdbcType="DECIMAL" />
+		    <result column="CHANGE_FEE" property="changeFee" jdbcType="DECIMAL" />
+		    <result column="REOPEN_ORDER_ID" property="reopenOrderId" jdbcType="DECIMAL" />
+		    <result column="RETAX" property="retax" jdbcType="DECIMAL" />
+		    <result column="RETAXPRICE" property="retaxprice" jdbcType="DECIMAL" />
+		    <result column="REOPEN_ORDER_TYPE" property="reopenOrderType" jdbcType="DECIMAL" />
+		    <result column="DROPTANKSPASGINFOID" property="droptankspasginfoid" jdbcType="DECIMAL" />
+		    <result column="PREPARE_REFUND_DATE" property="prepareRefundDate" jdbcType="TIMESTAMP" />
+		    <result column="PREPARE_REFUND_USERID" property="prepareRefundUserid" jdbcType="DECIMAL" />
+		    <association property="pasInfo" javaType="PasInfo">
+		   			<id column="PASG_ID" property="pasgId" jdbcType="DECIMAL" />
+				    <result column="CUST_ID" property="custId" jdbcType="INTEGER" />
+				    <result column="PASG_NAME" property="pasgName" jdbcType="VARCHAR" />
+				    <result column="PASG_TYPE" property="pasgType" jdbcType="VARCHAR" />
+				    <result column="SEX" property="sex" jdbcType="DECIMAL" />
+				    <result column="COUNTRY_NAME" property="countryName" jdbcType="VARCHAR" />
+				    <result column="CERT_TYPE" property="certType" jdbcType="VARCHAR" />
+				    <result column="CERT_NO" property="certNo" jdbcType="VARCHAR" />
+				    <result column="CERT_VALID" property="certValid" jdbcType="TIMESTAMP" />
+				    <result column="TRIP_CARDNO" property="tripCardno" jdbcType="VARCHAR" />
+				    <result column="BIRTHDAY" property="birthday" jdbcType="VARCHAR" />
+				    <result column="idIssueCountry" property="idissuecountry" jdbcType="VARCHAR" />
+				    <result column="idIssueCountryCode" property="idissuecountrycode" jdbcType="VARCHAR" />
+				    <result column="idExpirationDate" property="idexpirationdate" jdbcType="VARCHAR" />
+				    <result column="nationality" property="nationality" jdbcType="VARCHAR" />
+				    <result column="nationalityCode" property="nationalitycode" jdbcType="VARCHAR" />
+				    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		    </association>
+		    <collection property="pasgsects" ofType="Pasgsect">
+		    	<id column="PASGSECT_ID" property="id" jdbcType="DECIMAL" />
+			    <result column="PASG_INFO_ID" property="pasgInfoId" jdbcType="DECIMAL" />
+			    <result column="T_O_ID" property="tOId" jdbcType="DECIMAL" />
+			    <result column="DEPDAY" property="depday" jdbcType="TIMESTAMP" />
+			    <result column="ARVDAY" property="arvday" jdbcType="TIMESTAMP" />
+			    <result column="EI" property="ei" jdbcType="VARCHAR" />
+			    <result column="CABIN" property="cabin" jdbcType="VARCHAR" />
+			    <result column="CABIN_CLASS" property="cabinClass" jdbcType="VARCHAR" />
+			    <result column="CABIN_MEMO" property="cabinMemo" jdbcType="VARCHAR" />
+			    <result column="SHARE_FL_ID" property="shareFlId" jdbcType="VARCHAR" />
+			    <result column="IS_REFUND" property="isRefund" jdbcType="DECIMAL" />
+			    <result column="REFUND_PRICE" property="refundPrice" jdbcType="DECIMAL" />
+			    <result column="SUPPLE_PRICE" property="supplePrice" jdbcType="DECIMAL" />
+			    <result column="REFUND_MEMO" property="refundMemo" jdbcType="VARCHAR" />
+			    <result column="REFUND_ORDER_NO" property="refundOrderNo" jdbcType="DECIMAL" />
+			    <result column="AIRLINE_CODE" property="airlineCode" jdbcType="VARCHAR" />
+			     <association property="fltinfo" javaType="FltInfo">
+			    	<id column="FLTINFO_ID" property="id" jdbcType="DECIMAL" />
+				    <result column="FLT_NO" property="fltNo" jdbcType="VARCHAR" />
+				    <result column="BRANCH" property="branch" jdbcType="VARCHAR" />
+				    <result column="DEP" property="dep" jdbcType="VARCHAR" />
+				    <result column="ARR" property="arr" jdbcType="VARCHAR" />
+				    <result column="DEPNAME" property="depname" jdbcType="VARCHAR" />
+				    <result column="ARRNAME" property="arrname" jdbcType="VARCHAR" />
+				    <result column="DEPTIME" property="deptime" jdbcType="VARCHAR" />
+				    <result column="ARRTIME" property="arrtime" jdbcType="VARCHAR" />
+				    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+				    <result column="MODEL" property="model" jdbcType="VARCHAR" />
+			    </association> 
+		    </collection>
+	    </collection>
+    </association> 
+    
+  </resultMap>
+  <parameterMap type="java.util.Map" id="queryParam">
+		<parameter property="orderId"  jdbcType="DECIMAL"/>
+		<parameter property="memberId"  jdbcType="INTEGER"/>
+	</parameterMap>
+  
+
+  <select id="findOrderAllDetail" resultMap="OrderDetailMap" parameterMap="queryParam">
+    select *,
+    oa.ID as ORDERATTR_ID, 
+    pasg.Id as PASGINFO_ID, 
+    os.ID as PASGSECT_ID, 
+    of.ID as  FLTINFO_ID	from t_odm_order od 
+	LEFT JOIN T_OMD_ORDER_ATTR oa on  od.ORDER_ID=oa.ORDER_ID 
+	LEFT JOIN T_ODM_CONTACT oc on od.MEMBER_ID = oc.CUST_ID
+	LEFT JOIN T_ODM_PAYINFO opay on od.ORDER_ID = opay.ORDER_ID
+	LEFT JOIN T_ODM_PASGINFO pasg on oa.Id =pasg.ORDER_ATTR_ID
+	LEFT JOIN T_ODM_PASGSECT os on pasg.Id=os.PASG_INFO_ID
+	LEFT JOIN t_omd_pasinfo pas on pasg.PASG_ID = pas.PASG_ID
+	LEFT JOIN T_ODM_FLTINFO of on  os.T_O_ID=of.id
+	where od.ORDER_ID = #{orderId} and od.MEMBER_ID=#{memberId}
+	order by os.DEPDAY
+  </select>
+  
+  
+  <sql id="Base_Column_List" >
+    ORDER_ID, ORDER_SRC, CUST_ID, MEMBER_ID, ORDER_TYPE, EXORDER_ID, TOTAL_PRICE, TRADE_SEQ, 
+    ISDELIVERY, CREATE_DATE, SYNCHRO_DATE, REALORDER_ID, RUFUND_MEMO, MEMO, OPER_STAFF, 
+    STAT, LOCK_STAT, TEN_ID, DELIVERY_STAT, REFUND_TIME, CREATE_USER, INTENTION_INFO, 
+    INTENTION_ID, ORDER_BUSINESS, ORDER_CONSULTTYPE, ORDER_FOR, SYNCHRO_ORDER, AUDIT_DATE, 
+    AUDITOR, AUDIT_MEMO, PROMOTE_USER_ID, DOWN_ORDER_STATUS
+  </sql>
+  <sql id="Blob_Column_List" >
+    CHECK_PRICE_DATA
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_odm_order
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_odm_order
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lutao.america.model.Order" >
+    insert into t_odm_order (ORDER_ID, ORDER_SRC, CUST_ID, 
+      MEMBER_ID, ORDER_TYPE, EXORDER_ID, 
+      TOTAL_PRICE, TRADE_SEQ, ISDELIVERY, 
+      CREATE_DATE, SYNCHRO_DATE, REALORDER_ID, 
+      RUFUND_MEMO, MEMO, OPER_STAFF, 
+      STAT, LOCK_STAT, TEN_ID, DELIVERY_STAT, 
+      REFUND_TIME, CREATE_USER, INTENTION_INFO, 
+      INTENTION_ID, ORDER_BUSINESS, ORDER_CONSULTTYPE, 
+      ORDER_FOR, SYNCHRO_ORDER, AUDIT_DATE, 
+      AUDITOR, AUDIT_MEMO, PROMOTE_USER_ID, 
+      DOWN_ORDER_STATUS, CHECK_PRICE_DATA)
+    values (#{orderId,jdbcType=DECIMAL}, #{orderSrc,jdbcType=VARCHAR}, #{custId,jdbcType=INTEGER}, 
+      #{memberId,jdbcType=INTEGER}, #{orderType,jdbcType=DECIMAL}, #{exorderId,jdbcType=VARCHAR}, 
+      #{totalPrice,jdbcType=DECIMAL}, #{tradeSeq,jdbcType=VARCHAR}, #{isdelivery,jdbcType=CHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{synchroDate,jdbcType=TIMESTAMP}, #{realorderId,jdbcType=VARCHAR}, 
+      #{rufundMemo,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{operStaff,jdbcType=DECIMAL}, 
+      #{stat,jdbcType=CHAR}, #{lockStat,jdbcType=CHAR}, #{tenId,jdbcType=DECIMAL}, #{deliveryStat,jdbcType=CHAR}, 
+      #{refundTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=DECIMAL}, #{intentionInfo,jdbcType=VARCHAR}, 
+      #{intentionId,jdbcType=INTEGER}, #{orderBusiness,jdbcType=VARCHAR}, #{orderConsulttype,jdbcType=VARCHAR}, 
+      #{orderFor,jdbcType=TINYINT}, #{synchroOrder,jdbcType=TINYINT}, #{auditDate,jdbcType=VARCHAR}, 
+      #{auditor,jdbcType=DECIMAL}, #{auditMemo,jdbcType=VARCHAR}, #{promoteUserId,jdbcType=INTEGER}, 
+      #{downOrderStatus,jdbcType=VARCHAR}, #{checkPriceData,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lutao.america.model.Order" >
+    insert into t_odm_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="orderSrc != null" >
+        ORDER_SRC,
+      </if>
+      <if test="custId != null" >
+        CUST_ID,
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID,
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE,
+      </if>
+      <if test="exorderId != null" >
+        EXORDER_ID,
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE,
+      </if>
+      <if test="tradeSeq != null" >
+        TRADE_SEQ,
+      </if>
+      <if test="isdelivery != null" >
+        ISDELIVERY,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="synchroDate != null" >
+        SYNCHRO_DATE,
+      </if>
+      <if test="realorderId != null" >
+        REALORDER_ID,
+      </if>
+      <if test="rufundMemo != null" >
+        RUFUND_MEMO,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="operStaff != null" >
+        OPER_STAFF,
+      </if>
+      <if test="stat != null" >
+        STAT,
+      </if>
+      <if test="lockStat != null" >
+        LOCK_STAT,
+      </if>
+      <if test="tenId != null" >
+        TEN_ID,
+      </if>
+      <if test="deliveryStat != null" >
+        DELIVERY_STAT,
+      </if>
+      <if test="refundTime != null" >
+        REFUND_TIME,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="intentionInfo != null" >
+        INTENTION_INFO,
+      </if>
+      <if test="intentionId != null" >
+        INTENTION_ID,
+      </if>
+      <if test="orderBusiness != null" >
+        ORDER_BUSINESS,
+      </if>
+      <if test="orderConsulttype != null" >
+        ORDER_CONSULTTYPE,
+      </if>
+      <if test="orderFor != null" >
+        ORDER_FOR,
+      </if>
+      <if test="synchroOrder != null" >
+        SYNCHRO_ORDER,
+      </if>
+      <if test="auditDate != null" >
+        AUDIT_DATE,
+      </if>
+      <if test="auditor != null" >
+        AUDITOR,
+      </if>
+      <if test="auditMemo != null" >
+        AUDIT_MEMO,
+      </if>
+      <if test="promoteUserId != null" >
+        PROMOTE_USER_ID,
+      </if>
+      <if test="downOrderStatus != null" >
+        DOWN_ORDER_STATUS,
+      </if>
+      <if test="checkPriceData != null" >
+        CHECK_PRICE_DATA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderSrc != null" >
+        #{orderSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null" >
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null" >
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=DECIMAL},
+      </if>
+      <if test="exorderId != null" >
+        #{exorderId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeSeq != null" >
+        #{tradeSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelivery != null" >
+        #{isdelivery,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="synchroDate != null" >
+        #{synchroDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realorderId != null" >
+        #{realorderId,jdbcType=VARCHAR},
+      </if>
+      <if test="rufundMemo != null" >
+        #{rufundMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="operStaff != null" >
+        #{operStaff,jdbcType=DECIMAL},
+      </if>
+      <if test="stat != null" >
+        #{stat,jdbcType=CHAR},
+      </if>
+      <if test="lockStat != null" >
+        #{lockStat,jdbcType=CHAR},
+      </if>
+      <if test="tenId != null" >
+        #{tenId,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryStat != null" >
+        #{deliveryStat,jdbcType=CHAR},
+      </if>
+      <if test="refundTime != null" >
+        #{refundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=DECIMAL},
+      </if>
+      <if test="intentionInfo != null" >
+        #{intentionInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="intentionId != null" >
+        #{intentionId,jdbcType=INTEGER},
+      </if>
+      <if test="orderBusiness != null" >
+        #{orderBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="orderConsulttype != null" >
+        #{orderConsulttype,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFor != null" >
+        #{orderFor,jdbcType=TINYINT},
+      </if>
+      <if test="synchroOrder != null" >
+        #{synchroOrder,jdbcType=TINYINT},
+      </if>
+      <if test="auditDate != null" >
+        #{auditDate,jdbcType=VARCHAR},
+      </if>
+      <if test="auditor != null" >
+        #{auditor,jdbcType=DECIMAL},
+      </if>
+      <if test="auditMemo != null" >
+        #{auditMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="promoteUserId != null" >
+        #{promoteUserId,jdbcType=INTEGER},
+      </if>
+      <if test="downOrderStatus != null" >
+        #{downOrderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="checkPriceData != null" >
+        #{checkPriceData,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lutao.america.model.Order" >
+    update t_odm_order
+    <set >
+      <if test="orderSrc != null" >
+        ORDER_SRC = #{orderSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null" >
+        CUST_ID = #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="memberId != null" >
+        MEMBER_ID = #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE = #{orderType,jdbcType=DECIMAL},
+      </if>
+      <if test="exorderId != null" >
+        EXORDER_ID = #{exorderId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null" >
+        TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="tradeSeq != null" >
+        TRADE_SEQ = #{tradeSeq,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelivery != null" >
+        ISDELIVERY = #{isdelivery,jdbcType=CHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="synchroDate != null" >
+        SYNCHRO_DATE = #{synchroDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="realorderId != null" >
+        REALORDER_ID = #{realorderId,jdbcType=VARCHAR},
+      </if>
+      <if test="rufundMemo != null" >
+        RUFUND_MEMO = #{rufundMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="operStaff != null" >
+        OPER_STAFF = #{operStaff,jdbcType=DECIMAL},
+      </if>
+      <if test="stat != null" >
+        STAT = #{stat,jdbcType=CHAR},
+      </if>
+      <if test="lockStat != null" >
+        LOCK_STAT = #{lockStat,jdbcType=CHAR},
+      </if>
+      <if test="tenId != null" >
+        TEN_ID = #{tenId,jdbcType=DECIMAL},
+      </if>
+      <if test="deliveryStat != null" >
+        DELIVERY_STAT = #{deliveryStat,jdbcType=CHAR},
+      </if>
+      <if test="refundTime != null" >
+        REFUND_TIME = #{refundTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=DECIMAL},
+      </if>
+      <if test="intentionInfo != null" >
+        INTENTION_INFO = #{intentionInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="intentionId != null" >
+        INTENTION_ID = #{intentionId,jdbcType=INTEGER},
+      </if>
+      <if test="orderBusiness != null" >
+        ORDER_BUSINESS = #{orderBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="orderConsulttype != null" >
+        ORDER_CONSULTTYPE = #{orderConsulttype,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFor != null" >
+        ORDER_FOR = #{orderFor,jdbcType=TINYINT},
+      </if>
+      <if test="synchroOrder != null" >
+        SYNCHRO_ORDER = #{synchroOrder,jdbcType=TINYINT},
+      </if>
+      <if test="auditDate != null" >
+        AUDIT_DATE = #{auditDate,jdbcType=VARCHAR},
+      </if>
+      <if test="auditor != null" >
+        AUDITOR = #{auditor,jdbcType=DECIMAL},
+      </if>
+      <if test="auditMemo != null" >
+        AUDIT_MEMO = #{auditMemo,jdbcType=VARCHAR},
+      </if>
+      <if test="promoteUserId != null" >
+        PROMOTE_USER_ID = #{promoteUserId,jdbcType=INTEGER},
+      </if>
+      <if test="downOrderStatus != null" >
+        DOWN_ORDER_STATUS = #{downOrderStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="checkPriceData != null" >
+        CHECK_PRICE_DATA = #{checkPriceData,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lutao.america.model.Order" >
+    update t_odm_order
+    set ORDER_SRC = #{orderSrc,jdbcType=VARCHAR},
+      CUST_ID = #{custId,jdbcType=INTEGER},
+      MEMBER_ID = #{memberId,jdbcType=INTEGER},
+      ORDER_TYPE = #{orderType,jdbcType=DECIMAL},
+      EXORDER_ID = #{exorderId,jdbcType=VARCHAR},
+      TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      TRADE_SEQ = #{tradeSeq,jdbcType=VARCHAR},
+      ISDELIVERY = #{isdelivery,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      SYNCHRO_DATE = #{synchroDate,jdbcType=TIMESTAMP},
+      REALORDER_ID = #{realorderId,jdbcType=VARCHAR},
+      RUFUND_MEMO = #{rufundMemo,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      OPER_STAFF = #{operStaff,jdbcType=DECIMAL},
+      STAT = #{stat,jdbcType=CHAR},
+      LOCK_STAT = #{lockStat,jdbcType=CHAR},
+      TEN_ID = #{tenId,jdbcType=DECIMAL},
+      DELIVERY_STAT = #{deliveryStat,jdbcType=CHAR},
+      REFUND_TIME = #{refundTime,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=DECIMAL},
+      INTENTION_INFO = #{intentionInfo,jdbcType=VARCHAR},
+      INTENTION_ID = #{intentionId,jdbcType=INTEGER},
+      ORDER_BUSINESS = #{orderBusiness,jdbcType=VARCHAR},
+      ORDER_CONSULTTYPE = #{orderConsulttype,jdbcType=VARCHAR},
+      ORDER_FOR = #{orderFor,jdbcType=TINYINT},
+      SYNCHRO_ORDER = #{synchroOrder,jdbcType=TINYINT},
+      AUDIT_DATE = #{auditDate,jdbcType=VARCHAR},
+      AUDITOR = #{auditor,jdbcType=DECIMAL},
+      AUDIT_MEMO = #{auditMemo,jdbcType=VARCHAR},
+      PROMOTE_USER_ID = #{promoteUserId,jdbcType=INTEGER},
+      DOWN_ORDER_STATUS = #{downOrderStatus,jdbcType=VARCHAR},
+      CHECK_PRICE_DATA = #{checkPriceData,jdbcType=LONGVARCHAR}
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lutao.america.model.Order" >
+    update t_odm_order
+    set ORDER_SRC = #{orderSrc,jdbcType=VARCHAR},
+      CUST_ID = #{custId,jdbcType=INTEGER},
+      MEMBER_ID = #{memberId,jdbcType=INTEGER},
+      ORDER_TYPE = #{orderType,jdbcType=DECIMAL},
+      EXORDER_ID = #{exorderId,jdbcType=VARCHAR},
+      TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
+      TRADE_SEQ = #{tradeSeq,jdbcType=VARCHAR},
+      ISDELIVERY = #{isdelivery,jdbcType=CHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      SYNCHRO_DATE = #{synchroDate,jdbcType=TIMESTAMP},
+      REALORDER_ID = #{realorderId,jdbcType=VARCHAR},
+      RUFUND_MEMO = #{rufundMemo,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      OPER_STAFF = #{operStaff,jdbcType=DECIMAL},
+      STAT = #{stat,jdbcType=CHAR},
+      LOCK_STAT = #{lockStat,jdbcType=CHAR},
+      TEN_ID = #{tenId,jdbcType=DECIMAL},
+      DELIVERY_STAT = #{deliveryStat,jdbcType=CHAR},
+      REFUND_TIME = #{refundTime,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=DECIMAL},
+      INTENTION_INFO = #{intentionInfo,jdbcType=VARCHAR},
+      INTENTION_ID = #{intentionId,jdbcType=INTEGER},
+      ORDER_BUSINESS = #{orderBusiness,jdbcType=VARCHAR},
+      ORDER_CONSULTTYPE = #{orderConsulttype,jdbcType=VARCHAR},
+      ORDER_FOR = #{orderFor,jdbcType=TINYINT},
+      SYNCHRO_ORDER = #{synchroOrder,jdbcType=TINYINT},
+      AUDIT_DATE = #{auditDate,jdbcType=VARCHAR},
+      AUDITOR = #{auditor,jdbcType=DECIMAL},
+      AUDIT_MEMO = #{auditMemo,jdbcType=VARCHAR},
+      PROMOTE_USER_ID = #{promoteUserId,jdbcType=INTEGER},
+      DOWN_ORDER_STATUS = #{downOrderStatus,jdbcType=VARCHAR}
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+   <select id="getMaxOrderId" resultType="java.lang.Long">
+     select max(ORDER_ID) from t_odm_order
+  </select>
+</mapper>

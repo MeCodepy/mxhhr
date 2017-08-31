@@ -1,0 +1,55 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets2014.jsp" %>
+    <title>一达机票-查看订单详情页</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link media="all" rel="stylesheet" href="./america/css/login.css"/>
+    <script type="text/javascript">
+    	
+    </script>
+</head>
+
+<body>
+<!-- 头部-浮动 -->
+<div class="TopNav">
+	<div class="topmain wapper">
+    	<img src="./america/images/logo.png"/>
+        <img class="baozheng" src="./america/images/bao.jpg"/>
+    </div>
+</div>
+<!-- 主体内容 -->
+<div class="login_main">
+	<div class="wapper">
+        <div class="login_box">
+        	<form id="frm_login" action="login/auth" method="POST" target="_self">
+	            <h3>用户登录</h3>
+	            <p class="user_p"><i></i><input class="user" name="userCode" placeholder="手机号/邮箱"/></p>
+	            <p class="password_p"><i></i><input class="password" name="userPwd" placeholder="密码"/></p>
+	            <button class="userLogin">立即登录</button>
+	            <p class="link"><a class="link_register" href="reg">新来的？去注册</a></p>
+	            <div class="more_login_box">
+	                <h4>您也可通过以下方式登录</h4>
+	                <ul>
+	                    <li class="qq_link"><a>QQ</a></li>
+	                    <li class="wei_link"><a>微信</a></li>
+	                    <li class="xin_link"><a>新浪</a></li>
+	                </ul>
+	            </div>
+            </form>
+        </div>
+        <div style="clear:both;"></div>
+    	<div class="footer">
+    	地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼<br/>
+
+全国服务电话:400-651-8800(免费) 投诉建议:13800138000 一达美洲机票
+    </div>
+    </div>
+</div>
+<div style="clear:both;"></div>
+</body>
+</html>

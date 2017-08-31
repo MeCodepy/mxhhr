@@ -1,0 +1,121 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets2014.jsp" %>
+    <title>一达机票-我的订单</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link media="all" rel="stylesheet" href="./america/css/Myorder.css"/>
+</head>
+
+<body>
+<!-- 头部-浮动 -->
+<div class="topNav">
+	<div class="navLeft">
+    	<ul class="nav-ui">
+        	<li class="nav">机票</li>
+            <li>订单咨询</li>
+        </ul>
+    </div>
+    <div class="navcont">
+    	<img src="./america/images/logo.png"/>
+    </div>
+    <div class="navRight">
+    	<ul>
+        	<li>登录</li>
+        </ul>
+    </div>
+</div>
+<div style="clear:both;"></div>
+<!-- 主体内容 -->
+<div style=" height:70px;"></div>
+<div class="MyorderMain">
+       <div class="Myorderleft">
+            <ul class="list">
+                <li style="border-left:2px solid #ff7800;">全部订单</li>
+                <li>待支付</li>
+                <li style="border-bottom:none !important;">已支付</li>
+            </ul>
+       </div>
+       <div class="Myorderright">
+              <div class="order_info">
+                  <ul>
+                      <li class="pro_info">产品信息</li>
+                      <li class="money">订单金额</li>
+                      <li class="date">起始时间</li>
+                      <li class="state">订单状态</li>
+                      <li class="do">订单操作</li>
+                  </ul>
+              </div> 
+              <div style=" clear: both;"></div>   
+              <div class="prfe">
+                    <p>订单号：99887766554433<a class="infoorder" target="_blank" href="./america/OrderDetail.jsp">查看订单</a></p>  
+                    <ul>
+                       <li>
+                           <span class="list_pic"><img src="./america/images/Myorder/OZ.jpg"></span>
+                           <span class="list_title">
+                                <span class="flight_go"><em class="go_ico">去</em><i>韩亚航空</i><i>OZ356</i><i>广州</i><em class="jiantou">&nbsp;</em><i>首尔</i></span>
+                                <span class="flight_back"><em class="back_ico">回</em><i>韩亚航空</i><i>OZ357</i><i>首尔</i><em class="jiantou">&nbsp;</em><i>广州</i></span>
+                           </span>                           
+                           <span class="list_money"><em class="yen">¥</em><em class="money_data">3706</em></span>
+                           <span class="list_date"><span>2017-04-28 01:15</span><span>2017-05-17 21:50</span></span>
+                           <span class="list_state">待付款</span>
+                           <span class="list_cz">
+                                <a class="order_pay" href="javascript:">立即支付</a>
+                                <a class="order_cancel_gjjp">取消订单</a>
+                           </span>                       
+                       </li>
+                       <div style=" clear:both;"></div>
+                    </ul>   
+              </div> 
+              <div style=" clear: both;"></div>
+              <div class="prfe">
+                    <p>订单号：99887766554433<a class="infoorder" target="_blank" href="./america/OrderDetail.jsp">查看订单</a></p>  
+                    <ul>
+                       <li>
+                           <span class="list_pic"><img src="./america/images/Myorder/OZ.jpg"></span>
+                           <span class="list_title">
+                                <span class="flight_go"><em class="go_ico">去</em><i>韩亚航空</i><i>OZ356</i><i>广州</i><em class="jiantou">&nbsp;</em><i>首尔</i></span>
+                                <span class="flight_back"><em class="back_ico">回</em><i>韩亚航空</i><i>OZ357</i><i>首尔</i><em class="jiantou">&nbsp;</em><i>广州</i></span>
+                           </span>                           
+                           <span class="list_money"><em class="yen">¥</em><em class="money_data">3706</em></span>
+                           <span class="list_date"><span>2017-04-28 01:15</span><span>2017-05-17 21:50</span></span>
+                           <span class="list_state">已支付</span>
+                           <span class="list_cz">
+                                <a class="order_pay" href="javascript:">立即支付</a>
+                                <a class="order_cancel_gjjp">取消订单</a>
+                           </span>                       
+                       </li>
+                       <div style=" clear:both;"></div>
+                    </ul>   
+              </div> 
+              <div style=" clear: both;"></div> 
+              <div class="page">
+              		<span class="page_left"><</span>
+                    <span class="page_num">1</span>
+                    <span class="page_right">></span>
+              </div>                 
+       </div>
+       <div style=" clear:both;"></div>
+</div>
+
+<div style="clear:both;"></div>
+<!-- 底部 -->
+<div class="page-footer">
+	<div class="clearfix">
+	<ul class="links-list">
+    	<li><a href="" target="_blank" class="ng-binding">关于我们</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">美洲机票产品</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">特价申请</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">服务条款</a></li>
+    </ul>
+    <p>地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼</p>
+    <p>全国服务电话:400-651-8800(免费) 投诉建议:13800138000  一达美洲机票</p>
+    </div>
+</div>
+
+</body>
+</html>

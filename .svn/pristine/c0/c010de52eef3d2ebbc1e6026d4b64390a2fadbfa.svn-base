@@ -1,0 +1,745 @@
+﻿@charset "utf-8";
+/* 机票查询列表页 */
+body{
+	background:#f0f0f0;}
+.wapper{
+	width:1190px;
+	margin:0 auto;}
+input.input_disabled,select.input_disabled{background-color:#ededed;color:#111;border-color:#666;}
+	
+#jindu{
+	background:url(../images/jindu.jpg) no-repeat left;
+	background-position:0 0;
+	height:26px;
+	margin-bottom:20px;}
+
+#jindu ul li{
+	width:287px;
+	height:26px;
+	line-height:26px;
+	font-size:14px;
+	color:#fff;
+	text-align:center;
+	float:left;}
+
+#jindu ul li.wei{
+	color:#666;}
+/******************************  头部样式   **************************************/
+.topNav{
+	width:99%;
+	padding:0 0.5%;
+	background:#000;
+	height:50px;
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:10;}
+
+.topNav .navLeft{
+	width:33%;
+	float:left;}
+
+.topNav .navLeft .nav-ui li{
+	float:left;
+	line-height:47px;
+	font-size:20px;
+	color:#fff;
+	margin-right:20px;
+	padding:0 10px;
+	cursor:pointer;}
+
+.topNav .navLeft .nav-ui li:hover{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navLeft .nav-ui .nav{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navcont{
+	width:33%;
+	float:left;
+	text-align:center;}
+
+.topNav .navRight{
+	width:33%;
+	float:left;}
+
+.topNav .navRight ul li{
+	float:right;
+	line-height:50px;
+	font-size:20px;
+	color:#fff;}
+
+/********* 主内容 **********/
+.OrderMain{width:1190px;margin:0 auto;}
+.OrderMain .Orderleft{width:810px;margin-right:20px;float:left;}
+.OrderMain .Orderleft .leftbox{background:#fff;float:left;margin-bottom:10px;border-radius:2px;padding:10px; width:790px;}
+.OrderMain .Orderleft .leftbox .eye-box-title{
+    background: #fff none repeat scroll 0 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    box-shadow: 0 1px 0 #fff;
+    height: 40px;
+    line-height: 40px;
+	border-bottom: 2px solid #eee;
+	margin-bottom:10px;
+}
+.OrderMain .Orderleft .leftbox .eye-box-title h6{
+    color: #666;
+    display: block;
+    float: left;
+    font-size: 16px;
+    line-height: inherit;
+    padding: 0 10px;
+    text-shadow: 0 1px #fff;
+    vertical-align: middle;
+}
+.OrderMain .Orderleft .leftbox .eye-box-title .eye-box-title-tip{
+    color: #999;
+    display: block;
+    float: left;
+    font-size: 12px;
+    line-height: 40px;
+    vertical-align: middle;
+}
+.OrderMain .Orderleft .leftbox .eye-box-content{
+    background: #f2f5f9;
+	margin-bottom:10px;
+}
+.OrderMain .Orderleft .leftbox .eye-box-content .eye-form{
+    padding: 5px 0 !important;
+	margin-left:85px;
+}
+.OrderMain .Orderleft .leftbox .eye-box-content .eye-form .eye-form-item{ 
+    float: left;
+    padding-bottom: 8px;
+    padding-top: 10px;
+}
+.OrderMain .Orderleft .leftbox .eye-box-content .eye-form .eye-form-item .eye-form-title{
+    float: left;
+    text-align: right;
+    white-space: nowrap;
+    width: 85px;
+	font-size:14px;	
+}
+.OrderMain .Orderleft .leftbox .eye-box-content .eye-form .eye-form-item .eye-form-cont{
+    float: left;
+    margin-left: 15px;
+    width: 50px;}
+	
+	
+.OrderMain .Orderleft .leftbox .eye-box-content .eye-form .eye-form-item .eye-form-cont .eye-dropdown-select {
+  color: #666;
+    height: 100%;
+    outline: medium none;
+    padding: 3px 0;
+    width: 100%;
+}
+.OrderMain .Orderleft .leftbox .eye-box-content .eye-form .eye-form-item .eye-form-cont span{
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    height: 25px;
+}
+
+.OrderMain .Orderleft .leftbox .eye-box-content .eye-form .btns-layer {
+    float: right;
+    padding-top: 12px;
+	margin-right:50px;
+}
+
+.OrderMain .Orderleft .leftbox .eye-box-content .eye-form .btns-layer .passenger-change-btn{
+    background-color: #0195ff ;
+    color: #fff;
+    cursor: pointer;
+    padding: 4px 14px;
+}
+.OrderMain .Orderleft .leftbox .eye-box-content .eye-form .btns-layer .ret {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;
+    color: #0195ff !important;
+    margin-left: 20px;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity {
+    background: #f2f5f9 none repeat scroll 0 0;
+    float: left;
+    padding: 30px 15px 15px;
+    width: 760px;
+}
+.OrderMain .Orderleft .leftbox .Opportunity .eye-box-lianxi {
+    border-bottom: 2px solid #eee;
+    color: #0195ff;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    padding-left: 0px;
+}
+.p_h_header{float:left;height:35px;line-height:35px;}
+.p_h_item{cursor:pointer;float:left;padding:0px 5px;margin-right:5px;width:115px;height:35px;line-height:35px;overflow:hidden;}
+.p_h_item:hover{text-decoration:none;}
+.p_h_item i{margin-right:5px;color:#c5c5c5;}
+a.p_h_item_selected{background:#0195ff;color:#fff;}
+a.p_h_item_selected i{color:#ffffff;}
+.teshu {
+    font-size: 20px;
+	color:#c5c5c5;
+	cursor:pointer;
+}
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityleft{
+	float:left;
+	width:66px;
+	height:80px;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityleft .nums {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #0195ff;
+    font-size: 15px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    width: 100%;
+}
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityleft .nums b {
+    font-size: 20px;
+    margin: 0 3px;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityleft .name {
+    color: #fff;
+    text-align: center;
+	width:68px;
+	background:#0195ff;
+	height:20px;
+}
+
+
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityright {
+    float: left;
+    margin-left: 20px;
+    width: 670px;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityright .feilei {
+    margin-bottom: 15px;
+	float:left;
+	margin-left:0px;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityright  .feilei i {
+    color: #f00;
+    display: inline-block;
+    float: left;
+    font-size: 15px;
+    font-style: normal;
+    line-height: 30px;
+}
+
+
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityright .feilei span {
+    color: #333;
+    float: left;
+    font-size: 14px;
+    line-height: 30px;
+    margin-right: 10px;
+    text-align: right;
+    width: 70px;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityright .feilei  .input {
+    float: left;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityright .feilei .input select {
+    color: #666;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 12px;
+    padding: 0 8px;
+    width: 243px;
+	outline:none;
+    border: 1px solid #d9d9d9;
+}
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityright .feilei .input input {
+    border: 1px solid #d9d9d9;
+    color: #666;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 12px;
+    padding: 0 8px;
+    width: 225px;
+	outline:none;
+}
+
+
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityright .feilei .inputa {
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 12px;
+}
+
+
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityright .feilei .inputa .eye-radio {
+    float: left;
+    margin-right: 30px;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityright .feilei .inputa .eye-radio input {
+    float: left;
+    height: 30px;
+    line-height: 30px;
+    margin-right: 8px;
+}
+.OrderMain .Orderleft .leftbox .Opportunity .Opportunityright .feilei .inputa .eye-radio .xingbie {
+    float: left;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .feilei {
+    float: left;
+    margin-bottom: 15px;
+    margin-left: 80px;
+}
+.OrderMain .Orderleft .leftbox .Opportunity .feilei i {
+    color: #f00;
+    display: inline-block;
+    float: left;
+    font-size: 15px;
+    font-style: normal;
+    line-height: 30px;
+}
+
+
+.OrderMain .Orderleft .leftbox .Opportunity .feilei span {
+    color: #333;
+    float: left;
+    font-size: 14px;
+    line-height: 30px;
+    margin-right: 10px;
+    text-align: right;
+    width: 70px;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .feilei  .input {
+    float: left;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .feilei .input select {
+    color: #666;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 12px;
+    padding: 0 8px;
+    width: 240px;
+	outline:none;border-color:#666;
+}
+.OrderMain .Orderleft .leftbox .Opportunity .feilei .input input {
+    border: 1px solid #d9d9d9;
+    color: #666;
+    font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 12px;
+    padding: 0 8px;
+    width: 225px;
+	outline:none;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .groupntta {
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 7px;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .groupntta label .baoxiang {
+    color: #0195ff;
+    font-size: 15px;
+}
+
+.OrderMain .Orderleft .leftbox .Opportunity .groupntta label strong {
+    color: #f60;
+    font-size: 15px;
+}
+.OrderMain .Orderleft .leftend{ margin:10px 0px 20px; float:left;}
+.OrderMain .Orderleft .order-goBack{
+	color: #0195ff;
+    padding: 4px 10px;
+	font-size:14px;
+	float:left;
+}
+.OrderMain .Orderleft .order-goBack:hover{ background:#0195ff; color:#fff;}
+.OrderMain .Orderleft .shanga {
+    background: #ddd none repeat scroll 0 0 !important;
+    border-radius: 2px !important;
+    color: #999 !important;
+    margin-left: 172px !important;
+    padding: 6px 51px !important;
+}
+.OrderMain .Orderleft .order-submit{
+	float:left;
+	background-color: #ff9419;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 6px 70px;
+	margin-left:150px;
+}
+.OrderMain .Orderleft .order_submit {
+    background-color: #ff9419;
+    border-radius: 2px;
+    color: #fff;
+    cursor: pointer;
+    float: left;
+    font-size: 18px;
+    margin-left: 49px;
+    padding: 6px 10px;
+}
+.OrderMain .Orderleft .order-submit:hover{background-color:#ff7000;}
+.OrderMain .Orderleft .order_submit:hover{background-color:#ff7000;}
+
+.passenger_info{margin-bottom:5px;}
+.OrderMain .Orderight{width:360px;float:left;}
+
+.OrderMain .Orderight .t-order-flight {
+    border: 1px solid #d7d7d7;
+}
+.OrderMain .Orderight .t-order-flight .rbiaoti{
+	padding:8px 10px;
+	color: #666;
+    font-size: 16px;
+    font-weight: 400;
+
+	}
+	
+.OrderMain .Orderight .t-order-flight .flight-order-detail{
+	background:#fff;
+	padding:10px;
+}
+
+.OrderMain .Orderight .t-order-flight .flight-order-detail .flight-detail-item {
+    padding: 5px 0;
+	position:relative;
+}
+.OrderMain .Orderight .t-order-flight .flight-order-detail .flight-detail-item .airline-logo{ width:24; height:24px; display:block; float:left;}
+
+.OrderMain .Orderight .t-order-flight .flight-order-detail .flight-detail-item  .section-flight-base {
+    color: #333;
+    float: left;
+    font-size: 12px;
+    margin-left: 10px;
+    padding: 4px 0;
+}
+
+.OrderMain .Orderight .t-order-flight .flight-order-detail .flight-detail-item .section-flight-base .flight-codeshare-info, .flight-craftType-info {
+    border-bottom: 1px dotted #4d4d4d;
+    cursor: help;
+    margin: 0 5px;
+	position:relative;
+}
+.flight-craftType-info{ color:#999;}
+
+.OrderMain .Orderight .t-order-flight .flight-order-detail .flight-detail-item .flight-city-info {
+    width: 129px;
+	float:left;
+}
+.OrderMain .Orderight .t-order-flight .flight-order-detail .flight-detail-item .flight-city-mid {
+	float:left;
+}
+
+.OrderMain .Orderight .t-order-flight .flight-order-detail .flight-detail-item .flight-city-mid .arr-nostop {
+    display: block;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+.OrderMain .Orderight .t-order-flight .flight-order-detail .flight-detail-item .flight-city-info span{ display:block; text-align:right; color:#333;}
+.OrderMain .Orderight .t-order-flight .flight-order-detail .flight-detail-item .eyea span{ text-align:left !important;}
+
+.OrderMain .Orderight .t-order-flight .flight-order-detail .flight-detail-item .flight-city-info .col-time {
+    font-size: 16px;
+	font-weight:bold;
+}
+
+.OrderMain .Orderight .t-order-flight .flight-order-detail .flight-detail-item .flight-city-info .col-airport{ font-size:12px;}
+
+.OrderMain .Orderight .t-order-flight .flight-order-detail  .flight-stop {
+    background: #f0fef2 none repeat scroll 0 0;
+    margin: 5px 0px;
+    padding: 3px 2px;
+    text-align: center;
+}
+
+.OrderMain .Orderight .t-order-flight .tn-order-flight-rule{
+	background:#fff;
+}
+
+.OrderMain .Orderight .t-order-flight .tn-order-flight-rule .order-rule-content {
+    background: #fff none repeat scroll 0 0;
+    border-top: 1px solid #d9d9d9;
+    margin: 0 10px;
+    padding: 6px 0;
+	position:relative;
+}
+
+.OrderMain .Orderight .t-order-flight .tn-order-flight-rule .col-rule-info {
+    color: #0195ff;
+    padding: 0 5px;
+    float: right;
+	cursor:help;
+}
+.OrderMain .Orderight .t-order-flight .tn-order-flight-rule .col-rule-info:hover{ background:#0195ff; color:#fff;}
+
+
+
+
+.OrderMain .Orderight .b-order-flight{
+	background: #fffceb none repeat scroll 0 0;
+    margin-top: 10px;
+    padding: 10px 20px;
+}
+
+.OrderMain .Orderight .b-order-flight .order-price {
+    border-bottom: 1px solid #d7d7d7;
+    font-size: 14px;
+    line-height: 32px;
+	padding-bottom:5px;
+}
+
+.OrderMain .Orderight .b-order-flight .order-price .col {
+    color: #333;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 32px;
+}
+
+.OrderMain .Orderight .b-order-flight .order-price .price {
+    color: #f60;
+    font-size: 28px;
+    font-weight: 700;
+    float: right;
+}
+
+.OrderMain .Orderight .b-order-flight .order-price .price i {
+    color: #666;
+    font-size: 16px;
+	font-style:normal;
+}
+
+.OrderMain .Orderight .b-order-flight .order-price-tree {
+    padding: 10px 0;
+}
+
+
+.OrderMain .Orderight .b-order-flight .order-price-tree .order-tree-item {
+    color: #444;
+}
+
+
+.OrderMain .Orderight .b-order-flight .order-price-tree .order-tree-item li {
+    height: 28px;
+    line-height: 28px;
+    vertical-align: middle;
+	font-size:13px;
+}
+
+.OrderMain .Orderight .b-order-flight .order-price-tree .order-tree-item li .col {
+    float: left;
+}
+
+
+.OrderMain .Orderight .b-order-flight .order-price-tree .order-tree-item li .line {
+    border-bottom: 1px dashed #d7d7d7;
+    float: left;
+    height: 1px;
+    margin: 14px 12px 0;
+    width: 165px;
+}
+
+
+.OrderMain .Orderight .b-order-flight .order-price-tree .order-tree-item li .eye-float-r {
+    float: left;
+	color:#f60;
+}
+
+
+/******************************  共享隐藏样式   **************************************/
+
+.gongxianghd {
+    border: 1px solid #0195ff;
+    color: #555;
+    display: none;
+    font-size: 13px;
+    height: 20px;
+    left: 0;
+    line-height: 20px;
+    padding: 5px 8px;
+    position: absolute;
+    top: 23px;
+    width: 280px;
+	background:#fff;
+}
+
+/******************************  退改签及购买说明隐藏样式   **************************************/
+
+.tn-flight-rule {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #0195ff;
+    color: #444;
+    display: none;
+    font-size: 12px;
+    max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    right: 102px;
+    top: -248px;
+    width: 458px;
+    z-index: 1002;
+}
+.tn-flight-rule .rule-info {
+	padding: 10px
+}
+.tn-flight-rule .rule-info .s-group .full-content {
+	padding: 8px
+}
+.tn-flight-rule .rule-info .newRule {
+	margin-bottom: 10px
+}
+.tn-flight-rule .rule-info .newRule .title {
+	font-weight: 400
+}
+.tn-flight-rule .rule-info .newRule .notice {
+	border: 0;
+	padding: 8px
+}
+.tn-flight-rule .rule-info .newRule .notice .full-content {
+	padding: 0
+}
+.tn-flight-rule .rule-info .newRule .bar {
+	background: #EFEFEF
+}
+.tn-flight-rule .rule-info .newRule .row {
+	border-right: 1px solid #dfdfdf;
+	border-bottom: 1px solid #dfdfdf;
+	padding: 10px 15px
+}
+
+.tn-flight-rule .rule-info .newRule-table {
+	width: 100%
+}
+.tn-flight-rule .rule-info .newRule-table .col {
+	overflow: hidden
+}
+.tn-flight-rule .rule-info .newRule-table .col:after {
+	clear: both
+}
+.tn-flight-rule .rule-info .newRule-table .row {
+	border-right: 1px solid #dfdfdf;
+	border-bottom: 1px solid #dfdfdf;
+	padding: 10px 15px
+}
+.tn-flight-rule .rule-info .newRule-table .bar {
+	width: 64px;
+	background: #EFEFEF
+}
+.tn-flight-rule .rule-info .newRule-table .half {
+	width: 32px
+}
+.tn-flight-rule .rule-info .newRule-table i {
+	color: red;
+	font-style:normal;
+}
+
+
+/******************************  机型隐藏样式   **************************************/
+
+.eye-containers {
+    display: none;
+    left: 0px;
+    position: absolute;
+    top: 25px;
+	background:#fff;
+	z-index:1000;
+}
+table {
+    border-collapse: collapse;
+    color: #555;
+    font-size: 13px;
+}
+
+.tn-planeType-layer {
+    border: 1px solid #0195ff;
+    padding: 5px;
+}
+.tn-promotion-layer .content {
+	padding: 4px 4px 10px
+}
+.tn-planeType-layer .item-label {
+	background-color: #efefef
+}
+.tn-planeType-layer .item-label{
+	text-align: center;
+	height: 30px;
+	border: 1px solid #dfdfdf;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 2px 8px
+}
+.tn-planeType-layer .item-info {
+	text-align: center;
+	height: 30px;
+	border: 1px solid #dfdfdf;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 2px 8px;
+	border-top:none !important;
+	background:#fff;
+}
+
+.item {
+	border-bottom: 1px solid #dfdfdf;
+	border-right: 1px solid #dfdfdf
+}
+
+
+
+
+/******************************  底部样式   **************************************/
+.page-footer{
+	clear: both;
+    background: #fff;
+    padding-bottom: 12px;
+    padding-top: 12px;}
+
+.page-footer .clearfix{
+	text-align:center;}
+
+.page-footer .clearfix .links-list li{
+	    margin: 0;
+    text-decoration: none;
+    border-right: 1px solid #969696;
+    padding-left: 50px;
+    text-align: center;
+    padding-right: 50px;
+    line-height: 50px;
+    display: inline;
+    color: #969696;}
+
+.page-footer .clearfix .links-list li .ng-binding{
+	color: #969696;
+    text-decoration: none;
+    font-weight: 400;}
+
+.page-footer .clearfix p{
+	text-align: center;
+    line-height: 1.3;
+    padding-top: 5px;
+    margin: 0;
+    color: #969696;}
+
+

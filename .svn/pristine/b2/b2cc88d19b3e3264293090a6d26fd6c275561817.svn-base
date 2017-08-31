@@ -1,0 +1,39 @@
+package com.lutao.america.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/air")
+public class AirController {
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
+	@RequestMapping("/confirm")
+	public String Confirm(HttpServletRequest req){
+		return "/Orderknow";
+	}
+	
+	@RequestMapping("/detail")
+	public String Detail(HttpServletRequest req){
+		return "/OrderDetail";
+	}
+	
+	@RequestMapping("/myorder")
+	public String MyOrder(HttpServletRequest req){
+		return "/Myorder";
+	}
+	
+	@RequestMapping("/order")
+	public String Order(HttpServletRequest req){
+		return "/Order";
+	}
+	
+	@RequestMapping("/pay")
+	public String Pay(HttpServletRequest req){
+		return "/pay";
+	}
+}

@@ -1,0 +1,9 @@
+﻿.gray{color:gray;}
+.ac_results {width:362px;background:#fff;border:1px solid #abadb3;position: absolute;z-index: 10000;display: none; font-size:14px;color:#666;}
+.ac_results ul{margin:0;padding:0;list-style:none;}
+.ac_results li a{white-space: nowrap;text-decoration:none;display:block;color:#666;height:30px;line-height:30px;}
+.ac_results li{padding:0 10px;overflow:hidden;}
+.ac_over,.ac_results li a:hover{background:#ff6000;color:#fff;}
+li.ac_over a{color:#fff;}
+.ac_results li a span{float:right;}
+.ac_result_tip{border-bottom:1px dashed #666;padding:3px;}

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lutao.america.dao.PayInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.lutao.america.model.PayInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="PAYTYPE_ID" property="paytypeId" jdbcType="DECIMAL" />
+    <result column="PAY_ACCOUNT" property="payAccount" jdbcType="VARCHAR" />
+    <result column="PAY_PRICE" property="payPrice" jdbcType="DECIMAL" />
+    <result column="PAY_STATE" property="payState" jdbcType="DECIMAL" />
+    <result column="PAY_DATETIME" property="payDatetime" jdbcType="TIMESTAMP" />
+    <result column="TRANE_NO" property="traneNo" jdbcType="VARCHAR" />
+    <result column="ORDERNO" property="orderno" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ORDER_ID, PAYTYPE_ID, PAY_ACCOUNT, PAY_PRICE, PAY_STATE, PAY_DATETIME, TRANE_NO, 
+    ORDERNO
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_odm_payinfo
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_odm_payinfo
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lutao.america.model.PayInfo" >
+    insert into t_odm_payinfo (ID, ORDER_ID, PAYTYPE_ID, 
+      PAY_ACCOUNT, PAY_PRICE, PAY_STATE, 
+      PAY_DATETIME, TRANE_NO, ORDERNO
+      )
+    values (#{id,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{paytypeId,jdbcType=DECIMAL}, 
+      #{payAccount,jdbcType=VARCHAR}, #{payPrice,jdbcType=DECIMAL}, #{payState,jdbcType=DECIMAL}, 
+      #{payDatetime,jdbcType=TIMESTAMP}, #{traneNo,jdbcType=VARCHAR}, #{orderno,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lutao.america.model.PayInfo" >
+    insert into t_odm_payinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="paytypeId != null" >
+        PAYTYPE_ID,
+      </if>
+      <if test="payAccount != null" >
+        PAY_ACCOUNT,
+      </if>
+      <if test="payPrice != null" >
+        PAY_PRICE,
+      </if>
+      <if test="payState != null" >
+        PAY_STATE,
+      </if>
+      <if test="payDatetime != null" >
+        PAY_DATETIME,
+      </if>
+      <if test="traneNo != null" >
+        TRANE_NO,
+      </if>
+      <if test="orderno != null" >
+        ORDERNO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="paytypeId != null" >
+        #{paytypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="payAccount != null" >
+        #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payPrice != null" >
+        #{payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="payState != null" >
+        #{payState,jdbcType=DECIMAL},
+      </if>
+      <if test="payDatetime != null" >
+        #{payDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="traneNo != null" >
+        #{traneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lutao.america.model.PayInfo" >
+    update t_odm_payinfo
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="paytypeId != null" >
+        PAYTYPE_ID = #{paytypeId,jdbcType=DECIMAL},
+      </if>
+      <if test="payAccount != null" >
+        PAY_ACCOUNT = #{payAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="payPrice != null" >
+        PAY_PRICE = #{payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="payState != null" >
+        PAY_STATE = #{payState,jdbcType=DECIMAL},
+      </if>
+      <if test="payDatetime != null" >
+        PAY_DATETIME = #{payDatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="traneNo != null" >
+        TRANE_NO = #{traneNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        ORDERNO = #{orderno,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lutao.america.model.PayInfo" >
+    update t_odm_payinfo
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      PAYTYPE_ID = #{paytypeId,jdbcType=DECIMAL},
+      PAY_ACCOUNT = #{payAccount,jdbcType=VARCHAR},
+      PAY_PRICE = #{payPrice,jdbcType=DECIMAL},
+      PAY_STATE = #{payState,jdbcType=DECIMAL},
+      PAY_DATETIME = #{payDatetime,jdbcType=TIMESTAMP},
+      TRANE_NO = #{traneNo,jdbcType=VARCHAR},
+      ORDERNO = #{orderno,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="getMaxId" resultType="java.lang.Long">
+     select max(ID) from t_odm_payinfo
+  </select>
+</mapper>

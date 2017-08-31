@@ -1,0 +1,657 @@
+package com.lutao.america.controller;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.Date;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.apache.tomcat.util.digester.Digester;
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lutao.america.exception.CustomException;
+import com.lutao.america.model.Contacts;
+import com.lutao.america.model.FltInfo;
+import com.lutao.america.model.Insurance;
+import com.lutao.america.model.Order;
+import com.lutao.america.model.OrderAttr;
+import com.lutao.america.model.OrderList;
+import com.lutao.america.model.OrderListFlt;
+import com.lutao.america.model.OrderOperLog;
+import com.lutao.america.model.PasInfo;
+import com.lutao.america.model.PasgInfo;
+import com.lutao.america.model.Pasgsect;
+import com.lutao.america.model.Remit;
+import com.lutao.america.model.SmsLog;
+import com.lutao.america.model.Passenger;
+import com.lutao.america.model.PayInfo;
+import com.lutao.america.service.CityService;
+import com.lutao.america.service.LtCityService;
+import com.lutao.america.service.OrderListService;
+import com.lutao.america.service.OrderService;
+import com.lutao.america.service.RemitService;
+import com.lutao.america.service.SmsService;
+import com.lutao.america.service.PassengerService;
+import com.lutao.america.service.PayInfoService;
+import com.lutao.america.vo.OrderFillParameter;
+import com.lutao.america.vo.OrderInsureParameter;
+import com.lutao.america.vo.OrderPassengerParameter;
+import com.lutao.america.vo.av.Av;
+import com.lutao.america.vo.av.Flight;
+import com.lutao.america.vo.av.Segment;
+import com.lutao.america.vo.b2b.OrderResult;
+import com.lutao.america.vo.b2b.PassengerItem;
+import com.lutao.common.enums.EIDType;
+import com.lutao.common.enums.EPasgsect;
+import com.lutao.common.enums.EPasinfo;
+import com.lutao.common.enums.ESex;
+import com.lutao.common.sms.ChuanglanSmsUtil;
+import com.lutao.common.utils.Cryption;
+import com.lutao.common.utils.StringUtil;
+
+import net.sf.json.JSONArray;
+
+@Controller
+@RequestMapping("/air")
+public class AirController {
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	@Resource
+	private OrderService orderService;
+	@Autowired
+	private OrderListService orderListService;
+	@Resource
+	private CityService cityService;
+	@Resource
+	private RemitService remitService;
+	@Autowired
+	private SmsService smsService;
+	@Autowired
+	private LtCityService b2bService;
+	@Resource
+	private PayInfoService payInfoService;
+	//passenger
+	@Autowired
+	private PassengerService psgService;
+	
+	@RequestMapping("/confirm")
+	public ModelAndView Confirm(OrderFillParameter params,HttpServletRequest req) 
+			throws JsonProcessingException, CustomException{
+		ModelAndView view = new ModelAndView("/Orderknow");
+		
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
+		Av av = null;
+		try{
+			String b64 = StringUtil.decodeBase64(params.getToken(), "UTF-8");
+			av = mapper.readValue(b64, Av.class);
+			String sign = av.getSign();
+			log.info(sign);
+			av.setSign("");
+			String temp = mapper.writeValueAsString( av);
+			log.info(temp);
+			String md5 = Cryption.Md5( temp + av.getTime());
+			log.info(md5);
+			if(!md5.equals(sign)){
+				av = null;
+			}
+		}catch(JsonMappingException e){
+			e.printStackTrace();
+		}catch(JsonParseException e){
+			e.printStackTrace();
+		}catch(JsonProcessingException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		if(null == av){
+			throw new CustomException("请求异常！");
+		}else{
+			String temp = mapper.writeValueAsString( params);
+			view.getModel().put("data", StringUtil.toBase64(temp, "UTF-8"));
+			view.setViewName("/Orderknow");	
+		}
+		
+		return view;
+	}
+	
+	@RequestMapping("/orderDetail")
+	@ResponseBody
+	public ModelAndView Detail(HttpServletRequest req) throws CustomException{
+		ModelAndView mv=new ModelAndView();
+		Subject sub = SecurityUtils.getSubject();
+		Object member = sub.getSession().getAttribute("member");
+		String orderId=req.getParameter("orderId");
+		Map<String,Object>querParam=new HashMap<String,Object>();
+		querParam.put("orderId", Long.parseLong(orderId));
+		querParam.put("memberId", Integer.parseInt(member.toString()));
+		Order order=orderService.findById(querParam);
+		if(order==null){
+			throw new CustomException("你访问的订单不存在");
+		}
+		for(PasgInfo p:order.getOrderAttr().getPasgInfos()){
+			for(Pasgsect sect:p.getPasgsects()){
+				System.out.println(sect.getAirlineCode());
+			}
+		}
+		mv.setViewName("/OrderDetail");
+		mv.addObject("order", order);
+		return mv;
+	}
+	
+	@RequestMapping("/myorder")
+	public ModelAndView MyOrder(HttpServletRequest req){
+		ModelAndView mv=new ModelAndView("/Myorder");
+		return mv;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/myorderCount")
+	public long myorderCount(HttpServletRequest req){
+		Subject sub = SecurityUtils.getSubject();
+		Object member = sub.getSession().getAttribute("member");
+		String stat=req.getParameter("stat");//分类订单    all-全部订单      012-待支付......
+		Map<String,Object>map = new HashMap<String ,Object>();
+		map.put("member", String.valueOf(member));
+		map.put("stat", stat);
+		if(stat.equals("all")){//如果是全部订单
+			map.put("stat", null);
+		}
+		long pages=orderListService.countByMember(map);//查询总数
+		return pages;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/myorderList")
+	public Object MyOrderList(HttpServletRequest req){
+		Subject sub = SecurityUtils.getSubject();
+		Object member = sub.getSession().getAttribute("member");
+		String stat=req.getParameter("stat");//分类订单    all-全部订单      012-待支付......
+		int pieces=Integer.parseInt(req.getParameter("pieces"));//每页多少条
+        int page=Integer.parseInt(req.getParameter("page"));		//页数
+	    int startPieces = (page * pieces) - pieces;//每页起始条数
+		Map<String,Object>map = new HashMap<String ,Object>();
+		map.put("member", String.valueOf(member));
+		map.put("stat", stat);
+		if(stat.equals("all")){//如果是全部订单
+			map.put("stat", null);
+		}
+		map.put("pages", startPieces);
+		map.put("pieces", pieces);
+		List<OrderList> orderList=orderListService.queryPaging(map);//分页查询
+		for(int i=0;i<orderList.size();i++){
+			List<OrderListFlt> olf=orderListService.searchSegmentById(orderList.get(i).getOrderId());//查询航程
+			orderList.get(i).setOrderListFlt(olf);
+		}
+		Map<String,Object> m = new HashMap<String,Object>();
+		m.put("obj", orderList);
+		return m;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/myPsgHis", method=RequestMethod.POST, produces="application/json")
+	public Map<String,Object> PassengersHistory(HttpServletRequest req){
+		boolean succeed=false;
+		List<Passenger> list=null;
+		try{
+			Subject sub = SecurityUtils.getSubject();
+			Object member = sub.getSession().getAttribute("member");
+			int memberid = Integer.valueOf( member.toString());
+			list = psgService.historys(memberid);
+		}catch(Exception e){
+			e.printStackTrace();
+			list=null;
+		}
+		if(null != list){
+			if(list.size()>0){
+				succeed=true;
+			}
+		}
+		Map<String,Object> v = new HashMap<String,Object>();
+		v.put("succeed", succeed);
+		v.put("msg", "");
+		v.put("data", list);
+		return v;
+	}
+	
+	
+	@RequestMapping("/order")
+	public ModelAndView Order(String token, HttpServletRequest req) throws CustomException{
+		ModelAndView view = new ModelAndView();
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		Av av = null;
+		try{
+			String b64 = StringUtil.decodeBase64(token, "UTF-8");
+			av = mapper.readValue(b64, Av.class);
+			String sign = av.getSign();
+			log.info(sign);
+			av.setSign("");
+			String temp = mapper.writeValueAsString( av);
+			log.info(temp);
+			String md5 = Cryption.Md5( temp + av.getTime());
+			log.info(md5);
+			if(!md5.equals(sign)){
+				av = null;
+			}
+		}catch(JsonMappingException e){
+			e.printStackTrace();
+		}catch(JsonParseException e){
+			e.printStackTrace();
+		}catch(JsonProcessingException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		if(null == av){
+			throw new CustomException("请求异常！");
+		}else{
+			view.getModel().put("token", token);
+			view.setViewName("/Order");	
+		}
+		return view;
+	}
+	
+	/**
+	 * 提交订单
+	 * @param data
+	 * @param req
+	 * @return view
+	 * @throws CustomException
+	 * @throws JsonProcessingException
+	 */
+	@RequestMapping("/submit")
+	public ModelAndView submit(String data, HttpServletRequest req) 
+			throws CustomException, JsonProcessingException{
+		ModelAndView view = new ModelAndView();
+		
+		
+		
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
+		OrderFillParameter params = null;
+		Av av = null;
+		try{
+			String b64 = StringUtil.decodeBase64(data, "UTF-8");
+			params = mapper.readValue( b64, OrderFillParameter.class);
+
+			b64 = StringUtil.decodeBase64(params.getToken(), "UTF-8");
+			av = mapper.readValue(b64, Av.class);
+			String sign = av.getSign();
+			log.info(sign);
+			av.setSign("");
+			String temp = mapper.writeValueAsString( av);
+			log.info(temp);
+			String md5 = Cryption.Md5( temp + av.getTime());
+			log.info(md5);
+			if(!md5.equals(sign)){
+				av = null;
+			}
+		}catch(JsonMappingException e){
+			e.printStackTrace();
+		}catch(JsonParseException e){
+			e.printStackTrace();
+		}catch(JsonProcessingException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		if(null == av){
+			throw new CustomException("请求异常！");
+		}else{
+			Order order=new Order();
+			OrderAttr orderAttr = new OrderAttr();
+			Set<PasgInfo> pasgInfos = new HashSet<PasgInfo>();
+			
+			List<OrderOperLog> orderLogs = new ArrayList<OrderOperLog>();
+			
+			//联系人
+			Contacts contact = new Contacts();
+			contact.setName( params.getContact());
+			contact.setTelephone( params.getMobile());
+			contact.setEmail( params.getEmail());
+			
+			order.setContacts( contact);
+			order.setCreateDate( new Date());
+			
+			//b2b psgs
+			List<PassengerItem> b2bPsgs = new ArrayList<PassengerItem>();
+			
+			//sms trip
+			String tripDep="",tripArr="",tripType="单程";
+			
+			for(OrderPassengerParameter p : params.getPsgs()){
+				//b2b psg
+				PassengerItem pi=new PassengerItem();
+				pi.setName( String.format("%s/%s", p.getFirstname(), p.getLastname()));
+				pi.setFirstName( p.getLastname());
+				pi.setLastName( p.getFirstname());
+				pi.setPassengerType( 0);
+				pi.setBirthday( p.getBirth());
+				pi.setSex( Integer.parseInt( p.getSex()));
+				pi.setCertificateNumber( p.getIdno());
+				pi.setCertificateType( p.getIdtype());
+				pi.setCertificateIssuePlace( p.getCard_country());
+				pi.setCertificateExpired( p.getCard_valid());
+				pi.setNationality( p.getCountry());
+				b2bPsgs.add( pi);
+			    
+				
+				PasInfo pasInfo = new PasInfo();
+				pasInfo.setBirthday( p.getBirth());
+				pasInfo.setCertNo( p.getIdno());
+				pasInfo.setCertType( p.getIdtype());
+				pasInfo.setCreateDate( new Date());
+				pasInfo.setIdexpirationdate( p.getCard_valid());
+				pasInfo.setIdissuecountry( p.getCard_country());
+				pasInfo.setIdissuecountrycode( p.getCard_country());
+				pasInfo.setNationality( p.getCountry());
+				pasInfo.setNationalitycode( p.getCountry());
+				pasInfo.setPasgName( String.format("%s/%s", p.getFirstname(), p.getLastname()));
+				
+				pasInfo.setPasgType(EPasinfo.ADT.getKey());//默认ADT
+				if("ADT".equals( p.getAge())){
+					pasInfo.setPasgType( EPasinfo.ADT.getKey());
+				}else if("CHD".equals( p.getAge())){
+					pasInfo.setPasgType( EPasinfo.CHD.getKey());
+				}else if("INF".equals( p.getAge())){
+					pasInfo.setPasgType( EPasinfo.INF.getKey());
+				}
+				
+				pasInfo.setSex( Short.parseShort( p.getSex()));
+				
+				PasgInfo pasgInfo = new PasgInfo();
+				Insurance ic=new Insurance();
+				ic.setCost(123.1);
+				ic.setCreatetime(new Date());
+				ic.setINSURANCE_COM_NAME("nimei");
+				ic.setPrice(123.1);
+				List<Insurance> insurance=new  ArrayList<Insurance>();
+				insurance.add(ic);
+				insurance.add(ic);
+				insurance.add(ic);
+				insurance.add(ic);
+				pasgInfo.setInsurance(insurance);
+				pasgInfo.setPasInfo( pasInfo);
+				pasgInfo.setAgetype( 0);
+				pasgInfo.setConstructionFee( (int)av.getFee());
+				pasgInfo.setFuleTax( 0);
+				pasgInfo.setCreateDate( new Date());
+				pasgInfo.setInsuranceCount( 0);
+				pasgInfo.setInsurancePrice( 0);
+				pasgInfo.setInsuranceunitprice( 0);
+				pasgInfo.setTicketPrice( new BigDecimal( av.getPrice()));
+				
+				List<Pasgsect> pasgsects = new ArrayList<Pasgsect>();
+				int seq = 1;
+				for(Segment seg : av.getSegs()){
+					//tripType
+					if(seg.getSeg() > 1){
+						tripType="往返";
+					}
+					for(Flight f : seg.getAirLegs()){
+						FltInfo fltinfo = new FltInfo();
+						
+						//tripDep
+						if(seq==1){
+							tripDep = f.getFromName();
+						}
+						//tripArr
+						tripArr = f.getToName();
+						
+						fltinfo.setSeq( seq);
+						seq ++;
+						
+						fltinfo.setCreateDate( new Date());
+						fltinfo.setFltNo( String.format("%s%s", f.getAirline(), f.getAirNo()));
+						fltinfo.setModel( f.getAirModel());
+						fltinfo.setBranch( f.getAirlineName());
+						
+						fltinfo.setDep( f.getFromCode());
+						fltinfo.setDepname( f.getFromName());
+						fltinfo.setDeptime( f.getFromTime());
+						
+						fltinfo.setArr( f.getToCode());
+						fltinfo.setArrname( f.getToName());
+						fltinfo.setArrtime( f.getToTime());
+						
+						Pasgsect pasgsect = new Pasgsect();
+						pasgsect.setAirlineCode( f.getAirline());
+						pasgsect.setCabin( f.getSeat());
+						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+						Date depd;
+						try {
+							depd = format.parse( f.getFromTime());
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							depd = new Date();
+						}
+						pasgsect.setDepday( depd);
+						pasgsect.setEi("");
+						pasgsect.setFltinfo( fltinfo);
+						pasgsect.setIsRefund( (short)1);
+						pasgsects.add( pasgsect);
+					}
+				}
+				
+				pasgInfo.setPasgsects( pasgsects);
+				
+				//insure
+				List<Insurance> pins = new ArrayList<Insurance>();
+				if(null != params.getInsures()){
+					for(OrderInsureParameter ins : params.getInsures()){
+						Insurance is = new Insurance();
+						is.setINSURANCE_NAME( ins.getName());
+						is.setPrice( ins.getPrice());
+						is.setCreatetime( new Date());
+						is.setState( 0L);
+						is.setRemark( ins.getMaxPay());
+						is.setINSURANCE_COM_CODE( ins.getKey());
+						is.setINSURANCE_COM_NAME( ins.getName());
+						is.setINSURANCE_COUNT( ins.getCount());
+						pins.add( is);
+					}
+				}
+				pasgInfo.setInsurance( pins);
+				
+				pasgInfos.add( pasgInfo);
+			}
+			
+			//one insure
+			double oneIns = 0;
+			if(null != params.getInsures()){
+				for(OrderInsureParameter ins : params.getInsures()){
+					oneIns += ins.getPrice();
+				}
+			}
+			
+			
+			double total = (av.getFee() + av.getPrice() + oneIns) * params.getPsgs().size();
+			
+			//b2b提交订单
+			boolean succeed = false;
+			try{
+				//国际下单
+				String temp = b2bService.B2BOrder(av.getToken(), b2bPsgs);
+				log.info(String.format("b2b下单返回:%s", temp));
+				OrderResult ors = AnalysisOrder( temp);
+				if( StringUtil.IsNullOrEmptory( ors.getPnrCode())){
+					//下单失败
+					throw new CustomException("提交订单异常，请重新下单！");
+				}else{
+					//下单成功，保存pnr
+					for(PasgInfo pi : pasgInfos){
+						pi.setPnr( ors.getPnrCode());
+					}
+					succeed = true;
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+				throw new CustomException("提交订单异常，请重新下单！");
+			}
+			if(succeed){
+				orderAttr.setPasgInfos( pasgInfos);
+				orderAttr.setNopay( new BigDecimal(total));
+				
+				PayInfo payInfo = new PayInfo();
+				payInfo.setPayPrice( new BigDecimal(total));
+				payInfo.setPayState( (short)2);
+				
+				order.setOrderAttr( orderAttr);
+				order.setOrderLogs( orderLogs);
+				order.setPayInfo( payInfo);
+				order.setTotalPrice( new BigDecimal(total));
+				try{
+					//下单成功，保存订单
+					orderService.save( order);
+					log.info(String.format("保存订单:%s", order.getOrderId()));
+					view.setViewName(String.format("redirect:/air/orderDetail?orderId=%s", order.getOrderId()));
+					
+					//发送下单短信
+					SmsLog sl = new SmsLog();
+					sl.setReceiverName( order.getContacts().getName());
+					sl.setReceiverCallNo( order.getContacts().getTelephone());
+					
+					Map<String,Object> param = new HashMap<String,Object>();
+					param.put("orderno", order.getOrderId());
+					param.put("trip", String.format("%s-%s%s", tripDep, tripArr, tripType));
+					param.put("price", order.getTotalPrice());
+					
+					smsService.send("order_america", sl, param);
+				}catch(Exception e){
+					e.printStackTrace();
+					throw new CustomException("提交订单异常，请重新下单！");
+				}	
+			}
+		}
+		return view;
+	}
+	
+	private OrderResult AnalysisOrder(String src){
+		OrderResult or = new OrderResult();
+		try{
+			ByteArrayInputStream is = new ByteArrayInputStream( src.getBytes("UTF-8"));
+			SAXReader saxRead = new SAXReader();
+			Document doc = saxRead.read( is);
+			Element root = doc.getRootElement();
+			List<Element> els = root.elements();
+			for(Element e : els){
+				String name = e.getName();
+				if("msg".equals(name)){ or.setMsg( e.getText());}
+				if("status".equals(name)){ or.setStatus( e.getText());}
+				if("sessionId".equals(name)){ or.setSessionId( e.getText());}
+				if("pnrCode".equals(name)){ or.setPnrCode( e.getText());}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			or = new OrderResult();;
+		}
+		return or;
+	}
+	
+	
+	@RequestMapping("/pay")
+	public ModelAndView Pay(HttpServletRequest req,Long orderId) throws CustomException{
+		ModelAndView mv=new ModelAndView();
+		if(orderId!=null){
+			Subject sub = SecurityUtils.getSubject();
+			Object member = sub.getSession().getAttribute("member");
+			Map<String,Object>querParam=new HashMap<String,Object>();
+			querParam.put("orderId", orderId);
+			querParam.put("memberId", Integer.parseInt(member.toString()));
+			Order order=orderService.findById(querParam);
+			if(order==null){
+				throw new CustomException("你访问的订单不存在");
+			}
+			Remit remit =new Remit();
+			remit.setCreatetime(new Date());
+			remit.setAmount(order.getTotalPrice());
+			if(order.getContact().getContMobile()!=null){
+				remit.setMobile(order.getContact().getContMobile());
+			}
+			remit.setMobile(order.getContact().getUsername());
+			
+			remit.setMessage("一达机票:"+order.getExorderId());
+			remit.setStatus("000");
+			remit.setUpdatetime(new Date());
+			if(order.getPayInfo().getOrderno()!=null && !order.getPayInfo().getOrderno().equals("")){
+				remit.setPayno(order.getPayInfo().getOrderno());
+			}else {
+				String payOrderNo="YD"+System.currentTimeMillis();
+				PayInfo payInfo=order.getPayInfo();
+				payInfo.setOrderno(payOrderNo);
+				payInfoService.updateByPrimaryKey(payInfo);
+				remit.setPayno(payInfo.getOrderno());
+			}
+			
+			remit.setName(order.getContact().getContName());
+			remitService.insert(remit);
+			mv.setViewName("/pay");
+			mv.addObject("order", order);
+			mv.addObject("remit", remit);
+			}
+		return mv;
+	}
+	//取消订单
+	@ResponseBody
+	@RequestMapping("/cancel")
+	public String cancel(HttpServletRequest req){
+		String msg="0";
+		try {
+			String id=req.getParameter("orderId");
+			Order o = new Order();
+			o.setOrderId(Long.parseLong(id));
+			o.setStat("009");
+			orderService.update(o);
+		} catch (Exception e) {
+			msg="1";
+			log.warn("取消订单失败： "+e);
+		}
+
+		
+		
+		
+	
+		
+		
+		return msg;
+	}
+
+}

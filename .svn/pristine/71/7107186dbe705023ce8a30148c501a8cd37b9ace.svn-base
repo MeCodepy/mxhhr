@@ -1,0 +1,16 @@
+package com.lutao.america.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import com.lutao.america.model.User;
+
+public interface UserMapper {
+
+	Object login(Map<String,Object> map);
+	void save(User user);
+	boolean update(User user);
+	boolean delete(int id);
+	User findById(int id);
+	List<User> findAll();
+}

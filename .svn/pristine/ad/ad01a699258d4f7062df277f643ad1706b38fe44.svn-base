@@ -1,0 +1,15 @@
+package com.lutao.america.service;
+
+
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.lutao.america.vo.QueryParameter;
+import com.lutao.america.vo.av.Av;
+@Service("LtCityService")
+public interface LtCityService {
+	Object search(QueryParameter queryParameter);
+	List<Av> query(QueryParameter queryParameter);
+}

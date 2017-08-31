@@ -1,0 +1,50 @@
+<%@ page isErrorPage="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+<%@taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets2014.jsp" %>
+    <title>一达机票-404页</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link rel="Stylesheet" type="text/css" href="./america/css/four.css" />
+</head>
+
+<body>
+<!-- 头部-浮动 -->
+<jsp:include page="/top"></jsp:include>
+<div style="clear:both;"></div>
+<!-- 主体内容 -->
+<div style=" height:70px;"></div>
+<div class="wapper">
+         <div class="shuzis">404</div>
+         <c:choose>
+         	<c:when test="${show}">
+         		<div class="shuziw">${msg}</div>
+         	</c:when>
+         	<c:otherwise>
+         		<div class="shuziw">你访问的页面找不到了</div>
+         	</c:otherwise>
+         </c:choose>
+         <div class="shuziw ying">！Don't worry ！</div>
+         <i class="lt-iconfont tishi">&#xf00b6;</i>
+         <a href="index" class="code-lenaa">返回首页</a>
+</div>
+<!-- 底部 -->
+<div class="page-footer">
+	<div class="clearfix">
+	<ul class="links-list">
+    	<li><a href="" target="_blank" class="ng-binding">关于我们</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">美洲机票产品</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">特价申请</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">服务条款</a></li>
+    </ul>
+    <p>地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼</p>
+    <p>全国服务电话:400-651-8800(免费) 投诉建议:13800138000  一达美洲机票</p>
+    </div>
+</div>
+</body>
+</html>

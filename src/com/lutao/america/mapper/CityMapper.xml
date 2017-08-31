@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lutao.america.dao.CityMapper" >
+  <resultMap id="CityMap" type="com.lutao.america.model.City" >
+    <id column="iataCode" property="iatacode" jdbcType="CHAR" />
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="cnName" property="cnname" jdbcType="VARCHAR" />
+    <result column="enName" property="enname" jdbcType="VARCHAR" />
+    <result column="pinYin" property="pinyin" jdbcType="VARCHAR" />
+    <result column="icaoCode" property="icaocode" jdbcType="CHAR" />
+    <result column="countryCode" property="countrycode" jdbcType="CHAR" />
+    <result column="hot" property="hot" jdbcType="BIT" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="bookingId" property="bookingid" jdbcType="INTEGER" />
+    <result column="agodaName" property="agodaname" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="ResultMapWithBLOBs" type="com.lutao.america.model.City" extends="CityMap" >
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    iataCode, id, cnName, enName, pinYin, icaoCode, countryCode, hot, status, createTime, 
+    updateTime, bookingId, agodaName
+  </sql>
+  <sql id="Blob_Column_List" >
+    introduction
+  </sql>
+  
+  <select id="findByIataCode" resultMap="CityMap" parameterType="string">
+     select * from lt_city
+     where iataCode =#{iataCode}
+  </select>
+  
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="com.lutao.america.model.City" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from lt_city
+    where iataCode = #{iatacode,jdbcType=CHAR}
+      and id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.lutao.america.model.City" >
+    delete from lt_city
+    where iataCode = #{iatacode,jdbcType=CHAR}
+      and id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lutao.america.model.City" >
+    insert into lt_city (iataCode, id, cnName, 
+      enName, pinYin, icaoCode, 
+      countryCode, hot, status, createTime, 
+      updateTime, bookingId, agodaName, 
+      introduction)
+    values (#{iatacode,jdbcType=CHAR}, #{id,jdbcType=INTEGER}, #{cnname,jdbcType=VARCHAR}, 
+      #{enname,jdbcType=VARCHAR}, #{pinyin,jdbcType=VARCHAR}, #{icaocode,jdbcType=CHAR}, 
+      #{countrycode,jdbcType=CHAR}, #{hot,jdbcType=BIT}, #{status,jdbcType=BIT}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{bookingid,jdbcType=INTEGER}, #{agodaname,jdbcType=VARCHAR}, 
+      #{introduction,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lutao.america.model.City" >
+    insert into lt_city
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="iatacode != null" >
+        iataCode,
+      </if>
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cnname != null" >
+        cnName,
+      </if>
+      <if test="enname != null" >
+        enName,
+      </if>
+      <if test="pinyin != null" >
+        pinYin,
+      </if>
+      <if test="icaocode != null" >
+        icaoCode,
+      </if>
+      <if test="countrycode != null" >
+        countryCode,
+      </if>
+      <if test="hot != null" >
+        hot,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="bookingid != null" >
+        bookingId,
+      </if>
+      <if test="agodaname != null" >
+        agodaName,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="iatacode != null" >
+        #{iatacode,jdbcType=CHAR},
+      </if>
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="cnname != null" >
+        #{cnname,jdbcType=VARCHAR},
+      </if>
+      <if test="enname != null" >
+        #{enname,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null" >
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="icaocode != null" >
+        #{icaocode,jdbcType=CHAR},
+      </if>
+      <if test="countrycode != null" >
+        #{countrycode,jdbcType=CHAR},
+      </if>
+      <if test="hot != null" >
+        #{hot,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bookingid != null" >
+        #{bookingid,jdbcType=INTEGER},
+      </if>
+      <if test="agodaname != null" >
+        #{agodaname,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lutao.america.model.City" >
+    update lt_city
+    <set >
+      <if test="cnname != null" >
+        cnName = #{cnname,jdbcType=VARCHAR},
+      </if>
+      <if test="enname != null" >
+        enName = #{enname,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null" >
+        pinYin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="icaocode != null" >
+        icaoCode = #{icaocode,jdbcType=CHAR},
+      </if>
+      <if test="countrycode != null" >
+        countryCode = #{countrycode,jdbcType=CHAR},
+      </if>
+      <if test="hot != null" >
+        hot = #{hot,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bookingid != null" >
+        bookingId = #{bookingid,jdbcType=INTEGER},
+      </if>
+      <if test="agodaname != null" >
+        agodaName = #{agodaname,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where iataCode = #{iatacode,jdbcType=CHAR}
+      and id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lutao.america.model.City" >
+    update lt_city
+    set cnName = #{cnname,jdbcType=VARCHAR},
+      enName = #{enname,jdbcType=VARCHAR},
+      pinYin = #{pinyin,jdbcType=VARCHAR},
+      icaoCode = #{icaocode,jdbcType=CHAR},
+      countryCode = #{countrycode,jdbcType=CHAR},
+      hot = #{hot,jdbcType=BIT},
+      status = #{status,jdbcType=BIT},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      bookingId = #{bookingid,jdbcType=INTEGER},
+      agodaName = #{agodaname,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=LONGVARCHAR}
+    where iataCode = #{iatacode,jdbcType=CHAR}
+      and id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lutao.america.model.City" >
+    update lt_city
+    set cnName = #{cnname,jdbcType=VARCHAR},
+      enName = #{enname,jdbcType=VARCHAR},
+      pinYin = #{pinyin,jdbcType=VARCHAR},
+      icaoCode = #{icaocode,jdbcType=CHAR},
+      countryCode = #{countrycode,jdbcType=CHAR},
+      hot = #{hot,jdbcType=BIT},
+      status = #{status,jdbcType=BIT},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      bookingId = #{bookingid,jdbcType=INTEGER},
+      agodaName = #{agodaname,jdbcType=VARCHAR}
+    where iataCode = #{iatacode,jdbcType=CHAR}
+      and id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

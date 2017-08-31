@@ -1,0 +1,13 @@
+package com.lutao.america.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import com.lutao.america.model.OrderList;
+import com.lutao.america.model.OrderListFlt;
+
+public interface OrderListMapper {
+	 List<OrderList> queryPaging(Map<String,Object>map);
+	 List<OrderList> findBymember(String member);
+	 List<OrderListFlt> searchSegmentById(long id);
+}

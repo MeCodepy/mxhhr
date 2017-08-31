@@ -1,0 +1,35 @@
+.icbcJcalendar{width:auto;padding:0px;border:1px solid #0195ff;display:none; position:absolute; background:#fff; z-index:1000;font-family:"Microsoft YaHei";}
+.icbcJcalclear{clear:both;}
+.icbcJcal {width:auto;height:50px;text-align:center;vertical-align:top;background:#0195ff;position:relative;margin:-10px;margin-bottom:0;}
+.icbcJcalMo {width:auto;float:left;overflow:visible;height:100%;padding-right:0px;padding-left:0px;white-space:nowrap;padding:9.9px;}
+.icbcJcalMo_right{float:right;}
+.icbcJcal .month, .icbcJcal .monthSelect, .icbcJcal .monthName, .icbcJcal .monthYear {line-height:30px;height:30px;text-align:center;vertical-align:bottom;font-size:14px;color:#fff;cursor:pointer;float:left;}
+.icbcJcal .monthName {padding-left:2px;padding-right:2px; text-align:left;float:none;font-size:18px;height:50px;line-height:50px;}
+.icbcJcal .monthYear {padding-left:2px;padding-right:2px;text-align:right;float:none;font-size:18px;height:50px;line-height:50px;}
+.icbcJcal .monthSelect {background:#EEE url(../images/eeGrad2.gif) bottom repeat-x;}
+.icbcJcal .monthSelector {position:absolute;}
+.icbcJcal .monthSelectorShadow {position:absolute;background:#808080;padding:0px;}
+.icbcJcal .monthNameHover {background:#EDEDED url(../images/double-arrow-vert.gif) center left no-repeat;color:#808080;}
+.icbcJcal .monthYearHover {background:#EDEDED url(../images/double-arrow-vert.gif) center right no-repeat;color:#808080;}
+.icbcJcal .monthSelectHover {background:#069;color:#FFF;}
+.icbcJcalMo .dow, .icbcJcalMo .day, .icbcJcalMo .pday, .icbcJcalMo .aday, .icbcJcalMo .overDay, .icbcJcalMo .invday, .icbcJcalMo .selectedDay {width:50px;font-size:18px;color:#000000;text-align:center;cursor:default;float:left;}
+.icbcJcalMo .dow { background:#fff bottom repeat-x;border-radius:0px;width:50px;height:50px;line-height:50px;font-size:12px;font-weight:bold;}
+.icbcJcalMo .day, .icbcJcalMo .invday{line-height:50px;height:50px;text-align:center;}
+.icbcJcalMo .day {cursor:pointer;background:#FFF;}
+.icbcJcalMo .invday {color:#ccc;}/*background:#eeeeee;*/
+.icbcJcalMo .pday, .icbcJcalMo .aday {line-height:50px;height:50px;background:#fff;color:#fff;}
+.icbcJcalMo .weekday{ background:#f0f0f0;}
+.icbcJcalMo div.selectedDay {color:#FFF;background:#0195ff;border-radius:3px;}
+.icbcJcalMo .currentDay {color:#0195ff;font-weight:bold;font-size:12px;border-radius:3px;}
+.icbcJcalMo .overDay {color:#FFF;background:#0195ff;border-radius:3px;}
+.icbcJcal .left {background:url(../images/jcal.png) no-repeat 0 0;width:30px;height:30px;vertical-align:middle;cursor:pointer;overflow:hidden;display:inline-block;position:absolute;left:10px;top:10px;}
+.icbcJcal .left:hover{ background-color:#0185ff;}
+.icbcJcal .right {background:url(../images/jcal.png) no-repeat -30px 0;width:30px;height:30px;vertical-align:middle;cursor:pointer;overflow:hidden;display:inline-block;position:absolute;right:10px;top:10px;}
+.icbcJcal .right:hover{ background-color:#0185ff;}
+.icbcJcalMask, .icbcJcalMove {position:absolute;overflow:hidden;}
+.icbcJcal .month{float:none;}
+.icbcJcal .ymSelect{border:1px solid #bbb;padding:0 5px;height:32px;line-height:32px;font-size:18px;margin-right:4px;}
+.icbcJcal .ymSelect option{text-indent:10px;}
+.icbcJcal .ymSelect option:hover{background:#0185ff;color:#fff;}
+.icbcJcal .ySelect{position:absolute;top:9px;left:106px;width:auto;}
+.icbcJcal .mSelect{position:absolute;top:9px;right:90px;width:auto;}

@@ -1,0 +1,105 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets2014.jsp" %>
+    <title>微信支付-美洲机票专线-路淘网</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link media="all" rel="stylesheet" href="./america/css/WeChatpay.css"/>
+    <script type="text/javascript" src="${context}/america/js/qrcode.min.js"></script>
+</head>
+
+<body>
+<!-- 头部-浮动 -->
+<jsp:include page="/top"></jsp:include>
+<div style="clear:both;"></div>
+<!-- 主体内容 -->
+<div style=" height:70px;"></div>
+
+<div class="wapper">
+<h2>支付金额<span>${object.total_fee }</span>元，请使用微信扫描下方二维码</h2>
+<ul class="clearfix">
+	<input type="hidden" id="result_code" value="${object.result_code }" />
+	<input type="hidden" id="code_url" value="${object.code_url}" />
+	<input type="hidden" id="err_code_des" value="${object.err_code_des}" />
+        <li>
+            <div id="erweima" class="erweima">
+                <!-- <img src="./america/images/weixinpay.png"> -->
+            </div>
+            <p>请打开<span>手机微信</span>的<span>“扫一扫”</span><br>扫描上方二维码进行支付</p>
+        </li>
+        <li class="desc">
+            <img src="./america/images/mobile.png">
+        </li>
+</ul>
+<div style=" clear:both;"></div>
+</div>
+
+<!-- 底部 -->
+<div class="page-footer">
+	<div class="clearfix">
+	<ul class="links-list">
+    	<li><a href="${context}/about" target="_blank" class="ng-binding">关于我们</a></li>
+    	<li><a href="#" target="_blank" class="ng-binding">美洲机票产品</a></li>
+    	<li><a href="http://www.lutao.com/front/jipiao/flight_apply.jsp" target="_blank" class="ng-binding">特价申请</a></li>
+    	<li><a href="http://www.lutao.com/content/service/12.html" target="_blank" class="ng-binding">服务条款</a></li>
+    </ul>
+    <p>地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼</p>
+    <p>全国服务电话:400-651-8800(免费) 投诉建议:18902221589  一达美洲机票</p>
+    </div>
+</div>
+<%@ include file="../common/commonkefu.jsp" %> 
+
+<script>
+		seajs.use(["$",'hidden_e','tabs'], function($,hidden_e,Tabs) {		
+		new Tabs({
+		element: '.paytyle',
+		triggers: '.paytyle .tab_nav span',
+		panels: '.paytyle .e_tab_content',
+		activeTriggerClass: 'active',
+		triggerType:'click',
+		});		
+		
+		$('#hidden_e').toggle(
+			  function(){
+				//$('.conceal-quanbu').css('height', 'auto');
+				$('.PayMain').css('height', 'auto');
+				$(this).html("收起订单详情 ▲");
+			  },
+			  function(){
+				  $('.PayMain').css('height', '');
+				  $(this).html("展开订单详情 ▼");
+			  }
+		  );
+    });
+
+		$(function(){
+			var qrcode = new QRCode('erweima', {
+	    		 // text: 'your content',
+	    		  width: 256,
+	    		  height: 256,
+	    		  colorDark : '#000000',
+	    		  colorLight : '#ffffff',
+	    		  correctLevel : QRCode.CorrectLevel.H
+	    		});
+
+	    		// 使用 API
+	    		qrcode.clear();
+	    		if($("#result_code").val()== "SUCCESS"){ 
+	    			if($("#code_url").val() != ""){
+	    				qrcode.makeCode($("#code_url").val());
+	    			 }else {
+	    				 window.location.href="error";
+	    			 }
+	    		}else {
+	    			//qrcode.makeCode($("#err_code_des").val());
+	    			window.location.href="error";
+	    		}
+		})
+</script>
+
+</body>
+</html>

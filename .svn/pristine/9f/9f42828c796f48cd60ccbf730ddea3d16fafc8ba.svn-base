@@ -1,0 +1,420 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets.jsp" %>
+    <title>确认订单-美洲机票专线-路淘网</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link type="text/css" rel="stylesheet" href="./america/css/Order.css"/>
+    <script type="text/javascript">
+    var data={
+    		data:"${data}"
+    };
+    </script>
+	<script type="text/javascript" data-main="./america/js/confirm.js?20170524" src="./america/js/thirdparty/require.js"></script>
+</head>
+
+<body>
+<!-- 头部-浮动 -->
+<jsp:include page="/top"></jsp:include>
+<div style="clear:both;"></div>
+<!-- 主体内容 -->
+<div style=" height:70px;"></div>
+
+<div id="jindu" class="wapper" style="background-position:0px -30px;">
+	<ul>
+    	<li>1.订单资料填写</li>
+        <li>2.订单确认</li>
+        <li class="wei">3.订单支付</li>
+        <li class="wei">4.订单预定成功</li>
+    </ul>
+</div>
+
+<div class="OrderMain">
+       <div class="Orderleft">
+			<div class="leftbox">
+				<div class="eye-box-title">
+					<i></i>
+					<h6>乘客详细资料</h6>
+					<span class="eye-box-title-tip">(乘客姓名（全拼）必须以罗马字母（A-Z）顺序颁发的带照片的证件ID相匹配。预订之后如需更改姓名都需要秤新购买航班)</span>
+					<div class="clear"></div>
+				</div>
+				<div class="eye-box-content">
+					<div class="eye-form aaaa">
+						<div class="eye-form-item">
+							<div class="eye-form-title">
+								<span class="eye-form-title-text">成人</span>
+							</div>
+							<div class="eye-form-cont">
+								<span id="sel_psg_adult_txt">1人</span>
+							</div>
+						</div>
+						<div class="eye-form-item">
+							<div class="eye-form-title">
+								<span class="eye-form-title-text">儿童(2-12岁)</span>
+							</div>
+							<div class="eye-form-cont">
+								<span id="sel_psg_chd_txt">0人</span>
+							</div>
+						</div>
+						<div class="eye-form-item">
+							<div class="eye-form-title">
+								<span class="eye-form-title-text">婴儿(&lt;2岁)</span>
+							</div>
+							<div class="eye-form-cont">
+								<span id="sel_psg_inf_txt">0人</span>
+							</div>
+						</div>
+						<div class="btns-layer"></div>
+						<div style="clear: both;"></div>
+					</div>
+				</div>
+				<div class="Opportunity">
+					<div id="psg_list"></div>
+					<div style="clear: both;"></div>
+				</div>
+			</div>
+			<div style="clear: both;"></div>
+			<div class="leftbox contact_info">
+				<div class="eye-box-title">
+					<i></i>
+					<h6>联系信息</h6>
+					<span class="eye-box-title-tip">如航班状况有改变（航班严重延误、航班取消等），我们将使用这些信息联系您
+					</span>
+					<div class="clear"></div>
+				</div>
+				<div class="Opportunity">
+					<div class="feilei">
+						<i>*</i> <span>姓名</span>
+						<div class="input">
+							<input id="contact" class="twoo input_disabled" disabled="disabled" readonly="readonly" type="text"/>
+						</div>
+					</div>
+					<div style="clear: both;"></div>
+					<div class="feilei">
+						<i>*</i> <span>手机号码</span>
+						<div class="input">
+							<input id="mobile" class="twoo input_disabled" disabled="disabled" readonly="readonly" type="text"/>
+						</div>
+					</div>
+					<div style="clear: both;"></div>
+					<div class="feilei">
+						<i style="color:#f2f5f9;">*</i><span>电子邮箱</span>
+						<div class="input">
+							<input id="email" class="twoo input_disabled" disabled="disabled" readonly="readonly" type="text"/>
+						</div>
+					</div>
+					<div style="clear: both;"></div>
+				</div>
+			</div>
+			<div style="clear: both;"></div>
+			
+			<div id="insure_box"></div>
+			
+			<div style="clear: both;"></div>
+			<div class="leftbox" style="display:none;">
+				<div class="eye-box-title">
+					<i></i>
+					<h6>报销信息</h6>
+					<span class="eye-box-title-tip">（根据航空公司规定，末段航班起飞7天后将不能打印行程单）</span>
+					<div class="clear"></div>
+				</div>
+				<div class="Opportunity">
+					<div class="groupntta">
+						<span class="eye-checkbox"> <label><input
+								name="ikk" type="checkbox" value="" />&nbsp;&nbsp;机票报销凭证（不能作为乘机凭证，乘机只需要订票时的证件）</label>
+						</span>
+					</div>
+					<div class="groupntta">
+						<span class="eye-checkbox"> <label><input
+								name="ikk" type="checkbox" value="" />&nbsp;&nbsp;保险发票（此发票仅作为通过路淘网购买保险的报销凭证，在保险生效后邮寄）</label>
+						</span>
+					</div>
+				</div>
+			</div>
+			<div style="clear: both;"></div>
+			<div class="leftend">
+				<a class="order-submit shanga">上一步</a> 
+                <a class="order_submit">同意以上协议条款，提交订单</a>
+                <form id="frmSubmit" action="air/submit" method="post" target="_self">
+                	<input type="hidden" name="data" value="${data}"/>
+                </form>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+        <div class="Orderight">
+            <div id="flight_info_list" class="t-order-flight"></div>
+			<div style="clear: both;"></div>
+			<div id="total_price" class="b-order-flight"></div>
+			<div style="clear: both;"></div>
+        </div>
+        <div style=" clear:both;"></div>
+</div>
+
+<div style="clear:both;"></div>
+<!-- 底部 -->
+<div class="page-footer">
+	<div class="clearfix">
+	<ul class="links-list">
+    	<li><a href="${context}/about" target="_blank" class="ng-binding">关于我们</a></li>
+    	<li><a href="#" target="_blank" class="ng-binding">美洲机票产品</a></li>
+    	<li><a href="http://www.lutao.com/front/jipiao/flight_apply.jsp" target="_blank" class="ng-binding">特价申请</a></li>
+    	<li><a href="http://www.lutao.com/content/service/12.html" target="_blank" class="ng-binding">服务条款</a></li>
+    </ul>
+    <p>地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼</p>
+    <p>全国服务电话:400-651-8800(免费) 投诉建议:18902221589  一达美洲机票</p>
+    </div>
+</div>
+
+<div style="display: none;">
+		<textarea id="insure_template" rows="0" cols="0">
+			<!-- 
+			<div class="leftbox">
+				<div class="eye-box-title">
+					<i></i>
+					<h6>保险信息</h6>
+					<div class="clear"></div>
+				</div>
+				<div class="Opportunity">
+					{#foreach $T as r}
+					<div class="groupntta">
+						<span class="eye-checkbox"><label><input type="checkbox" checked="checked" readonly="readonly" disabled="disabled"/>&nbsp;&nbsp;<em
+								class="baoxiang">{$T.r.name}</em> 共<strong>￥{$T.r.price}</strong>/人（全程） 最高赔付￥{$T.r.maxPay}/航段</label>
+						</span>
+					</div>
+					{#/for}
+				</div>
+			</div>
+			<div style="clear: both;"></div>
+			 -->
+		</textarea>
+		<!-- 统计价格 -->
+		<textarea id="total_price_template" rows="0" cols="0">
+		<!-- 
+		<div class="order-price">
+			<span class="col">应付金额</span>
+			<span class="price eye-float-r">
+				<i>￥</i>
+				<span>{$T.total}</span>
+			</span>
+			<span class="clear"></span>
+		</div>
+	    <div style="clear:both;"></div>
+	    <div class="order-price-tree">
+			<ul class="order-tree-item">
+				<li>
+					<span class="col">成人</span>
+					<span class="line"></span>
+					<span class="eye-float-r">￥{$T.one}×<span>{$T.num}</span></span>
+				</li>
+				<div style="clear:both;"></div>
+				<ul class="order-tree-item order-tree-price">
+					<li>
+						<span class="col">票价</span>
+						<span class="line"></span>
+						<span class="eye-float-r">￥{$T.price}</span>
+						<span class="col">&nbsp;/人</span>
+					</li>
+					<li>
+						<span class="col">税费</span>
+						<span class="line"></span>
+						<span class="eye-float-r">￥{$T.fee}</span>
+						<span class="col">&nbsp;/人</span>
+					</li>
+				</ul>
+			</ul>
+			<ul class="order-tree-item">
+				{#foreach $T.ins as s}
+				<li>
+					<span class="col">{$T.s.name}</span>
+					<span class="line"></span>
+					<span class="eye-float-r">￥{$T.s.price}</span>
+					<span class="col">&nbsp;/人</span>
+				</li>
+				{#/for}
+				<div style=" clear:both;"></div>
+			</ul>
+	    </div>
+		 -->
+	</textarea>
+		<!-- 旅客 -->
+		<textarea id="psg_list_template" rows="0" cols="0">
+		<!-- 
+		{#foreach $T as p}
+		<div class="passenger_info">
+			<div class="Opportunityleft">
+				<div class="nums">第<b>{$T.p$index + 1}</b>位</div>
+				{#if $T.p.age =="ADT"}
+					<div class="name">成人票</div>
+				{#/if}
+				{#if $T.p.age =="CHD"}
+					<div class="name">儿童票</div>
+				{#/if}
+				{#if $T.p.age =="INF"}
+					<div class="name">婴儿票</div>
+				{#/if}
+			</div>
+			<div class="Opportunityright">
+				<div class="feilei">
+					<i>*</i>
+					<span>乘机人</span>
+					<div class="input">
+						<input type="text" value="{$T.p.firstname}" class="twoo input_disabled" disabled="disabled" readonly="readonly"/>
+						<input type="text" value="{$T.p.lastname}" class="twoo input_disabled" disabled="disabled" readonly="readonly"/>
+					</div>
+				</div>
+				<div style="clear:both;"></div>
+				<div class="feilei">
+					<i>*</i>
+					<span>证件信息</span>
+					<div class="input">
+						<select class="idtype input_disabled" disabled="disabled" readonly="readonly">
+							<option value="NI" {#if $T.p.idtype == "NI"}selected="selected"{#/if}>身份证</option>
+							<option value="PP" {#if $T.p.idtype == "PP"}selected="selected"{#/if}>护照</option>
+						</select>
+						<input type="text" value="{$T.p.idno}" class="twoo input_disabled" disabled="disabled" readonly="readonly"/>
+					</div>
+				</div>
+				<div style="clear:both;"></div>
+				<div class="feilei">
+					<i>*</i>
+					<span>证件信息</span>
+					<div class="input">
+						<input type="text" value="{$T.p.card_valid}" class="twoo input_disabled" disabled="disabled" readonly="readonly"/>
+						<input type="text" value="{$P.country($T.p.card_country)}" class="twoo input_disabled" disabled="disabled" readonly="readonly"/>
+					</div>
+				</div>
+				<div style=" clear:both;"></div>
+				<div class="feilei">
+					<i>*</i>
+					<span>出生日期</span>
+					<div class="input"><input type="text" value="{$T.p.birth}" class="twoo input_disabled" disabled="disabled" readonly="readonly"/></div>
+				</div>
+				<div style="clear:both;"></div>
+				<div class="feilei">
+					<i>*</i>
+					<span>国籍</span>
+					<div class="input">
+						<input type="text" value="{$P.country($T.p.country)}" class="twoo input_disabled" disabled="disabled" readonly="readonly"/>
+					</div>
+				</div>
+				<div style=" clear:both;"></div>
+				<div class="feilei">
+					<i>*</i>
+					<span>性别</span>
+					<div class="inputa">
+						<div class="eye-radio">
+							<label>
+								<div class="xingbie">{#if $T.p.sex == 0}女{#else}男{#/if}</div> 
+							</label>
+						</div>
+				   </div>
+				</div>
+				<div style=" clear:both;"></div>
+			</div>
+			<div style=" clear:both;"></div>
+		</div>
+		{#/for}
+		 -->
+	</textarea>
+		<!-- 航班 -->
+		<textarea id="flts_list_template" rows="0" cols="0">
+		<!-- 
+		{#foreach $T.segs as s}
+		<div class="rbiaoti">
+			<span class="guding">{#if $T.s.seg == 1}去 程：{#/if}{#if $T.s.seg == 2}回 程：{#/if}</span>
+			<span class="bianhuan">
+				<span>{$T.s.airFromAirport}</span>
+				<i><img src="./america/images/Order/jiantoua.png"/></i>
+				<span>{$T.s.airToAirport}</span>
+			</span>
+		</div>
+		<div class="flight-order-detail">
+			{#foreach $T.s.airLegs as f}
+			{#if $T.f.seq > 1}
+			<div class="flight-stop">
+				<div class="in">{$T.f.fromName}中转 停留时长：{$P.total_times($T.f.stopTime)}</div>
+			</div>
+			{#/if}
+			<div class="flight-detail-item"> 
+				<img src="./america/images/logo/{$T.f.airline}.png" class="airline-logo" />
+				<div class="section-flight-base">{$T.f.airlineName}  {$T.f.airline}{$T.f.airNo}<span class="flight-codeshare-info">(共享)<em class="gongxianghd">国泰航空CX5789，实际由国泰港龙航空KA789承运</em></span>
+					<span class="flight-craftType-info">{$T.f.airModel}<div class="eye-containers">
+							<div class="eye-layer">
+								<div class="eye-layer-body">
+									<div class="tn-planeType-layer">
+										<table class="content">
+											<tbody>
+												<tr class="item">
+													<th class="item-label">计划机型</th>
+													<th class="item-label">机型名称</th>
+													<th class="item-label">飞机类型</th>
+													<th class="item-label">最小座位数</th>
+													<th class="item-label">最大座位数</th>
+												</tr>
+												<tr class="item">
+													<td class="item-info">772</td>
+													<td class="item-info">波音 777-200</td>
+													<td class="item-info">宽体</td>
+													<td class="item-info">281</td>
+													<td class="item-info">440</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</span>
+					<span class="planeType">经济舱</span>
+				</div>
+				<div style=" clear:both;"/>
+				<p class="flight-city-info">
+					<span class="col-date">{$P.date_format($T.f.fromTime,"yyyy年MM月dd日")}</span>
+					<span class="col-time">{$P.date_format($T.f.fromTime,"hh:mm")}</span>
+					<span class="col-airport">{$T.f.fromAirport}</span>
+				</p>
+				<p class="flight-city-mid">
+					<i class="arr-nostop"><img src="./america/images/Order/jiantou.png"></i>
+				</p>
+				<p class="flight-city-info eyea">
+					<span class="col-date">{$P.date_format($T.f.toTime,"yyyy年MM月dd日")}</span>
+					<span class="col-time">{$P.date_format($T.f.toTime,"hh:mm")}</span>
+					<span class="col-airport">{$T.f.toAirport}</span>
+				</p>
+				<div style=" clear:both;"/>
+			</div>
+			{#/for}
+		</div>
+		{#/for}
+		<div class="tn-order-flight-rule">
+			<div class="order-rule-content"> 
+				<i class="order-icon order-notice-icon"><img src="./america/images/Order/tishi.png"/></i>
+				<span>所有起飞\降落时间均为当地时间</span>
+				<a class="col-rule-info eye-float-r">
+					<span>退改签及购买说明</span>
+					<div class="tn-flight-rule">
+					    <div class="rule-info">
+							<div class="s-group newRule">
+							    <div class="title">购票须知</div>
+								<div class="content notice">
+									<div class="full-content">机票需按照顺序使用，否则航空公司有权拒绝承运。</div>
+								</div>
+							</div>
+					    </div>
+					</div>
+				</a>
+			</div>
+		</div>
+		 -->
+	</textarea>
+	</div>
+
+	<div id="birth_box" class="icbcJcalendar"></div>
+	<div id="card_valid_box" class="icbcJcalendar"></div>
+
+</body>
+</html>

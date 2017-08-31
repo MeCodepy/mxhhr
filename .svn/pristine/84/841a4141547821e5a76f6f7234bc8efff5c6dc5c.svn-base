@@ -1,0 +1,608 @@
+@charset "utf-8";
+/* 机票查询列表页 */
+body{
+	background:#ececec;}
+.wapper{
+	width:1190px;
+	margin:0 auto;}
+	
+#jindu{
+	background:url(../images/jindu.jpg) no-repeat left;
+	background-position:0 -60px;
+	height:26px;
+	margin-bottom:20px;}
+
+#jindu ul li{
+	width:287px;
+	height:26px;
+	line-height:26px;
+	font-size:14px;
+	color:#fff;
+	text-align:center;
+	float:left;}
+
+#jindu ul li.wei{
+	color:#666;}
+
+/******************************  头部样式   **************************************/
+.topNav{
+	width:99%;
+	padding:0 0.5%;
+	background:#000;
+	height:50px;
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:10;}
+
+.topNav .navLeft{
+	width:33%;
+	float:left;}
+
+.topNav .navLeft .nav-ui li{
+	float:left;
+	line-height:47px;
+	font-size:20px;
+	color:#fff;
+	margin-right:20px;
+	padding:0 10px;
+	cursor:pointer;}
+
+.topNav .navLeft .nav-ui li:hover{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navLeft .nav-ui .nav{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navcont{
+	width:33%;
+	float:left;
+	text-align:center;}
+
+.topNav .navRight{
+	width:33%;
+	float:left;}
+
+.topNav .navRight ul li{
+	float:right;
+	line-height:50px;
+	font-size:20px;
+	color:#fff;}
+
+/********* 主内容 **********/
+
+.odmain {
+    border: 1px solid #ececec;
+    margin: 0 auto;
+    width: 1190px;
+}
+.odmainm{ float:left; background:#fff; width:1130px; padding:30px;}
+.odmain .odmainm .orderr_info {
+    border: 3px solid #70bff9;
+    float: left;
+    margin-left: 111px;
+    margin-top: 20px;
+    width: 900px;
+}
+
+
+
+.odmain .odmainm .orderr_info ul li {
+    background: #f0f0f0 none repeat scroll 0 0;
+    float: left;
+    font-size: 15px;
+    line-height: 25px;
+    padding: 10px 0;
+    text-align: center;
+    width: 225px;
+}
+
+
+.odmain .odmainm .orderr_dtfo {
+    background: #fff none repeat scroll 0 0;
+    float: left;
+    padding: 15px 0;
+}
+
+
+
+
+.odmain .odmainm .orderr_dtfo span {
+    color: #666;
+    display: block;
+    float: left;
+    font-size: 15px;
+    font-style: normal;
+    text-align: center;
+    width: 225px;
+}
+.odmain .odmainm .orderr_dtfo .list_date span {
+    color: #555;
+}
+
+.odmain .odmainm .orderr_dtfo .tript .flight_go .go_ico, .back_ico {
+    background-color: #3fabf9;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 16px;
+    margin-right: 8px;
+    text-align: center;
+    width: 16px;
+}
+
+.odmain .odmainm .orderr_dtfo .tript .flight_back .back_ico {
+    background-color: #f977ba !important;
+}
+.odmain .odmainm .orderr_dtfo .tript i{ font-style: normal; color:#444 !important;}
+
+.odmain .odmainm .orderr_dtfo .danhaot span {
+    font-size: 16px !important;
+    margin-top: 12px;
+}
+
+.odmain .odmainm .orderr_dtfo .moneyt {
+    margin-top: 6px;
+}
+
+.odmain .odmainm .orderr_dtfo .moneyt .yen {
+    color: #f63;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+
+.odmain .odmainm .orderr_dtfo .moneyt .money_data {
+    color: #f63;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.odmainm .addmy {
+    color: #f60;
+    float: right;
+    font-size: 28px;
+    font-weight: 600;
+    margin-right: 114px;
+    margin-top: 10px;
+}
+
+.odmainm .addmy em {
+    color: #666;
+    font-size: 19px;
+}
+
+
+
+.PayMain {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ececec;
+    height: 267px;
+    margin: 16px auto 0;
+    overflow: hidden;
+    padding: 30px 0;
+    width: 1190px;
+}
+
+.PayMain .zhanshi {
+    border-bottom: 2px solid #33a3f3;
+}
+
+
+.PayMain .zhanshi .zhanshia {
+    background-color: #33a3f3;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 16px;
+    height: 15px;
+    line-height: 15px;
+    margin: 0 auto;
+    padding: 10px 0;
+    text-align: center;
+    width: 176px;
+}
+
+.Main .Payleft {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    float: left;
+    margin-right: 15px;
+    width: 811px;
+}
+.c_plane_info{
+	color: #555;
+	font-size: 12px;
+	font-weight: normal
+}
+.c_plane_info .c_plane_hd {
+    background-color: #f1f2f3;
+    height: 40px;
+    line-height: 40px;
+}
+
+.c_flight.fix {
+    font-size: 14px;
+	padding:0px 10px;
+}
+
+.c_plane_info .c_plane_hd .arr_to {
+    font-weight: bold;
+    margin-left: 10px;
+	font-size:16px;
+}
+.c_fl_1,.c_fl_2, .c_fl_3,.c_fl_4{ float:left;}
+
+.c_fl_1 {
+    margin: 24px 20px 10px 10px;
+    position: relative;
+    width: 140px;
+}
+ .c_icon {
+    left: 0;
+    position: absolute;
+    top: 5px;
+}
+.c_company {
+    margin-left: 26px;
+}
+ .c_fl_2 {
+    margin-top: 6px;
+    width: 365px;
+}
+.c_first {
+    border-bottom: 1px solid #ddd;
+}
+ .c_info_1 {
+    margin-right: 62px;
+}
+
+.c_info_3 {
+    color: #000;
+    display: inline-block;
+    font-family: Tahoma;
+    font-size: 16px;
+    margin-left: 8px;
+    margin-right: 16px;
+    vertical-align: middle;
+    width: 84px;
+}
+ .c_flight_info {
+    padding: 11px 0 8px;
+}
+
+.c_fl_3 {
+    margin: 30px 48px 0 56px;
+}
+ .c_fl_4 {
+    color: #888;
+    margin-top: 30px;
+}
+
+.c_fl_3 span, .c_fl_4 span {
+    display: block;
+}
+.avt_col_sp {
+    background: rgba(0, 0, 0, 0) url("/front/yida/images/pay/zhuan.png") no-repeat scroll 0 0;
+    color: #009ee3;
+    height: 21px;
+    line-height: 21px;
+    margin-left: 15px;
+    padding-left: 201px;
+}
+
+/******************************  退改签规则   **************************************/
+.om-order-rule {
+    border-top: 1px solid #e1ecf9;
+    padding-bottom: 13px;
+}
+
+
+.om-order-rule .e_rrticket {
+    background: #f1f2f3 none repeat scroll 0 0;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+}
+
+.tgq.om-ruletxt {
+    font-size: 13px;
+    padding: 10px;
+}
+
+.om-order-rule .e_rrticket .lnk_view {
+    color: #444;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.tgq table {
+    margin: 0 auto;
+    color: #555;
+    line-height: 21px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: left;
+}
+
+.om-ruletxt table .rule-lab {
+    min-width: 75px;
+    text-align: center;
+    vertical-align: middle;
+}
+.tgq table td {
+    border: 1px solid #e1ecf9;
+    padding: 5px 10px;
+    text-align: left;
+}
+.om-ruletxt table .rule-inf {
+    overflow-wrap: break-word;
+    text-align: left;
+    white-space: normal;
+}
+/******************************  乘机人信息   **************************************/
+
+.c_pass_info {
+    padding-bottom: 23px;
+	font-size:13px;
+}
+
+.c_pass_hd {
+    background: #fff none repeat scroll 0 0;
+    border-top: 2px solid #33a3f3;
+    color: #444;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    margin-top: 15px;
+    padding-left: 10px;
+}
+ .c_pass_bd {
+    border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: left;
+}
+ .c_pass_bd th {
+    background-color: #f3f5f4;
+    height: 30px;
+    text-align: center;
+    vertical-align: middle;
+}
+.c_pass_bd td {
+    height: 30px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.c_pass_1 {
+    margin-left: 11px;
+}
+.c_pass_1,.c_pass_2,.c_pass_3 {
+    float: left;
+}
+ .c_pass_2 {
+    margin-left: 120px;
+}
+ .c_pass_3 {
+    margin-left: 89px;
+}
+.c_pass_list.fix {
+    float: left;
+    padding-bottom: 20px;
+}
+
+
+.Main .Payright{ width:280px; padding:10px; float:left; background:#fff;}
+.Payright i {
+    font-style: normal;
+}
+.Main .Payright .c_po_hd {
+    border-bottom: 1px solid #e1ecf9;
+    height: 39px;
+    line-height: 39px;
+    margin: 0 10px;
+    position: relative;
+    top: 0;
+}
+
+.c_po_detail {
+    font-size: 15px;
+}
+
+.c_po_detail li {
+    line-height: 32px;
+}
+ .c_po_title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+ .c_po_total {
+    color: #f60;
+    font-family: Tahoma;
+    font-size: 26px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.c_po_total .rmb {
+    font-size: 24px;
+}
+.c_po_detail .c_po_text {
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 10px;
+    padding-left: 15px;
+    text-align: left;
+    width: 110px;
+}
+.c_po_detail .c_po_text em {
+    color: #999999;
+    font-style: normal;
+}
+.c_po_num {
+    color: #888;
+}
+
+/*支付*/
+
+.paytyle {
+    background: #fff none repeat scroll 0 0;
+    margin: 22px auto 0;
+    width: 1190px;
+	margin-bottom:15px;
+}
+.paytyle .tab_nav{
+    border-bottom: 1px solid #e5e5e5;
+    border-left: 1px solid #e5e5e5;
+    height:40px;
+}
+
+
+
+.paytyle .tab_nav span {
+    background-color: #f8f8f8;
+    border-right: 1px solid #e5e5e5;
+    color: #666;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 15px;
+    font-weight: 700;
+    height: 35px;
+    line-height: 35px;
+    margin-bottom: -1px;
+    overflow-wrap: normal;
+    padding: 5px 30px;
+    text-align: center;
+    white-space: nowrap;
+}
+.e_tab_content{
+	border:1px solid #e5e5e5;
+	border-top:none;
+	 float: left;
+    width: 1190px;
+}
+.e_tab_content table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: left;
+}
+
+.e_tab_content .left_ctn {
+    width: 140px;
+}
+.e_tab_content td {
+    padding-top: 20px;
+}
+
+.e_tab_content .left_ctn .title {
+    font-size: 14px;
+    text-align: center;
+}
+.e_tab_content .title {
+    font-weight: bold;
+}
+
+.amountStrong {
+    color: #f60;
+    font-size: 22px;
+    font-weight: normal;
+    margin: 0 5px;
+    vertical-align: -8%;
+}
+
+
+.e_open_ibank {
+    float: left;
+    margin-bottom: 20px;
+    margin-right: 24px;
+    padding-bottom: 0;
+    width: 180px;
+}
+
+
+.e_open_ibank input.radio_box {
+    float: left;
+    margin: 15px 3px 0 0;
+    vertical-align: middle;
+}
+
+
+
+.bank_logo {
+    border: 1px solid #ddd;
+    display: block;
+    float: left;
+    height: 21px;
+    padding: 5px 4px 18px;
+    width: auto;
+}
+
+
+.bank_logo img {
+    height: 34px;
+}
+
+.ordera-submit {
+    background: #ff9419 none repeat scroll 0 0;
+    color: #fff;
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+    margin-bottom: 15px;
+    margin-right: 125px;
+    margin-top: 10px;
+    padding: 8px 25px;
+    text-align: center;
+}
+.ordera-submit:hover{ color:#fff;}
+.active {
+    background-color: #fff !important;
+    border-bottom: 1px solid #fff !important;
+    border-top: 3px solid #33a3f3 !important;
+    color: #333 !important;
+    cursor: default !important;
+    padding: 2px 30px !important;
+    z-index: 1;
+}
+
+/******************************  底部样式   **************************************/
+.page-footer{
+	clear: both;
+    background: #fff;
+    padding-bottom: 12px;
+    padding-top: 12px;}
+
+.page-footer .clearfix{
+	text-align:center;}
+
+.page-footer .clearfix .links-list li{
+	    margin: 0;
+    text-decoration: none;
+    border-right: 1px solid #969696;
+    padding-left: 50px;
+    text-align: center;
+    padding-right: 50px;
+    line-height: 50px;
+    display: inline;
+    color: #969696;}
+
+.page-footer .clearfix .links-list li .ng-binding{
+	color: #969696;
+    text-decoration: none;
+    font-weight: 400;}
+
+.page-footer .clearfix p{
+	text-align: center;
+    line-height: 1.3;
+    padding-top: 5px;
+    margin: 0;
+    color: #969696;}
+
+

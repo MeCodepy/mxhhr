@@ -1,0 +1,18 @@
+package com.lutao.common.utils;
+
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+
+public class ComProp {
+	public  static final String B2B_INTER_SEARCH_URL;
+	static {
+		PropertiesConfiguration config = null;
+			try {
+				config = new PropertiesConfiguration("config/commom.properties");
+			} catch (ConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			B2B_INTER_SEARCH_URL=config.getString("b2b_inter_search_url");
+	}
+}

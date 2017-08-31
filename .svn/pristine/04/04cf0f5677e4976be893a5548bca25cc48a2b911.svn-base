@@ -1,0 +1,580 @@
+package com.lutao.america.controller;
+
+import java.io.IOException;
+import java.util.Date;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lutao.america.exception.CustomException;
+import com.lutao.america.model.Contacts;
+import com.lutao.america.model.FltInfo;
+import com.lutao.america.model.Order;
+import com.lutao.america.model.OrderAttr;
+import com.lutao.america.model.OrderList;
+import com.lutao.america.model.OrderListFlt;
+import com.lutao.america.model.OrderOperLog;
+import com.lutao.america.model.PasInfo;
+import com.lutao.america.model.PasgInfo;
+import com.lutao.america.model.Pasgsect;
+import com.lutao.america.model.Remit;
+import com.lutao.america.model.Passenger;
+import com.lutao.america.model.PayInfo;
+import com.lutao.america.service.CityService;
+import com.lutao.america.service.OrderListService;
+import com.lutao.america.service.OrderService;
+import com.lutao.america.service.RemitService;
+import com.lutao.america.service.PassengerService;
+import com.lutao.america.vo.OrderFillParameter;
+import com.lutao.america.vo.OrderPassengerParameter;
+import com.lutao.america.vo.av.Av;
+import com.lutao.america.vo.av.Flight;
+import com.lutao.america.vo.av.Segment;
+import com.lutao.common.enums.EIDType;
+import com.lutao.common.enums.EPasgsect;
+import com.lutao.common.enums.EPasinfo;
+import com.lutao.common.enums.ESex;
+import com.lutao.common.utils.Cryption;
+import com.lutao.common.utils.StringUtil;
+
+import net.sf.json.JSONArray;
+
+@Controller
+@RequestMapping("/air")
+public class AirController {
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	@Resource
+	private OrderService orderService;
+	@Autowired
+	private OrderListService orderListService;
+	@Resource
+	private CityService cityService;
+	@Resource
+	private RemitService remitService;
+	
+	//passenger
+	@Autowired
+	private PassengerService psgService;
+	
+	@RequestMapping("/confirm")
+	public ModelAndView Confirm(OrderFillParameter params,HttpServletRequest req) 
+			throws JsonProcessingException, CustomException{
+		ModelAndView view = new ModelAndView("/Orderknow");
+		
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
+		Av av = null;
+		try{
+			String b64 = StringUtil.decodeBase64(params.getToken(), "UTF-8");
+			av = mapper.readValue(b64, Av.class);
+			String sign = av.getSign();
+			log.info(sign);
+			av.setSign("");
+			String temp = mapper.writeValueAsString( av);
+			log.info(temp);
+			String md5 = Cryption.Md5( temp + av.getTime());
+			log.info(md5);
+			if(!md5.equals(sign)){
+				av = null;
+			}
+		}catch(JsonMappingException e){
+			e.printStackTrace();
+		}catch(JsonParseException e){
+			e.printStackTrace();
+		}catch(JsonProcessingException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		if(null == av){
+			throw new CustomException("请求异常！");
+		}else{
+			String temp = mapper.writeValueAsString( params);
+			view.getModel().put("data", StringUtil.toBase64(temp, "UTF-8"));
+			view.setViewName("/Orderknow");	
+		}
+		
+		return view;
+	}
+	
+	@RequestMapping("/orderDetail")
+	@ResponseBody
+	public ModelAndView Detail(HttpServletRequest req) throws CustomException{
+		ModelAndView mv=new ModelAndView();
+		Subject sub = SecurityUtils.getSubject();
+		Object member = sub.getSession().getAttribute("member");
+		String orderId=req.getParameter("orderId");
+		Map<String,Object>querParam=new HashMap<String,Object>();
+		querParam.put("orderId", Long.parseLong(orderId));
+		querParam.put("memberId", Integer.parseInt(member.toString()));
+		Order order=orderService.findById(querParam);
+		if(order==null){
+			throw new CustomException("你访问的订单不存在");
+		}
+		for(PasgInfo p:order.getOrderAttr().getPasgInfos()){
+			for(Pasgsect sect:p.getPasgsects()){
+				System.out.println(sect.getAirlineCode());
+			}
+		}
+		mv.setViewName("/OrderDetail");
+		mv.addObject("order", order);
+		return mv;
+	}
+	@ResponseBody
+	@RequestMapping("/myorder")
+	public Object MyOrder(HttpServletRequest req){
+		Subject sub = SecurityUtils.getSubject();
+		ModelAndView mv=new ModelAndView("/Myorder");
+		String member =String.valueOf(sub.getSession().getAttribute("member")) ;
+		List<OrderList>orderList=orderListService.findBymember(member);
+		for(int i=0;i<orderList.size();i++){
+			List<OrderListFlt> olf=orderListService.searchSegmentById(orderList.get(i).getOrderId());
+			orderList.get(i).setOrderListFlt(olf);
+		}
+	    JSONArray json=JSONArray.fromObject(orderList);
+		mv.addObject("obj",json);
+		return mv;
+		
+	}
+	
+	@ResponseBody
+	@RequestMapping("/myorderList")
+	public Object MyOrderList(HttpServletRequest req){
+		Subject sub = SecurityUtils.getSubject();
+		Object member = sub.getSession().getAttribute("member");
+		String stat=req.getParameter("stat");//分类订单    all-全部订单      012-待支付......
+		int pieces=Integer.parseInt(req.getParameter("pieces"));//每页多少条
+        int page=Integer.parseInt(req.getParameter("page"));		//页数
+	    int startPieces = (page * pieces) - pieces;//每页起始条数
+		Map<String,Object>map = new HashMap<String ,Object>();
+		map.put("member", String.valueOf(member));
+		map.put("stat", stat);
+		if(stat.equals("all")){//如果是全部订单
+			map.put("stat", null);
+		}
+		map.put("pages", startPieces);
+		map.put("pieces", pieces);
+		List<OrderList> orderList=orderListService.queryPaging(map);
+		for(int i=0;i<orderList.size();i++){
+			List<OrderListFlt> olf=orderListService.searchSegmentById(orderList.get(i).getOrderId());
+			orderList.get(i).setOrderListFlt(olf);
+		}
+		return orderList;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/myPsgHis", method=RequestMethod.POST, produces="application/json")
+	public Map<String,Object> PassengersHistory(HttpServletRequest req){
+		boolean succeed=false;
+		List<Passenger> list=null;
+		try{
+			Subject sub = SecurityUtils.getSubject();
+			Object member = sub.getSession().getAttribute("member");
+			int memberid = Integer.valueOf( member.toString());
+			list = psgService.historys(memberid);
+		}catch(Exception e){
+			e.printStackTrace();
+			list=null;
+		}
+		if(null != list){
+			if(list.size()>0){
+				succeed=true;
+			}
+		}
+		Map<String,Object> v = new HashMap<String,Object>();
+		v.put("succeed", succeed);
+		v.put("msg", "");
+		v.put("data", list);
+		return v;
+	}
+	
+	
+	@RequestMapping("/order")
+	public ModelAndView Order(String token, HttpServletRequest req) throws CustomException{
+		ModelAndView view = new ModelAndView();
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		Av av = null;
+		try{
+			String b64 = StringUtil.decodeBase64(token, "UTF-8");
+			av = mapper.readValue(b64, Av.class);
+			String sign = av.getSign();
+			log.info(sign);
+			av.setSign("");
+			String temp = mapper.writeValueAsString( av);
+			log.info(temp);
+			String md5 = Cryption.Md5( temp + av.getTime());
+			log.info(md5);
+			if(!md5.equals(sign)){
+				av = null;
+			}
+		}catch(JsonMappingException e){
+			e.printStackTrace();
+		}catch(JsonParseException e){
+			e.printStackTrace();
+		}catch(JsonProcessingException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		if(null == av){
+			throw new CustomException("请求异常！");
+		}else{
+			view.getModel().put("token", token);
+			view.setViewName("/Order");	
+		}
+		return view;
+	}
+	
+	/**
+	 * 提交订单
+	 * @param data
+	 * @param req
+	 * @return view
+	 * @throws CustomException
+	 * @throws JsonProcessingException
+	 */
+	@RequestMapping("/submit")
+	public ModelAndView submit(String data, HttpServletRequest req) 
+			throws CustomException, JsonProcessingException{
+		ModelAndView view = new ModelAndView();
+		
+		
+		
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
+		OrderFillParameter params = null;
+		Av av = null;
+		try{
+			String b64 = StringUtil.decodeBase64(data, "UTF-8");
+			params = mapper.readValue( b64, OrderFillParameter.class);
+
+			b64 = StringUtil.decodeBase64(params.getToken(), "UTF-8");
+			av = mapper.readValue(b64, Av.class);
+			String sign = av.getSign();
+			log.info(sign);
+			av.setSign("");
+			String temp = mapper.writeValueAsString( av);
+			log.info(temp);
+			String md5 = Cryption.Md5( temp + av.getTime());
+			log.info(md5);
+			if(!md5.equals(sign)){
+				av = null;
+			}
+		}catch(JsonMappingException e){
+			e.printStackTrace();
+		}catch(JsonParseException e){
+			e.printStackTrace();
+		}catch(JsonProcessingException e){
+			e.printStackTrace();
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		if(null == av){
+			throw new CustomException("请求异常！");
+		}else{
+			Order order=new Order();
+			OrderAttr orderAttr = new OrderAttr();
+			Set<PasgInfo> pasgInfos = new HashSet<PasgInfo>();
+			
+			List<OrderOperLog> orderLogs = new ArrayList<OrderOperLog>();
+			
+			//联系人
+			Contacts contact = new Contacts();
+			contact.setName( params.getContact());
+			contact.setTelephone( params.getMobile());
+			contact.setEmail( params.getEmail());
+			
+			order.setContacts( contact);
+			order.setCreateDate( new Date());
+			
+			for(OrderPassengerParameter p : params.getPsgs()){
+				PasInfo pasInfo = new PasInfo();
+				pasInfo.setBirthday( p.getBirth());
+				pasInfo.setCertNo( p.getIdno());
+				pasInfo.setCertType( p.getIdtype());
+				pasInfo.setCreateDate( new Date());
+				pasInfo.setIdexpirationdate( p.getCard_valid());
+				pasInfo.setIdissuecountry( p.getCard_country());
+				pasInfo.setIdissuecountrycode( p.getCard_country());
+				pasInfo.setNationality( p.getCountry());
+				pasInfo.setNationalitycode( p.getCountry());
+				pasInfo.setPasgName( String.format("%s/%s", p.getFirstname(), p.getLastname()));
+				
+				pasInfo.setPasgType(EPasinfo.ADT.getKey());//默认ADT
+				if("ADT".equals( p.getAge())){
+					pasInfo.setPasgType( EPasinfo.ADT.getKey());
+				}else if("CHD".equals( p.getAge())){
+					pasInfo.setPasgType( EPasinfo.CHD.getKey());
+				}else if("INF".equals( p.getAge())){
+					pasInfo.setPasgType( EPasinfo.INF.getKey());
+				}
+				
+				pasInfo.setSex( Short.parseShort( p.getSex()));
+				
+				PasgInfo pasgInfo = new PasgInfo();
+				pasgInfo.setPasInfo( pasInfo);
+				pasgInfo.setAgetype( 0);
+				pasgInfo.setConstructionFee( (int)av.getFee());
+				pasgInfo.setFuleTax( 0);
+				pasgInfo.setCreateDate( new Date());
+				pasgInfo.setInsuranceCount( 0);
+				pasgInfo.setInsurancePrice( 0);
+				pasgInfo.setInsuranceunitprice( 0);
+				pasgInfo.setTicketPrice( new BigDecimal( av.getPrice()));
+				
+				List<Pasgsect> pasgsects = new ArrayList<Pasgsect>();
+				int seq = 1;
+				for(Segment seg : av.getSegs()){
+					for(Flight f : seg.getAirLegs()){
+						FltInfo fltinfo = new FltInfo();
+						
+						fltinfo.setSeq( seq);
+						seq ++;
+						
+						fltinfo.setCreateDate( new Date());
+						fltinfo.setFltNo( String.format("%s%s", f.getAirline(), f.getAirNo()));
+						fltinfo.setModel( f.getAirModel());
+						fltinfo.setBranch( f.getAirlineName());
+						
+						fltinfo.setDep( f.getFromCode());
+						fltinfo.setDepname( f.getFromName());
+						fltinfo.setDeptime( f.getFromTime());
+						
+						fltinfo.setArr( f.getToCode());
+						fltinfo.setArrname( f.getToName());
+						fltinfo.setArrtime( f.getToTime());
+						
+						Pasgsect pasgsect = new Pasgsect();
+						pasgsect.setAirlineCode( f.getAirline());
+						pasgsect.setCabin( f.getSeat());
+						SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+						Date depd;
+						try {
+							depd = format.parse( f.getFromTime());
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							depd = new Date();
+						}
+						pasgsect.setDepday( depd);
+						pasgsect.setEi("");
+						pasgsect.setFltinfo( fltinfo);
+						pasgsect.setIsRefund( (short)1);
+						pasgsects.add( pasgsect);
+					}
+				}
+				
+				pasgInfo.setPasgsects( pasgsects);
+				pasgInfos.add( pasgInfo);
+			}
+			
+			double total = (av.getFee() + av.getPrice()) * params.getPsgs().size();
+			
+			orderAttr.setPasgInfos( pasgInfos);
+			orderAttr.setNopay( new BigDecimal(total));
+			
+			PayInfo payInfo = new PayInfo();
+			payInfo.setPayPrice( new BigDecimal(total));
+			payInfo.setPayState( (short)2);
+			
+			order.setOrderAttr( orderAttr);
+			order.setOrderLogs( orderLogs);
+			order.setPayInfo( payInfo);
+			order.setTotalPrice( new BigDecimal(total));
+			try{
+				orderService.save( order);
+				log.info(String.format("保存订单:%s", order.getOrderId()));
+				view.setViewName(String.format("redirect:/air/orderDetail?orderId=%s", order.getOrderId()));
+			}catch(Exception e){
+				e.printStackTrace();
+				throw new CustomException("提交订单异常，请重新下单！");
+			}
+		}
+		return view;
+	}
+	
+	
+	@RequestMapping("/pay")
+	public ModelAndView Pay(HttpServletRequest req,Long orderId) throws CustomException{
+		ModelAndView mv=new ModelAndView();
+		if(orderId!=null){
+			Subject sub = SecurityUtils.getSubject();
+			Object member = sub.getSession().getAttribute("member");
+			Map<String,Object>querParam=new HashMap<String,Object>();
+			querParam.put("orderId", orderId);
+			querParam.put("memberId", Integer.parseInt(member.toString()));
+			Order order=orderService.findById(querParam);
+			if(order==null){
+				throw new CustomException("你访问的订单不存在");
+			}
+			Remit remit =new Remit();
+			remit.setCreatetime(new Date());
+			remit.setAmount(order.getTotalPrice());
+			if(order.getContact().getContMobile()!=null){
+				remit.setMobile(order.getContact().getContMobile());
+			}
+			remit.setMobile(order.getContact().getUsername());
+			
+			remit.setMessage("一达机票:"+order.getExorderId());
+			remit.setStatus("000");
+			remit.setUpdatetime(new Date());
+			if(order.getPayInfo().getOrderno()!=null && !order.getPayInfo().getOrderno().equals("")){
+				remit.setPayno(order.getPayInfo().getOrderno());
+			}else {
+				remit.setPayno(System.currentTimeMillis()+"");
+			}
+			
+			remit.setName(order.getContact().getContName());
+			remitService.insert(remit);
+			mv.setViewName("/pay");
+			mv.addObject("order", order);
+			mv.addObject("remit", remit);
+			}
+		
+		
+		
+		
+		Order order =new Order();
+		 
+		 OrderAttr orderAttr = new OrderAttr();
+		 Set<PasgInfo> pasgInfos =new HashSet<PasgInfo>();
+		 List<Pasgsect> pasgsects =new ArrayList<Pasgsect>();
+		List<OrderOperLog> orderLogs = new ArrayList<OrderOperLog>();
+		//联系人
+		Contacts contacts = new Contacts();
+			 contacts.setEmail("13800@qq.com");
+			contacts.setTelephone("1380013800");
+			contacts.setName("liu");
+
+			order.setContacts(contacts);
+			order.setCreateDate(new Date());
+			for(int i = 0 ;i<2;i++){
+				for(int j = 0 ;j<1;j++){
+					Pasgsect pasgsect=new Pasgsect();
+					FltInfo fltinfo = new FltInfo();
+					pasgsect.setAirlineCode("HU");
+					pasgsect.setCabin("Y");
+					pasgsect.setCabinClass("你大爷");
+					pasgsect.setDepday(new Date());
+					pasgsect.setEi("");
+					
+					fltinfo.setArr("PEK");
+					fltinfo.setArrname("北京鸡场2");
+					fltinfo.setArrtime("11:20");
+					fltinfo.setBranch("海南航ji");
+					fltinfo.setCreateDate(new Date());
+					fltinfo.setDep("CAN");
+					fltinfo.setDepname("广州鸡场");
+					fltinfo.setDeptime("5:20");
+					fltinfo.setFltNo("HUj804");
+					fltinfo.setModel("789");
+					pasgsect.setFltinfo(fltinfo);
+					pasgsect.setIsRefund(Short.parseShort(EPasgsect.NO.getKey()));
+					pasgsects.add(pasgsect);
+				}
+				PasInfo pasInfo=new PasInfo();
+				PasgInfo pasgInfo=new PasgInfo();
+				pasInfo.setBirthday("1993-10-29");
+				pasInfo.setCertNo("440758199333333333");
+				pasInfo.setCertType(String.valueOf(EIDType.PP.getKey()));
+				pasInfo.setCreateDate(new Date());
+				pasInfo.setIdexpirationdate("2017-05-20");
+				pasInfo.setIdissuecountry("CN");
+				pasInfo.setIdissuecountrycode("CN");
+				pasInfo.setNationality("CN");
+				pasInfo.setNationalitycode("CN");
+				pasInfo.setPasgName("jc liu");
+				pasInfo.setPasgType(EPasinfo.ADT.getKey());
+				pasInfo.setSex(Short.parseShort(String.valueOf(ESex.male.getKey())));		
+				pasgInfo.setPasInfo(pasInfo);
+				pasgInfo.setAgetype(Integer.parseInt(EPasinfo.ADT.getKey()));
+				pasgInfo.setConstructionFee(2222);
+				pasgInfo.setCreateDate(new Date());
+				pasgInfo.setFuleTax(0);
+				pasgInfo.setInsuranceCount(0);
+				pasgInfo.setInsurancePrice(122);
+				pasgInfo.setInsuranceunitprice(122);
+				//pasgInfo.setPasgId(10);
+				pasgInfo.setPasgsects(pasgsects);
+				pasgInfos.add(pasgInfo);
+				
+			}
+			PayInfo payInfo=new PayInfo();
+			orderAttr.setPasgInfos(pasgInfos);
+			orderAttr.setNopay(new BigDecimal(13800));
+			order.setOrderAttr(orderAttr);
+			order.setOrderLogs(orderLogs);
+			payInfo.setPayPrice(new BigDecimal(52000));
+			order.setPayInfo(payInfo);
+			order.setTotalPrice(new BigDecimal(138000));
+
+			try {
+				orderService.save(order);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("haole------------------------------");
+		return mv;
+	}
+	//取消订单
+	@ResponseBody
+	@RequestMapping("/cancel")
+	public String cancel(HttpServletRequest req){
+		String msg="0";
+		try {
+			String id=req.getParameter("orderId");
+			Order o = new Order();
+			o.setOrderId(Long.parseLong(id));
+			o.setStat("009");
+			orderService.update(o);
+		} catch (Exception e) {
+			msg="1";
+			log.warn("取消订单失败： "+e);
+		}
+
+		
+		
+		
+	
+		
+		
+		return msg;
+	}
+
+}

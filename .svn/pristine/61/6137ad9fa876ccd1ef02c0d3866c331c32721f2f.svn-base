@@ -1,0 +1,18 @@
+package com.lutao.america.service.impl;
+
+import javax.annotation.Resource;
+
+import com.lutao.america.dao.ContactsMapper;
+import com.lutao.america.model.Contacts;
+import com.lutao.america.service.ContactsService;
+
+public class ContactsServiceImpl implements ContactsService {
+	@Resource
+	public ContactsMapper contactsMapper;
+	@Override
+	public int insert(Contacts contacts) {
+		// TODO Auto-generated method stub
+		return contactsMapper.insert(contacts);
+	}
+
+}

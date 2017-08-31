@@ -1,0 +1,13 @@
+package com.lutao.america.service;
+
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.lutao.america.model.Order;
+
+public interface OrderService {
+   public Order findById(Long id);
+   public int save(Order record) throws Exception;
+   long getMaxOrderId();
+   int insertSelective(Order record);
+}

@@ -1,0 +1,412 @@
+package com.lutao.america.model;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+public class Order {
+
+	private Long orderId;
+	/**
+	 * 来源(字典表中的ODM_FLORDSRC)
+	 * OS001	去哪儿网（阿凡提）	 
+	   OS002	去哪儿网（比比看）	    
+       OS003	酷讯	 
+       OS004	淘宝	 
+       OS005	B2C	 
+       OS006	自有订单	 
+	 */
+	private String orderSrc;
+	private Integer custId;
+	private Integer memberId;
+	/**
+	 * 订单状态(字典表中的ODM_BIZTYPE)
+	 * OT001	业务订单
+	 * OT002	退款订单
+	 */
+	private Long orderType;
+	//外部订单号
+	private String exorderId;
+	//订单金额
+	private BigDecimal totalPrice;
+	//交易流水号
+	private String tradeSeq;
+	//是否配送
+		/**
+		 * 1:配送
+		 * 2：不配送
+		 */
+	private String isdelivery;
+	//创建时间
+	private Date createDate;
+	//同步时间
+	private Date synchroDate;
+	//关联订单号,当做改签等操作时候，记录原始订单号
+	private String realorderId;
+	//退订备注
+	private String rufundMemo;
+	//订单备注
+	private String memo;
+	//
+	private Long operStaff;
+	/**
+	 * 订单状态(正常订单)
+	 * ODM_ORDSTAT	000	已支付待出票
+	 * ODM_ORDSTAT	001	出票中
+	 * ODM_ORDSTAT	002	出票完成
+	 * ODM_ORDSTAT	003	收款已结算
+	 * ODM_ORDSTAT	004	付款已结算
+	 *	(退票订单)	
+	 * ODM_ORDSTAT	005	待处理
+	 * ODM_ORDSTAT	006	客户已退款为与供应商结算
+	 * ODM_ORDSTAT	007	供应商已结算客户未退款
+	 * ODM_ORDSTAT	008	结算完成
+	 */
+	private String stat;
+	/**
+	 * 锁定状态
+	 * ODM_LOCKSTAT	001	锁定
+	 * ODM_LOCKSTAT	002	非锁定
+	 */
+	private String lockStat;
+	//团号
+	private Long tenId;
+	//0:待配送 1:配送中 2:配送完成 3:重新配送
+	private String deliveryStat;
+	//退票日期
+	private Date refundTime;
+	//建立人
+	private Long createUser;
+	/** 意向订单Id-意向单创建人 */
+	private String intentionInfo;
+	
+	private Integer intentionId;
+	private String orderBusiness;
+	private String orderConsulttype;
+	/** <大客户>1:因公订单;2因私订单 */
+	private Byte orderFor;
+	/** <内部系统>1:没同步;2已同步 */
+	private Byte synchroOrder;
+	//审核时间
+	private String auditDate;
+	//审核人ID
+	private Long auditor;
+	//审核结果
+	private String auditMemo;
+	//推荐人id（T_ODM_CONTACT表）
+	private Integer promoteUserId;
+	private String downOrderStatus;
+	private String checkPriceData;
+	private Contact contact =new Contact();//会员
+	private Contacts contacts=new Contacts();//联系人
+	private OrderAttr orderAttr = new OrderAttr();//关联表
+	//支付信息
+	private PayInfo payInfo = new PayInfo();
+	private List<OrderOperLog> orderLogs = new ArrayList<OrderOperLog>();
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public String getOrderSrc() {
+		return orderSrc;
+	}
+
+	public void setOrderSrc(String orderSrc) {
+		this.orderSrc = orderSrc;
+	}
+
+	public Integer getCustId() {
+		return custId;
+	}
+
+	public void setCustId(Integer custId) {
+		this.custId = custId;
+	}
+
+	public Integer getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(Integer memberId) {
+		this.memberId = memberId;
+	}
+
+	public Long getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(Long orderType) {
+		this.orderType = orderType;
+	}
+
+	public String getExorderId() {
+		return exorderId;
+	}
+
+	public void setExorderId(String exorderId) {
+		this.exorderId = exorderId;
+	}
+
+	public BigDecimal getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(BigDecimal totalPrice) {
+		this.totalPrice = totalPrice;
+	}
+
+	public String getTradeSeq() {
+		return tradeSeq;
+	}
+
+	public void setTradeSeq(String tradeSeq) {
+		this.tradeSeq = tradeSeq;
+	}
+
+	public String getIsdelivery() {
+		return isdelivery;
+	}
+
+	public void setIsdelivery(String isdelivery) {
+		this.isdelivery = isdelivery;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getSynchroDate() {
+		return synchroDate;
+	}
+
+	public void setSynchroDate(Date synchroDate) {
+		this.synchroDate = synchroDate;
+	}
+
+	public String getRealorderId() {
+		return realorderId;
+	}
+
+	public void setRealorderId(String realorderId) {
+		this.realorderId = realorderId;
+	}
+
+	public String getRufundMemo() {
+		return rufundMemo;
+	}
+
+	public void setRufundMemo(String rufundMemo) {
+		this.rufundMemo = rufundMemo;
+	}
+
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
+	public Long getOperStaff() {
+		return operStaff;
+	}
+
+	public void setOperStaff(Long operStaff) {
+		this.operStaff = operStaff;
+	}
+
+	public String getStat() {
+		return stat;
+	}
+
+	public void setStat(String stat) {
+		this.stat = stat;
+	}
+
+	public String getLockStat() {
+		return lockStat;
+	}
+
+	public void setLockStat(String lockStat) {
+		this.lockStat = lockStat;
+	}
+
+	public Long getTenId() {
+		return tenId;
+	}
+
+	public void setTenId(Long tenId) {
+		this.tenId = tenId;
+	}
+
+	public String getDeliveryStat() {
+		return deliveryStat;
+	}
+
+	public void setDeliveryStat(String deliveryStat) {
+		this.deliveryStat = deliveryStat;
+	}
+
+	public Date getRefundTime() {
+		return refundTime;
+	}
+
+	public void setRefundTime(Date refundTime) {
+		this.refundTime = refundTime;
+	}
+
+	public Long getCreateUser() {
+		return createUser;
+	}
+
+	public void setCreateUser(Long createUser) {
+		this.createUser = createUser;
+	}
+
+	public String getIntentionInfo() {
+		return intentionInfo;
+	}
+
+	public void setIntentionInfo(String intentionInfo) {
+		this.intentionInfo = intentionInfo;
+	}
+
+	public Integer getIntentionId() {
+		return intentionId;
+	}
+
+	public void setIntentionId(Integer intentionId) {
+		this.intentionId = intentionId;
+	}
+
+	public String getOrderBusiness() {
+		return orderBusiness;
+	}
+
+	public void setOrderBusiness(String orderBusiness) {
+		this.orderBusiness = orderBusiness;
+	}
+
+	public String getOrderConsulttype() {
+		return orderConsulttype;
+	}
+
+	public void setOrderConsulttype(String orderConsulttype) {
+		this.orderConsulttype = orderConsulttype;
+	}
+
+	public Byte getOrderFor() {
+		return orderFor;
+	}
+
+	public void setOrderFor(Byte orderFor) {
+		this.orderFor = orderFor;
+	}
+
+	public Byte getSynchroOrder() {
+		return synchroOrder;
+	}
+
+	public void setSynchroOrder(Byte synchroOrder) {
+		this.synchroOrder = synchroOrder;
+	}
+
+	public String getAuditDate() {
+		return auditDate;
+	}
+
+	public void setAuditDate(String auditDate) {
+		this.auditDate = auditDate;
+	}
+
+	public Long getAuditor() {
+		return auditor;
+	}
+
+	public void setAuditor(Long auditor) {
+		this.auditor = auditor;
+	}
+
+	public String getAuditMemo() {
+		return auditMemo;
+	}
+
+	public void setAuditMemo(String auditMemo) {
+		this.auditMemo = auditMemo;
+	}
+
+	public Integer getPromoteUserId() {
+		return promoteUserId;
+	}
+
+	public void setPromoteUserId(Integer promoteUserId) {
+		this.promoteUserId = promoteUserId;
+	}
+
+	public String getDownOrderStatus() {
+		return downOrderStatus;
+	}
+
+	public void setDownOrderStatus(String downOrderStatus) {
+		this.downOrderStatus = downOrderStatus;
+	}
+
+	public String getCheckPriceData() {
+		return checkPriceData;
+	}
+
+	public void setCheckPriceData(String checkPriceData) {
+		this.checkPriceData = checkPriceData;
+	}
+
+	public OrderAttr getOrderAttr() {
+		return orderAttr;
+	}
+
+	public void setOrderAttr(OrderAttr orderAttr) {
+		this.orderAttr = orderAttr;
+	}
+
+	public PayInfo getPayInfo() {
+		return payInfo;
+	}
+
+	public void setPayInfo(PayInfo payInfo) {
+		this.payInfo = payInfo;
+	}
+
+	public List<OrderOperLog> getOrderLogs() {
+		return orderLogs;
+	}
+
+	public void setOrderLogs(List<OrderOperLog> orderLogs) {
+		this.orderLogs = orderLogs;
+	}
+
+	public Contact getContact() {
+		return contact;
+	}
+
+	public void setContact(Contact contact) {
+		this.contact = contact;
+	}
+
+	public Contacts getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(Contacts contacts) {
+		this.contacts = contacts;
+	}
+	
+	
+}

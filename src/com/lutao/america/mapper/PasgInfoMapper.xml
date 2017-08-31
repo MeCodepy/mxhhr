@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lutao.america.dao.PasgInfoMapper" >
+  <resultMap id="PasgInfoMap" type="PasgInfo" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORDER_ATTR_ID" property="orderAttrId" jdbcType="DECIMAL" />
+    <result column="PASG_ID" property="pasgId" jdbcType="DECIMAL" />
+    <result column="PID" property="pid" jdbcType="VARCHAR" />
+    <result column="AGETYPE" property="agetype" jdbcType="DECIMAL" />
+    <result column="TICKETNUM" property="ticketnum" jdbcType="VARCHAR" />
+    <result column="PNR" property="pnr" jdbcType="VARCHAR" />
+    <result column="EXT_INFO" property="extInfo" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="TICKET_PRICE" property="ticketPrice" jdbcType="DECIMAL" />
+    <result column="PRICE" property="price" jdbcType="DECIMAL" />
+    <result column="RETMONEY" property="retmoney" jdbcType="DECIMAL" />
+    <result column="RETPOIINT" property="retpoiint" jdbcType="DECIMAL" />
+    <result column="CONSTRUCTION_FEE" property="constructionFee" jdbcType="DECIMAL" />
+    <result column="FULE_TAX" property="fuleTax" jdbcType="DECIMAL" />
+    <result column="INSURANCE_PRICE" property="insurancePrice" jdbcType="DECIMAL" />
+    <result column="INSURANCE_COST" property="insuranceCost" jdbcType="DECIMAL" />
+    <result column="INSURANCE_COMPANY" property="insuranceCompany" jdbcType="VARCHAR" />
+    <result column="INSURANCE_NAME" property="insuranceName" jdbcType="VARCHAR" />
+    <result column="INSURNO" property="insurno" jdbcType="VARCHAR" />
+    <result column="INSURANCEUNITPRICE" property="insuranceunitprice" jdbcType="DECIMAL" />
+    <result column="INSURANCE_COUNT" property="insuranceCount" jdbcType="DECIMAL" />
+    <result column="STAT" property="stat" jdbcType="CHAR" />
+    <result column="SETTLE_PRICE" property="settlePrice" jdbcType="DECIMAL" />
+    <result column="CHANGE_FEE" property="changeFee" jdbcType="DECIMAL" />
+    <result column="REOPEN_ORDER_ID" property="reopenOrderId" jdbcType="DECIMAL" />
+    <result column="RETAX" property="retax" jdbcType="DECIMAL" />
+    <result column="RETAXPRICE" property="retaxprice" jdbcType="DECIMAL" />
+    <result column="REOPEN_ORDER_TYPE" property="reopenOrderType" jdbcType="DECIMAL" />
+    <result column="DROPTANKSPASGINFOID" property="droptankspasginfoid" jdbcType="DECIMAL" />
+    <result column="PREPARE_REFUND_DATE" property="prepareRefundDate" jdbcType="TIMESTAMP" />
+    <result column="PREPARE_REFUND_USERID" property="prepareRefundUserid" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ORDER_ATTR_ID, PASG_ID, PID, AGETYPE, TICKETNUM, PNR, EXT_INFO, CREATE_DATE, 
+    TICKET_PRICE, PRICE, RETMONEY, RETPOIINT, CONSTRUCTION_FEE, FULE_TAX, INSURANCE_PRICE, 
+    INSURANCE_COST, INSURANCE_COMPANY, INSURANCE_NAME, INSURNO, INSURANCEUNITPRICE, INSURANCE_COUNT, 
+    STAT, SETTLE_PRICE, CHANGE_FEE, REOPEN_ORDER_ID, RETAX, RETAXPRICE, REOPEN_ORDER_TYPE, 
+    DROPTANKSPASGINFOID, PREPARE_REFUND_DATE, PREPARE_REFUND_USERID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="PasgInfoMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_odm_pasginfo
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_odm_pasginfo
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lutao.america.model.PasgInfo" >
+    insert into t_odm_pasginfo (ID, ORDER_ATTR_ID, PASG_ID, 
+      PID, AGETYPE, TICKETNUM, 
+      PNR, EXT_INFO, CREATE_DATE, 
+      TICKET_PRICE, PRICE, RETMONEY, 
+      RETPOIINT, CONSTRUCTION_FEE, FULE_TAX, 
+      INSURANCE_PRICE, INSURANCE_COST, INSURANCE_COMPANY, 
+      INSURANCE_NAME, INSURNO, INSURANCEUNITPRICE, 
+      INSURANCE_COUNT, STAT, SETTLE_PRICE, 
+      CHANGE_FEE, REOPEN_ORDER_ID, RETAX, 
+      RETAXPRICE, REOPEN_ORDER_TYPE, DROPTANKSPASGINFOID, 
+      PREPARE_REFUND_DATE, PREPARE_REFUND_USERID
+      )
+    values (#{id,jdbcType=DECIMAL}, #{orderAttrId,jdbcType=DECIMAL}, #{pasgId,jdbcType=DECIMAL}, 
+      #{pid,jdbcType=VARCHAR}, #{agetype,jdbcType=DECIMAL}, #{ticketnum,jdbcType=VARCHAR}, 
+      #{pnr,jdbcType=VARCHAR}, #{extInfo,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{ticketPrice,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{retmoney,jdbcType=DECIMAL}, 
+      #{retpoiint,jdbcType=DECIMAL}, #{constructionFee,jdbcType=DECIMAL}, #{fuleTax,jdbcType=DECIMAL}, 
+      #{insurancePrice,jdbcType=DECIMAL}, #{insuranceCost,jdbcType=DECIMAL}, #{insuranceCompany,jdbcType=VARCHAR}, 
+      #{insuranceName,jdbcType=VARCHAR}, #{insurno,jdbcType=VARCHAR}, #{insuranceunitprice,jdbcType=DECIMAL}, 
+      #{insuranceCount,jdbcType=DECIMAL}, #{stat,jdbcType=CHAR}, #{settlePrice,jdbcType=DECIMAL}, 
+      #{changeFee,jdbcType=DECIMAL}, #{reopenOrderId,jdbcType=DECIMAL}, #{retax,jdbcType=DECIMAL}, 
+      #{retaxprice,jdbcType=DECIMAL}, #{reopenOrderType,jdbcType=DECIMAL}, #{droptankspasginfoid,jdbcType=DECIMAL}, 
+      #{prepareRefundDate,jdbcType=TIMESTAMP}, #{prepareRefundUserid,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lutao.america.model.PasgInfo" >
+    insert into t_odm_pasginfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderAttrId != null" >
+        ORDER_ATTR_ID,
+      </if>
+      <if test="pasgId != null" >
+        PASG_ID,
+      </if>
+      <if test="pid != null" >
+        PID,
+      </if>
+      <if test="agetype != null" >
+        AGETYPE,
+      </if>
+      <if test="ticketnum != null" >
+        TICKETNUM,
+      </if>
+      <if test="pnr != null" >
+        PNR,
+      </if>
+      <if test="extInfo != null" >
+        EXT_INFO,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="ticketPrice != null" >
+        TICKET_PRICE,
+      </if>
+      <if test="price != null" >
+        PRICE,
+      </if>
+      <if test="retmoney != null" >
+        RETMONEY,
+      </if>
+      <if test="retpoiint != null" >
+        RETPOIINT,
+      </if>
+      <if test="constructionFee != null" >
+        CONSTRUCTION_FEE,
+      </if>
+      <if test="fuleTax != null" >
+        FULE_TAX,
+      </if>
+      <if test="insurancePrice != null" >
+        INSURANCE_PRICE,
+      </if>
+      <if test="insuranceCost != null" >
+        INSURANCE_COST,
+      </if>
+      <if test="insuranceCompany != null" >
+        INSURANCE_COMPANY,
+      </if>
+      <if test="insuranceName != null" >
+        INSURANCE_NAME,
+      </if>
+      <if test="insurno != null" >
+        INSURNO,
+      </if>
+      <if test="insuranceunitprice != null" >
+        INSURANCEUNITPRICE,
+      </if>
+      <if test="insuranceCount != null" >
+        INSURANCE_COUNT,
+      </if>
+      <if test="stat != null" >
+        STAT,
+      </if>
+      <if test="settlePrice != null" >
+        SETTLE_PRICE,
+      </if>
+      <if test="changeFee != null" >
+        CHANGE_FEE,
+      </if>
+      <if test="reopenOrderId != null" >
+        REOPEN_ORDER_ID,
+      </if>
+      <if test="retax != null" >
+        RETAX,
+      </if>
+      <if test="retaxprice != null" >
+        RETAXPRICE,
+      </if>
+      <if test="reopenOrderType != null" >
+        REOPEN_ORDER_TYPE,
+      </if>
+      <if test="droptankspasginfoid != null" >
+        DROPTANKSPASGINFOID,
+      </if>
+      <if test="prepareRefundDate != null" >
+        PREPARE_REFUND_DATE,
+      </if>
+      <if test="prepareRefundUserid != null" >
+        PREPARE_REFUND_USERID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="orderAttrId != null" >
+        #{orderAttrId,jdbcType=DECIMAL},
+      </if>
+      <if test="pasgId != null" >
+        #{pasgId,jdbcType=DECIMAL},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="agetype != null" >
+        #{agetype,jdbcType=DECIMAL},
+      </if>
+      <if test="ticketnum != null" >
+        #{ticketnum,jdbcType=VARCHAR},
+      </if>
+      <if test="pnr != null" >
+        #{pnr,jdbcType=VARCHAR},
+      </if>
+      <if test="extInfo != null" >
+        #{extInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketPrice != null" >
+        #{ticketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="retmoney != null" >
+        #{retmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="retpoiint != null" >
+        #{retpoiint,jdbcType=DECIMAL},
+      </if>
+      <if test="constructionFee != null" >
+        #{constructionFee,jdbcType=DECIMAL},
+      </if>
+      <if test="fuleTax != null" >
+        #{fuleTax,jdbcType=DECIMAL},
+      </if>
+      <if test="insurancePrice != null" >
+        #{insurancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="insuranceCost != null" >
+        #{insuranceCost,jdbcType=DECIMAL},
+      </if>
+      <if test="insuranceCompany != null" >
+        #{insuranceCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceName != null" >
+        #{insuranceName,jdbcType=VARCHAR},
+      </if>
+      <if test="insurno != null" >
+        #{insurno,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceunitprice != null" >
+        #{insuranceunitprice,jdbcType=DECIMAL},
+      </if>
+      <if test="insuranceCount != null" >
+        #{insuranceCount,jdbcType=DECIMAL},
+      </if>
+      <if test="stat != null" >
+        #{stat,jdbcType=CHAR},
+      </if>
+      <if test="settlePrice != null" >
+        #{settlePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="changeFee != null" >
+        #{changeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="reopenOrderId != null" >
+        #{reopenOrderId,jdbcType=DECIMAL},
+      </if>
+      <if test="retax != null" >
+        #{retax,jdbcType=DECIMAL},
+      </if>
+      <if test="retaxprice != null" >
+        #{retaxprice,jdbcType=DECIMAL},
+      </if>
+      <if test="reopenOrderType != null" >
+        #{reopenOrderType,jdbcType=DECIMAL},
+      </if>
+      <if test="droptankspasginfoid != null" >
+        #{droptankspasginfoid,jdbcType=DECIMAL},
+      </if>
+      <if test="prepareRefundDate != null" >
+        #{prepareRefundDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prepareRefundUserid != null" >
+        #{prepareRefundUserid,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lutao.america.model.PasgInfo" >
+    update t_odm_pasginfo
+    <set >
+      <if test="orderAttrId != null" >
+        ORDER_ATTR_ID = #{orderAttrId,jdbcType=DECIMAL},
+      </if>
+      <if test="pasgId != null" >
+        PASG_ID = #{pasgId,jdbcType=DECIMAL},
+      </if>
+      <if test="pid != null" >
+        PID = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="agetype != null" >
+        AGETYPE = #{agetype,jdbcType=DECIMAL},
+      </if>
+      <if test="ticketnum != null" >
+        TICKETNUM = #{ticketnum,jdbcType=VARCHAR},
+      </if>
+      <if test="pnr != null" >
+        PNR = #{pnr,jdbcType=VARCHAR},
+      </if>
+      <if test="extInfo != null" >
+        EXT_INFO = #{extInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ticketPrice != null" >
+        TICKET_PRICE = #{ticketPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        PRICE = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="retmoney != null" >
+        RETMONEY = #{retmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="retpoiint != null" >
+        RETPOIINT = #{retpoiint,jdbcType=DECIMAL},
+      </if>
+      <if test="constructionFee != null" >
+        CONSTRUCTION_FEE = #{constructionFee,jdbcType=DECIMAL},
+      </if>
+      <if test="fuleTax != null" >
+        FULE_TAX = #{fuleTax,jdbcType=DECIMAL},
+      </if>
+      <if test="insurancePrice != null" >
+        INSURANCE_PRICE = #{insurancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="insuranceCost != null" >
+        INSURANCE_COST = #{insuranceCost,jdbcType=DECIMAL},
+      </if>
+      <if test="insuranceCompany != null" >
+        INSURANCE_COMPANY = #{insuranceCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceName != null" >
+        INSURANCE_NAME = #{insuranceName,jdbcType=VARCHAR},
+      </if>
+      <if test="insurno != null" >
+        INSURNO = #{insurno,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceunitprice != null" >
+        INSURANCEUNITPRICE = #{insuranceunitprice,jdbcType=DECIMAL},
+      </if>
+      <if test="insuranceCount != null" >
+        INSURANCE_COUNT = #{insuranceCount,jdbcType=DECIMAL},
+      </if>
+      <if test="stat != null" >
+        STAT = #{stat,jdbcType=CHAR},
+      </if>
+      <if test="settlePrice != null" >
+        SETTLE_PRICE = #{settlePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="changeFee != null" >
+        CHANGE_FEE = #{changeFee,jdbcType=DECIMAL},
+      </if>
+      <if test="reopenOrderId != null" >
+        REOPEN_ORDER_ID = #{reopenOrderId,jdbcType=DECIMAL},
+      </if>
+      <if test="retax != null" >
+        RETAX = #{retax,jdbcType=DECIMAL},
+      </if>
+      <if test="retaxprice != null" >
+        RETAXPRICE = #{retaxprice,jdbcType=DECIMAL},
+      </if>
+      <if test="reopenOrderType != null" >
+        REOPEN_ORDER_TYPE = #{reopenOrderType,jdbcType=DECIMAL},
+      </if>
+      <if test="droptankspasginfoid != null" >
+        DROPTANKSPASGINFOID = #{droptankspasginfoid,jdbcType=DECIMAL},
+      </if>
+      <if test="prepareRefundDate != null" >
+        PREPARE_REFUND_DATE = #{prepareRefundDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prepareRefundUserid != null" >
+        PREPARE_REFUND_USERID = #{prepareRefundUserid,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lutao.america.model.PasgInfo" >
+    update t_odm_pasginfo
+    set ORDER_ATTR_ID = #{orderAttrId,jdbcType=DECIMAL},
+      PASG_ID = #{pasgId,jdbcType=DECIMAL},
+      PID = #{pid,jdbcType=VARCHAR},
+      AGETYPE = #{agetype,jdbcType=DECIMAL},
+      TICKETNUM = #{ticketnum,jdbcType=VARCHAR},
+      PNR = #{pnr,jdbcType=VARCHAR},
+      EXT_INFO = #{extInfo,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      TICKET_PRICE = #{ticketPrice,jdbcType=DECIMAL},
+      PRICE = #{price,jdbcType=DECIMAL},
+      RETMONEY = #{retmoney,jdbcType=DECIMAL},
+      RETPOIINT = #{retpoiint,jdbcType=DECIMAL},
+      CONSTRUCTION_FEE = #{constructionFee,jdbcType=DECIMAL},
+      FULE_TAX = #{fuleTax,jdbcType=DECIMAL},
+      INSURANCE_PRICE = #{insurancePrice,jdbcType=DECIMAL},
+      INSURANCE_COST = #{insuranceCost,jdbcType=DECIMAL},
+      INSURANCE_COMPANY = #{insuranceCompany,jdbcType=VARCHAR},
+      INSURANCE_NAME = #{insuranceName,jdbcType=VARCHAR},
+      INSURNO = #{insurno,jdbcType=VARCHAR},
+      INSURANCEUNITPRICE = #{insuranceunitprice,jdbcType=DECIMAL},
+      INSURANCE_COUNT = #{insuranceCount,jdbcType=DECIMAL},
+      STAT = #{stat,jdbcType=CHAR},
+      SETTLE_PRICE = #{settlePrice,jdbcType=DECIMAL},
+      CHANGE_FEE = #{changeFee,jdbcType=DECIMAL},
+      REOPEN_ORDER_ID = #{reopenOrderId,jdbcType=DECIMAL},
+      RETAX = #{retax,jdbcType=DECIMAL},
+      RETAXPRICE = #{retaxprice,jdbcType=DECIMAL},
+      REOPEN_ORDER_TYPE = #{reopenOrderType,jdbcType=DECIMAL},
+      DROPTANKSPASGINFOID = #{droptankspasginfoid,jdbcType=DECIMAL},
+      PREPARE_REFUND_DATE = #{prepareRefundDate,jdbcType=TIMESTAMP},
+      PREPARE_REFUND_USERID = #{prepareRefundUserid,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="getMaxId" resultType="java.lang.Long">
+     select max(ID) from t_odm_pasginfo
+  </select>
+</mapper>

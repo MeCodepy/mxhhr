@@ -1,0 +1,112 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+<%@taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets2014.jsp" %>
+    <title>一达机票-我的订单</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link media="all" rel="stylesheet" href="./america/css/Myorder.css"/>
+    <script type="text/javascript" src="${context}/america/js/MyOrder.js"></script>
+</head>
+<script type="text/javascript">
+   var lengths= eval('(' + '${obj}' + ')').length;
+   var member='${obj[0].member }';
+</script>
+<body>
+<!-- 头部-浮动 -->
+<jsp:include page="/top"></jsp:include>
+<div style="clear:both;"></div>
+<!-- 主体内容 -->
+<div style=" height:70px;"></div>
+<div class="MyorderMain">
+       <div class="Myorderleft">
+            <ul class="list">
+                <!-- -------------------------------------------------------------这里的 '1'表示默认第一页    -->
+                <li class="alls" style="border-left:2px solid #ff7800;" onclick="getData('1','all','all')" id='all'>全部订单</li>
+                <li class="alls" id="noOk" onclick="getData('1','012','noOk')">待支付</li>
+                <li class="alls" onclick="getData('1','002','isOk')" id='isOk'>已支付</li>
+            </ul>
+       </div>
+       <div class="Myorderright">
+              <div class="order_info">
+                  <ul>
+                      <li class="pro_info">产品信息</li>
+                      <li class="money">订单金额</li>
+                      <li class="date">起始时间</li>
+                      <li class="state">订单状态</li>
+                      <li class="do">订单操作</li>
+                  </ul>
+              </div> 
+              <div style=" clear: both;"></div>   
+              
+              <!-- 全部订单 -->
+              <div class="orderList" id="allList" >
+               <c:forEach items="${obj }"  var="obj">
+               
+               <div class="prfe" >
+                    <p>订单号：${obj.exorderId }<a class="infoorder" target="_blank" href="air/orderDetail?orderId=${obj.orderId }">查看订单</a></p>  
+                    <ul>
+                       <li>
+                           <span class="list_pic"><img src="./america/images/Myorder/OZ.jpg"></span>
+                           <span class="list_title">
+                                <c:forEach items="${obj.orderListFlt }"  var="flt">
+                                   <span class="flight_go"><i>${flt.branch }</i><i>${flt.flt_No }</i><i>${flt.depname }</i><em class="jiantou">&nbsp;</em><i>${flt.arrname }</i></span>
+                                 </c:forEach>
+                           </span>                           
+                           <span class="list_money"><em class="yen">¥</em><em class="money_data">${obj.totalPrice }</em></span>
+                           <span class="list_date">
+                           <c:forEach items="${obj.orderListFlt }"  var="flt">
+                           <span>${flt.depday }</span>
+                           </c:forEach>
+                           </span>
+                           <span class="list_state">
+                              ${obj.stat=='009'?'订单取消':obj.stat=='011'?'待确认':obj.stat=='012'?'待支付':obj.stat=='013'?'待支付':obj.stat=='000'?'已支付待出票':obj.stat=='002'?'已付款':'待处理' }
+                           </span>
+                           <span class="list_cz">
+                                <c:if test="${obj.stat=='012' }">
+                                <a class="order_pay" target="_blank" href="air/pay?orderId=${obj.orderId }">立即支付</a>
+                                </c:if>
+                                <c:if test="${obj.stat!='009' && obj.stat!='002' }">
+                                    <a class="order_cancel_gjjp">取消订单</a>
+                                </c:if>
+                           </span>                       
+                       </li>
+                       <div style=" clear:both;"></div>
+                    </ul>   
+               </div> 
+               <div style=" clear: both;"></div>
+              
+             </c:forEach>
+                 <div class="page">
+                    <span class="page_left" onclick="homePage('all')">首页</span>
+              		<span class="page_left" onclick="previous('all','all',${obj[0].member })"><</span>
+                    <span class="page_num" id='page_num'>1</span>
+                    <span class="page_right" onclick="next('all','all',${obj[0].member })">><h3></h3></span>
+                 </div> 
+             </div>
+               <!-- 全部订单完毕 -->
+                  
+       </div>
+       <div style=" clear:both;"></div>
+</div>
+
+<div style="clear:both;"></div>
+<!-- 底部 -->
+<div class="page-footer">
+	<div class="clearfix">
+	<ul class="links-list">
+    	<li><a href="" target="_blank" class="ng-binding">关于我们</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">美洲机票产品</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">特价申请</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">服务条款</a></li>
+    </ul>
+    <p>地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼</p>
+    <p>全国服务电话:400-651-8800(免费) 投诉建议:13800138000  一达美洲机票</p>
+    </div>
+</div>
+
+</body>
+</html>

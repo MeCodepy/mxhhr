@@ -1,0 +1,45 @@
+﻿define(["thirdparty/jquery.cookie"], function () {
+    var setHistorys = function (name, key, value) {
+        var ck = $.cookie(name, undefined, { path: "/" });
+        var j = new Array();
+        if (ck != undefined) {
+            try {
+                j = JSON.parse(ck);
+            } catch (ex) {
+                j = new Array();
+            }
+        }
+        var exist = false;
+        for (var i = 0; i < j.length; i++) {
+            var obj = j[i];
+            if (obj.k == key) {
+                exist = true;
+                break;
+            }
+        }
+        if (exist == false && key != null) {
+            var obj = {
+                k: key,
+                v: value
+            };
+            j.push(obj);
+            var len = j.length - 5;
+            for (var i = 0; i < len; i++) {
+                j.shift();//超过5个则移除先前的
+            }
+        }
+        if (key == null || value == null) {
+            return j;
+        }
+        var obj = JSON.stringify(j);
+        $.removeCookie(name);
+        $.cookie(name, obj, { path: "/" });
+    };
+    var getHistorys = function (name) {
+        return setHistorys(name, null, null);
+    };
+    return {
+        setHistorys: setHistorys,
+        getHistorys: getHistorys
+    };
+});

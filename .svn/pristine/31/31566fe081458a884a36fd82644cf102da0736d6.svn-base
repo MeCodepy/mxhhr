@@ -1,0 +1,1127 @@
+﻿require(["index_common"], function (icommon) {
+    require(["private.air.list"]);
+});
+define("private.air.list", ['jquery', 'jcal', "city", "layer", "tool/data_iata_inter", "tool/fun", "jtemplates", "private_flt_filter_init", "tool/cookie", "suggest_inter"],
+    function ($, jcal, ct, lay, iata_data, fun, tpl, filter, cookie, suggest) {
+    $('input[name=dst_date]').attr('disabled', 'disabled').css({"background-color":"#ececec"});
+    $('div.gui_nav_main').find('a').each(function () {
+        var href = $(this).attr("href");
+        var reg = /\/Air\/Index\//g;
+        if (reg.test(href)) {
+            $(this).addClass("gui_nav_current");
+        } else {
+            $(this).removeClass("gui_nav_current");
+        }
+    });
+    $("a.frm_change").click(function () {
+        var temp = $("#org_city").val();
+        var temp_code = $("input[name=org_city]").val();
+        $("#org_city").val($("#dst_city").val());
+        $("input[name=org_city]").val($("input[name=dst_city]").val());
+        $("#dst_city").val(temp);
+        $("input[name=dst_city]").val(temp_code);
+    });
+    $("div.type_box").find("a").click(function () {
+        $(this).parent().find("a").removeClass("cur");
+        $(this).addClass("cur");
+        $(this).parent().find("input[name=fee_type]").val($(this).attr("data"));
+        $("#btn_search").click();
+    });
+    //cookie
+    var dis_historys = function () {
+        var arr = cookie.getHistorys("air_history");
+        console.log(arr);
+        var kReg = /^([A-Z]{3})([A-Z]{3})$/;
+        var vReg = /(\d{4}-\d{2}-\d{2})/g;
+        var list = new Array();
+        for (var i in arr) {
+            if (kReg.test(arr[i].k) == false || vReg.test(arr[i].v) == false) {
+                continue;
+            }
+            var temp = arr[i].k.match(kReg);
+            if (temp == null || temp == undefined) {
+                continue;
+            }
+            var org = temp[1];
+            var dst = temp[2];
+            temp = arr[i].v.match(vReg);
+            if (temp == null || temp == undefined) {
+                continue;
+            }
+            var org_date = temp[0];
+            var dst_date = null;
+            if (temp.length == 2) {
+                dst_date = temp[1];
+            }
+            temp = new Date(org_date.replace(/-/g, '/'));
+            if (temp < new Date()) {
+                continue;
+            }
+            var obj = {
+                dep: org,
+                depCN: get_iata_name(org),
+                arr: dst,
+                arrCN: get_iata_name(dst),
+                date: org_date,
+                rdate: dst_date
+            };
+            list.push(obj);
+        }
+        if (list.length == 0) {
+            $("#view_history").hide();
+            return;
+        }
+        $("#view_history").setTemplateElement("view_history_template");
+        $("#view_history").setParam("get_week", fun.get_week);
+        $("#view_history").processTemplate(list).show();
+        $("#view_history").on("click", ".view_h_item", function () {
+            var trip_string = $(this).find("input[name=trip_string]").val();
+            var reg = /^([A-Z]{3})([A-Z]{3})(\d{4}-\d{2}-\d{2})$/;
+            if (!reg.test(trip_string)) {
+                return;
+            }
+            var arr = trip_string.match(reg);
+            if (arr == null || arr == undefined) {
+                return;
+            }
+            location.href = "/Air/?area_type=GN&fee_type=PUB&flight_search_type=S&org_city=" + arr[1] + "&org_date=" + arr[3] + "&dst_city=" + arr[2];
+        });
+    };
+    //variable
+    var av_normal_finished = false;
+    var av_9c_finished = false;
+    var av_arr = new Array();
+    //temp
+    var av_trip_go = new Array();
+    var av_trip_back = new Array();
+
+    var get_iata_name = function (iata) {
+        for (var tab in iata_data.data_iata_inter) {
+            var tabdata = iata_data.data_iata_inter[tab];
+            for (var idx in tabdata) {
+                var dd = tabdata[idx].v;
+                for (var ix in dd) {
+                    var ll = dd[ix].l;
+                    for (var lx in ll) {
+                        var name = ll[lx].n;
+                        var code = ll[lx].c;
+                        if (iata == code) {
+                            return name;
+                        }
+                    }
+                }
+            }
+        }
+        return "";
+    };
+    var date_week = function (obj) {
+        var week = '';
+        switch (obj) {
+            case 0: week = '天';
+                break;
+            case 1: week = '一';
+                break;
+            case 2: week = '二';
+                break;
+            case 3: week = '三';
+                break;
+            case 4: week = '四';
+                break;
+            case 5: week = '五';
+                break;
+            case 6: week = '六';
+                break;
+        }
+        return week;
+    };
+    var show_error_msg = function (msg) {
+        $('#flight_list_result').html('<div class="flight_list_noresult"><i></i><h3>' + msg + '</h3></div>');
+    };
+    var init_date = function () {
+        var trip_type = $("input[name=trip_type]").val();
+        var now = new Date();
+        now.setDate(now.getDate() + 2);
+        $('#org_date').val(now.Format("yyyy-MM-dd"));
+        InitJCal($('#org_date'), $('#jcal_panel'), 2, false, null, function (day) {
+            if (trip_type == "S") {
+                return;
+            }
+            var _month = day.getMonth() + 1;
+            if (_month < 10)
+                _month = '0' + _month;
+            var _day = day.getDate();
+            if (_day < 10)
+                _day = '0' + _day;
+            var day_str = day.getFullYear() + '/' + _month + '/' + _day;
+            var temp = new Date(day_str);
+            temp.setDate(temp.getDate() + 3);
+            $('#dst_date').val(temp.Format("yyyy-MM-dd"));
+        });
+        if (trip_type == "D") {
+            $('#dst_date').removeAttr('disabled').css({"background-color":"#fff"});;
+            InitJCal($('#dst_date'), $('#dst_date_panel'), 2, false, $('#org_date'), null);
+        }
+        $('#org_city').click(function () {
+            $('.icbcJcalendar').hide();
+            $("div.citypanel").hide();
+            new $.fn.IntCity(iata_data.data_iata_inter.gn).Bind(this, null, $('input[name=org_city]'));
+        });
+        $('#dst_city').click(function () {
+            $('.icbcJcalendar').hide();
+            $("div.citypanel").hide();
+            new $.fn.IntCity(iata_data.data_iata_inter.gj).Bind(this, null, $('input[name=dst_city]'));
+        });
+    };
+    var init_tabs = function () {
+    	$("#listSearch>.xingcheng").on('click', "li", function () {
+        	$("#listSearch>.xingcheng>li").removeClass("active");
+        	$(this).addClass("active");
+            var type = $(this).attr("d");
+            $("input[name=trip_type]").val(type);
+            if (type == "S") {
+                $('#dst_date').attr('disabled', 'disabled').css({"background-color":"#ececec"});;
+                $('#dst_date').unbind('click');
+                $('#dst_date').val('');
+            } else if (type == "D") {
+                $('#dst_date').removeAttr('disabled').css({"background-color":"#fff"});;
+                InitJCal($('#dst_date'), $('#dst_date_panel'), 2, false, $('#org_date'), null);
+            }
+        });
+        var sortObj = new $.fn.FlightListFilter();
+        sortObj.Bind($("#filter_time"));
+        sortObj.Bind($("#filter_org_airport"));
+        sortObj.Bind($("#filter_dst_airport"));
+        sortObj.Bind($("#filter_carrier"));
+        sortObj.Bind($("#filter_model"));
+        if ($(".return_muti_tab").length && $(".return_muti_tab").length == 1) {
+            $(window).scroll(function () {
+                console.log($(window).scrollTop());
+                if ($(window).scrollTop() > 135) {
+                    $('.return_muti_tab').css({
+                        'position': 'fixed',
+                        'background': '#ffffff',
+                        'top': 0,
+                        "width": "920px",
+                        'z-index': 999
+                    });
+                } else {
+                    $('.return_muti_tab').css({
+                        'position': 'relative',
+                        'box-shadow': 'none',
+                        "width": "auto",
+                        "top": "auto"
+                    });
+                }
+            });
+        }
+        //往返tab
+        $('.return_muti_tab').on('click', 'dd:not(".selected")', function () {
+            $(this).siblings().removeClass('selected');
+            $(this).addClass('selected');
+            if ($(this).hasClass('trip_back')) {
+                if (av_trip_back.length > 0) {
+                    $('#flight_list_result').html('<div class="flight_list_loading"><i>正在查询，请稍后...</i></div>');
+                    setTimeout(function () {//async
+                        $('#flight_list_result').setTemplateElement('flight_list_template');
+                        $("#flight_list_result").setParam('date_substr', fun.date_substr);
+                        $("#flight_list_result").setParam('total_times', fun.total_times);
+                        $("#flight_list_result").setParam('UrlDecode', fun.urldecode);
+                        $("#flight_list_result").setParam('base64_enc', fun.base64_enc);
+                        $('#flight_list_result').processTemplate(av_trip_back).show();
+
+                        $('div.flight_list_search_tips').find('strong').html(av_trip_back.length);
+                        $('div.flight_list_search_tips').show();
+                        $('.search_sort').show();
+
+                        filter.InitFlightFilter(av_trip_back);
+                        filter.InitSort();
+                        filter.TotalFilter();
+                    }, 0);
+                } else {
+                    search('D_back');
+                }
+            } else {
+                if (av_trip_go.length > 0) {
+                    $('#flight_list_result').html('<div class="flight_list_loading"><i>正在查询，请稍后...</i></div>');
+                    setTimeout(function () {//async
+                        $('#flight_list_result').setTemplateElement('flight_list_template');
+                        $("#flight_list_result").setParam('date_substr', fun.date_substr);
+                        $("#flight_list_result").setParam('total_times', fun.total_times);
+                        $("#flight_list_result").setParam('UrlDecode', fun.urldecode);
+                        $("#flight_list_result").setParam('base64_enc', fun.base64_enc);
+                        $('#flight_list_result').processTemplate(av_trip_go).show();
+
+                        $('div.flight_list_search_tips').find('strong').html(av_trip_go.length);
+                        $('div.flight_list_search_tips').show();
+                        $('.search_sort').show();
+
+                        filter.InitFlightFilter(av_trip_go);
+                        filter.InitSort();
+                        filter.TotalFilter();
+                    }, 0);
+                } else {
+                    search();
+                }
+            }
+        });
+    };
+    var init_param = function () {
+        var type = fun.param("trip_type");
+        var org = fun.param("org_city");
+        var org_date = fun.param("org_date");
+        var dst = fun.param("dst_city");
+        var dst_date = fun.param("dst_date");
+        var inf = fun.param("inf");
+        var seat = fun.param("seat");
+        //cookie
+        var key = org + dst;
+        var value = org_date + "|" + dst_date;
+        if (/^[S|D]$/.test(type) == false) {
+            type = "S";
+        }
+        $("input[name=trip_type]").val(type);
+        $("#listSearch>.xingcheng>li").removeClass("active");
+        $("#listSearch>.xingcheng>li[d="+type+"]").addClass("active");
+        //出发日期
+        $('input[name=org_date]').val(org_date);
+        //返回日期
+        $('input[name=dst_date]').val(dst_date);
+        //出发城市
+        $('input[name=org_city]').val(org);
+        //舱位等级
+        $("select[name=seat]").val(seat);
+        var org_name = get_iata_name(org);
+        if (org_name == "") {
+            show_error_msg("请选择出发城市！");
+            return;
+        }
+        $('#org_city').val(org_name);
+        //到达城市
+        $('input[name=dst_city]').val(dst);
+        var dst_name = get_iata_name(dst);
+        if (dst_name == "") {
+            show_error_msg("请选择到达城市！");
+            return;
+        }
+        $('#dst_city').val(dst_name);
+        //日期
+        var od = null;
+        var dd = null;
+        var reg = /^(\d{4})-(\d{1,2})-(\d{1,2})$/;
+        if (reg.test(org_date)) {
+            org_date = org_date.replace(/\-/g, "/");
+            var date = new Date(Date.parse(org_date));
+            od = date;
+            //单程
+            $('div.oneway_tab>h3:eq(0)').html('请选择航班：<span>' + org_name + '<em>&nbsp;</em>' + dst_name + '</span><span>' + (date.getMonth() + 1) + '月' + date.getDate() + '日 星期' + date_week(date.getDay()) + '</span>');
+            $("div.oneway_tab").show();
+            //往返的去程
+            $('dd.trip_go>h3:eq(0)').html('去程航班：<span>' + org_name + '<em>&nbsp;</em>' + dst_name + '</span><span>' + (date.getMonth() + 1) + '月' + date.getDate() + '日 星期' + date_week(date.getDay()) + '</span>');
+            $('dd.trip_go>h3:eq(1)').html('未选择');
+        } else {
+            show_error_msg("请填写出发日期！");
+            return;
+        }
+        if (type == 'D') {
+            if (reg.test(dst_date)) {
+                dst_date = dst_date.replace(/\-/g, "/");
+                var date = new Date(Date.parse(dst_date));
+                dd = date;
+                var httf = dd.getTime() - od.getTime();
+                if (httf < 0) {
+                    show_error_msg("返回日期不能早于出发日期！");
+                    return;
+                }
+
+                $('dd.trip_back>h3:eq(0)').html('返程航班：<span>' + dst_name + '<em>&nbsp;</em>' + org_name + '</span><span>' + (date.getMonth() + 1) + '月' + date.getDate() + '日 星期' + date_week(date.getDay()) + '</span>');
+                $('dd.trip_back>h3:eq(1)').html('未选择');
+            } else {
+                show_error_msg("请填写返回日期！");
+                return;
+            }
+        }
+        cookie.setHistorys("air_history", key, value);
+        //search();
+    };
+    var init_btn = function () {
+        $("#btn_exchangeCity").click(function () {
+            var temp = $("#org_city").val();
+            $("#org_city").val($("#dst_city").val());
+            $("#dst_city").val(temp);
+            temp = $("input[name=org_city]").val();
+            $("input[name=org_city]").val($("input[name=dst_city]").val());
+            $("input[name=dst_city]").val(temp);
+        });
+        $("#btn_search").click(function () {
+            $("form[name=fmFlightSearch]").attr("action", "/Air/Index/").attr("target", "_self").attr("method", "get");
+            $("form[name=fmFlightSearch]").submit();
+        });
+    };
+    var search = function (trip_type) {
+        av_arr = new Array();
+        av_normal_finished = false;
+        av_9c_finished = false;
+        //<!-- 加载 -->
+        //<div class="flight_list_loading"><i>正在查询，请稍后...</i></div>
+        //<!-- 无数据 -->
+        //<div class="flight_list_noresult"><i></i><h3>很抱歉，您搜索的广州到深圳没有直飞航班。</h3></div>
+        $('.oneway_tab').show();
+        $('.return_muti_tab').show();
+        $('#flight_list_result').html('<div class="flight_list_loading"><i>正在查询，请稍后...</i></div>');
+        $('div.flight_list_filter_choosen').hide();
+
+        var from = fun.param("org_city");
+        var to = fun.param("dst_city");
+        var date = fun.param("org_date");
+        var type = fun.param("fee_type");
+        //往返-返程
+        if (trip_type == 'D_back') {
+            from = fun.param("dst_city");
+            to = fun.param("org_city");
+            date = fun.param("dst_date");
+        }
+        $.ajax({
+            url: '/Air/List/?' + Math.random(),
+            type: 'POST',
+            data: { ac: 'AV', org_city: from, dst_city: to, org_date: date, fee_type: type },
+            cache: false,
+            dataType: 'json',
+            error: function (a, b, c) {
+                console.log(c);
+                av_finished(from, to, 0, type, trip_type, {
+                    succeed: true,
+                    msg: "",
+                    data: new Array()
+                });
+            },
+            success: function (result) {
+                console.log(result);
+                av_finished(from, to, 0, type, trip_type, result);
+            },
+            complete: function (req, status) {
+                console.log(status);
+            }
+        });
+        av_finished(from, to, 1, type, trip_type, {
+            succeed: true,
+            msg: "",
+            data: new Array()
+        });
+    };
+    var av_finished = function (from, to, type, sharetype, triptype, json) {
+        if (null == json.data || undefined == json.data) {
+            json.data = new Array();
+        }
+        if (json.data.length > 0) {
+            for (var i = 0; i < json.data.length; i++) {
+                av_arr.push(json.data[i]);
+            }
+        }
+        switch (type) {
+            case 0: av_normal_finished = true;
+                break;
+            case 1: av_9c_finished = true;
+                break;
+        }
+
+        if (av_9c_finished && av_normal_finished) {
+            if (av_arr.length == 0) {
+                $('#flight_list_loading').hide();
+                var fromStr = get_iata_name(from);
+                var toStr = get_iata_name(to);
+                if (json.succeed == false) {
+                    filter.no_flts_msg(json.msg);
+                } else {
+                    filter.no_flts_msg("很抱歉，您搜索的" + fromStr + "到" + toStr + "没有直飞航班！");
+                }
+            }
+        }
+        if (av_arr.length > 0) {
+            $('#flight_list_result').setTemplateElement('flight_list_template');
+            $("#flight_list_result").setParam('date_substr', fun.date_substr);
+            $("#flight_list_result").setParam('total_times', fun.total_times);
+            $("#flight_list_result").setParam('UrlDecode', fun.urldecode);
+            $("#flight_list_result").setParam('base64_enc', fun.base64_enc);
+            $('#flight_list_result').processTemplate(av_arr).show();
+
+            $('div.flight_list_search_tips').find('strong').html(av_arr.length);
+            $('div.flight_list_search_tips').show();
+            $('.search_sort').show();
+
+            filter.InitFlightFilter(av_arr);
+            filter.InitSort();
+            if (triptype == "D_back") {
+                av_trip_back = av_arr;//往返-返程
+            } else {
+                av_trip_go = av_arr;
+            }
+        }
+    };
+    var init_special = function () {
+        if ($("#special_list").length != 1) {
+            return;
+        }
+        $("#special_list").on("click", ".h_item", function () {
+            var trip_string = $(this).find("input[name=trip_string]").val();
+            var reg = /^([A-Z]{3})([A-Z]{3})(\d{4}-\d{2}-\d{2})$/;
+            if (!reg.test(trip_string)) {
+                return;
+            }
+            var arr = trip_string.match(reg);
+            if (arr == null || arr == undefined) {
+                return;
+            }
+            location.href = "/Air/?area_type=GN&fee_type=PUB&flight_search_type=S&org_city=" + arr[1] + "&org_date=" + arr[3] + "&dst_city=" + arr[2];
+        });
+        $.ajax({
+            url: '/Air/SpecialList/?' + Math.random(),
+            type: 'POST',
+            data: { city: "CAN" },
+            cache: false,
+            dataType: 'json',
+            error: function (a, b, c) {
+                console.log(c);
+            },
+            success: function (result) {
+                console.log(result);
+                $("#special_list").setTemplateElement("special_item_template");
+                $("#special_list").setParam("get_day_cn", fun.get_day_cn);
+                $("#special_list").processTemplate(result).show();
+            },
+            complete: function (req, status) {
+                console.log(status);
+            }
+        });
+    };
+    var init_suggest = function () {
+    	$("#org_city").suggestInter(iata_data.data_iata_inter.gn, { attachObject: "#org_city_tips", dataContainer: "input[name=org_city]" });
+        $("#dst_city").suggestInter(iata_data.data_iata_inter.gj, { attachObject: "#dst_city_tips", dataContainer: "input[name=dst_city]" });
+    };
+    init_param();
+    init_date();
+    init_tabs();
+    init_btn();
+    init_suggest();
+    dis_historys();
+    init_special();
+});
+define("private_flt_filter_init", ["jquery", "tool/craft_type", "tool/hash_table", "layer", "tool/fun"], function ($, c, h, l, f) {
+    $.fn.FlightListFilter = function () {
+        var ower = null;
+        var mouse_in = false;
+        this.Bind = function (obj) {
+            ower = obj;
+            if (ower != null) {
+                var link = $(ower).find('a.arrow');
+                var list = $(ower).find('div.filter_list');
+                if (link == null || list == null)
+                    return;
+                $(link).mouseover(function () {
+                    $(list).show();
+                });
+                $(link).mouseout(function () {
+                    if (mouse_in) {
+                        $(list).show();
+                    } else {
+                        $(list).hide();
+                    }
+                });
+                $(list).mouseover(function () {
+                    $(list).show();
+                    mouse_in = true;
+                });
+                $(list).mouseout(function () {
+                    mouse_in = false;
+                    $(list).hide();
+                });
+            }
+        };
+    };
+    var Init = function () {
+        //sort by time
+        $('#sort_by_time').click(function () {
+            $('div.flight_list_sort_side').find('a').removeClass('current');
+            $(this).addClass('current');
+            var arrow = $(this).find('i').attr('class');
+            if (arrow == null || arrow == undefined) {
+                arrow = 'up';
+            }
+            if (arrow == 'up') {
+                $(this).find('i').attr('class', 'down');
+                FlightListSort('time', 'down');
+            } else {
+                $(this).find('i').attr('class', 'up');
+                FlightListSort('time', 'up');
+            }
+        });
+        //sort by price
+        $('#sort_by_price').click(function () {
+            $('div.flight_list_sort_side').find('a').removeClass('current');
+            $(this).addClass('current');
+            var arrow = $(this).find('i').attr('class');
+            if (arrow == null || arrow == undefined) {
+                arrow = 'up';
+            }
+            if (arrow == 'up') {
+                $(this).find('i').attr('class', 'down');
+                FlightListSort('price', 'down');
+            } else {
+                $(this).find('i').attr('class', 'up');
+                FlightListSort('price', 'up');
+            }
+        });
+        //flight_search_list filter
+        $('#filter_time').on('change', 'input[type=checkbox]', function () {
+            TotalFilter();
+        });
+        $('#filter_org_airport').on('change', 'input[type=checkbox]', function () {
+            TotalFilter();
+        });
+        $('#filter_dst_airport').on('change', 'input[type=checkbox]', function () {
+            TotalFilter();
+        });
+        $('#filter_carrier').on('change', 'input[type=checkbox]', function () {
+            TotalFilter();
+        });
+        $('#filter_model').on('change', 'input[type=checkbox]', function () {
+            TotalFilter();
+        });
+        $('#filter_policy').on('change', 'input[type=checkbox]', function () {
+            TotalFilter();
+            //FilterPolicy(null);
+        });
+        $('div.flight_list_filter_choosen').on('click', 'a.flight_list_filter_clear', function () {
+            $('#filter_condition').find('input[type=checkbox]').attr('checked', false);
+            TotalFilter();
+        });
+        $('div.flight_list_filter_choosen').on('click', 'a.filter_item b', function () {
+            var val = $(this).attr('value');
+            $('#filter_condition').find('input[value=' + val + ']').attr('checked', false);
+            TotalFilter();
+        });
+        //code share on
+        $('#flight_list_result').on('mouseover', 'strong.flt_gx', function () {
+            $(this).find('div.flt_tips').show();
+        });
+        //code share out
+        $('#flight_list_result').on('mouseout', 'strong.flt_gx', function () {
+            $(this).find('div.flt_tips').hide();
+        });
+        //flt refund on
+        $('#flight_list_result').on('mouseover', 'td.rule>span.ei', function () {
+            $(this).parent().find('div.flt_rule_tips').show();
+        });
+        //flt refund out
+        $('#flight_list_result').on('mouseout', 'td.rule>span.ei', function () {
+            $(this).parent().find('div.flt_rule_tips').hide();
+        });
+        //flt model on
+        $('#flight_list_result').on('mouseover', 'span.flt_model_link', function () {
+            var data = matchCraft($(this).attr('data'));
+            var model = "未知";
+            var type = "未知";
+            var min = 0;
+            var max = 0;
+            if (data != null && data != undefined) {
+                if (data.length == 5) {
+                    model = data[1];
+                    type = data[2];
+                    min = data[3];
+                    max = data[4];
+                }
+            }
+            $(this).parent().find('div.flt_model_tips').find('span.model').html(model);
+            $(this).parent().find('div.flt_model_tips').find('span.type').html(type);
+            $(this).parent().find('div.flt_model_tips').find('span.min').html(min);
+            $(this).parent().find('div.flt_model_tips').find('span.max').html(max);
+            $(this).parent().find('div.flt_model_tips').show();
+        });
+        //flt mode out
+        $('#flight_list_result').on('mouseout', 'span.flt_model_link', function () {
+            $(this).parent().find('div.flt_model_tips').hide();
+        });
+        //btn next
+        $("#flight_list_result").delegate("a.btn_next", "click", function (e) {
+            e.stopPropagation();
+            if ($(".return_muti_tab").length && $(".return_muti_tab").length == 1) {
+                roundTripBooking(this);
+            } else {
+                var sign = $(this).attr("s");
+                var data = $(this).parents("div.search_box").attr("data");
+                if (timeoutCheck(this)) { return; }
+                var obj = new Object();
+                obj.s = sign;
+                obj.d = data;
+                var arr = new Array();
+                arr.push(obj);
+                var b64 = f.base64_enc(arr);
+                //window.open("/Air/Fill/?d=" + encodeURIComponent(b64));
+                formSubmit("/Air/Fill/", { d: b64 });
+            }
+        });
+        //btn book
+        $("#flight_list_result").delegate("a.btn_book", "click", function () {
+            var sign = $(this).attr("s");
+            var data = $(this).parents("div.search_box").attr("data");
+            if (timeoutCheck(this)) { return; }
+            var obj = new Object();
+            obj.s = sign;
+            obj.d = data;
+            var arr = new Array();
+            arr.push(obj);
+            var b64 = f.base64_enc(arr);
+            //window.open("/Air/Fill/?d=" + encodeURIComponent(b64));
+            formSubmit("/Air/Fill/", { d: b64 });
+        });
+        //flt more
+        $('#flight_list_result').delegate('.search_table_header', "click", function () {
+            if (timeoutCheck(this)) { return; }
+
+            if ($(this).parent().find('div.flight_list_table_all').is(':visible')) {
+                $(this).parent().find('div.flight_list_table_all').hide();
+                $(this).parent().removeClass("search_box_active");
+            } else {
+                var pos = $(this).offset();
+                $("body,html").animate({ scrollTop: pos.top }, 700);
+
+                $(this).parent().find('div.flight_list_table_all').show();
+                $(this).parent().addClass("search_box_active");
+                moreSeat(this);
+            }
+        }).delegate(".btn_book_select", "click", function () {
+            roundTripBooking(this);
+        });
+    };
+    var InitFlightFilter = function (json) {
+        var carrier = HashTable.Create();
+        var model = HashTable.Create();
+        var org_airport = HashTable.Create();
+        var dst_airport = HashTable.Create();
+        for (var f in json) {
+            carrier.Add(json[f].airline, json[f].airlineName);
+            org_airport.Add(json[f].fromCode, json[f].fromAirport);
+            dst_airport.Add(json[f].toCode, json[f].toAirport);
+
+            var m = matchModel(json[f].airModel);
+            var mm = "未知机型";
+            switch (m) {
+                case 0: mm = "未知机型";
+                    break;
+                case 1: mm = "小型机";
+                    break;
+                case 2: mm = "中型机";
+                    break;
+                case 3: mm = "大型机";
+                    break;
+            }
+            model.Add(m, mm);
+        }
+        //filter_carrier
+        var items = carrier.Items();
+        $('#filter_carrier').find('ul').html("");
+        for (var key in items) {
+            $('#filter_carrier').find('ul').append("<li><label><input type=\"checkbox\" value=\"carrier_" + key + "\" text=\"" + items[key] + "\" class=\"input_checkbox\"/>" + items[key] + "</label></li>");
+        }
+        //filter_model
+        items = model.Items();
+        $('#filter_model').find('ul').html("");
+        for (var key in items) {
+            $('#filter_model').find('ul').append("<li><label><input type=\"checkbox\" value=\"" + key + "\" text=\"" + items[key] + "\" class=\"input_checkbox\"/>" + items[key] + "</label></li>");
+        }
+        //filter_org_airport
+        items = org_airport.Items();
+        $('#filter_org_airport').find('ul').html("");
+        for (var key in items) {
+            $('#filter_org_airport').find('ul').append("<li><label><input type=\"checkbox\" value=\"org_airport_" + key + "\" text=\"" + items[key] + "\" class=\"input_checkbox\"/>" + items[key] + "</label></li>");
+        }
+        if (org_airport.Count() > 1) {
+            $('#filter_org_airport').show();
+        } else {
+            $('#filter_org_airport').hide();
+        }
+        //filter_dst_airport
+        items = dst_airport.Items();
+        $('#filter_dst_airport').find('ul').html("");
+        for (var key in items) {
+            $('#filter_dst_airport').find('ul').append("<li><label><input type=\"checkbox\" value=\"dst_airport_" + key + "\" text=\"" + items[key] + "\" class=\"input_checkbox\"/>" + items[key] + "</label></li>");
+        }
+        if (dst_airport.Count() > 1) {
+            $('#filter_dst_airport').show();
+        } else {
+            $('#filter_dst_airport').hide();
+        }
+    };
+    var InitSort = function () {
+        FlightListSort("time", "up");
+        $('#sort_by_price').removeClass('current');
+        $('#sort_by_price').find('i').attr('class', 'up');
+        $('#sort_by_time').addClass('current');
+        $('#sort_by_time').find('i').attr('class', 'up');
+    };
+    var FlightListSort = function (type, arrow) {
+        var divs = null;
+        var len = $('#flight_list_result').find('div.search_box').length;
+        if (len < 1)
+            return;
+        if (type == 'time') {
+            divs = $('#flight_list_result').find('div.search_box').toArray().sort(function (a, b) {
+                var a_time = $(a).find('table.search_table_header').attr('time');
+                var b_time = $(b).find('table.search_table_header').attr('time');
+                var a_date = new Date();
+                var b_date = new Date();
+                var arr = a_time.split(':');
+                a_date.setHours(parseFloat(arr[0]));
+                a_date.setMinutes(parseFloat(arr[1]));
+                arr = b_time.split(':');
+                b_date.setHours(parseFloat(arr[0]));
+                b_date.setMinutes(parseFloat(arr[1]));
+                if (arrow == 'up') {
+                    return a_date.getTime() - b_date.getTime();
+                } else {
+                    return b_date.getTime() - a_date.getTime();
+                }
+            });
+        }
+        if (type == 'price') { //minprice
+            divs = $('#flight_list_result').find('div.search_box').toArray().sort(function (a, b) {
+                var a_price = $(a).find('table.search_table_header').attr('minprice');
+                var b_price = $(b).find('table.search_table_header').attr('minprice');
+                if (arrow == 'up') {
+                    return parseFloat(a_price) - parseFloat(b_price);
+                } else {
+                    return parseFloat(b_price) - parseFloat(a_price);
+                }
+            });
+        }
+        if (divs.length > 0)
+            $('#flight_list_result').html(divs);
+    };
+    var TotalFilter = function () {
+        $("div").remove(".flight_list_noresult");
+        var len = $('#flight_list_result').find('div.search_box').length;
+        if (len == 0) { return; }
+        $('#flight_list_loading').hide();
+        $('#flight_list_noresult').hide();
+        $('#flight_list_result').show();
+        var time_keys = []; var time_hash = HashTable.Create();
+        var org_airport_keys = []; var org_airport_hash = HashTable.Create();
+        var dst_airport_keys = []; var dst_airport_hash = HashTable.Create();
+        var carrier_keys = []; var carrier_hash = HashTable.Create();
+        var model_keys = []; var model_hash = HashTable.Create();
+        var filder_hash = HashTable.Create();
+        //sw上午(6-12点) zw中午(12-13点) xw下午(13-18点) ws晚上(18-24点)
+        $('#filter_time').find('input[type=checkbox]:checked').each(function () {
+            var val = $(this).val();
+            var txt = $(this).attr('text');
+            time_keys.push(val);
+            filder_hash.Add(val, txt);
+        });
+        $('#filter_org_airport').find('input[type=checkbox]:checked').each(function () {
+            var val = $(this).val();
+            var txt = $(this).attr('text');
+            org_airport_keys.push(val);
+            filder_hash.Add(val, txt);
+        });
+        $('#filter_dst_airport').find('input[type=checkbox]:checked').each(function () {
+            var val = $(this).val();
+            var txt = $(this).attr('text');
+            dst_airport_keys.push(val);
+            filder_hash.Add(val, txt);
+        });
+        $('#filter_carrier').find('input[type=checkbox]:checked').each(function () {
+            var val = $(this).val();
+            var txt = $(this).attr('text');
+            carrier_keys.push(val);
+            filder_hash.Add(val, txt);
+        });
+        $('#filter_model').find('input[type=checkbox]:checked').each(function () {
+            var val = $(this).val();
+            var txt = $(this).attr('text');
+            model_keys.push(val);
+            filder_hash.Add(val, txt);
+        });
+        if (filder_hash.Count() > 0) {
+            $('div.flight_list_filter_choosen').show();
+            $('div.flight_list_filter_choosen').find('a').remove();
+            var items = filder_hash.Items();
+            for (var key in items) {
+                $('div.flight_list_filter_choosen').append('<a class=\"filter_item\">' + items[key] + '<b value=' + key + '>×</b></a>');
+            }
+            $('div.flight_list_filter_choosen').append('<a href=\"javascript:;\" class=\"flight_list_filter_clear\">清除筛选</a>');
+        } else {
+            $('div.flight_list_filter_choosen').hide();
+            $('div.flight_list_filter_choosen').find('a').remove();
+        }
+        if (time_keys.length == 0) { time_keys = ['time_sw', 'time_zw', 'time_xw', 'time_ws']; }
+        if (org_airport_keys.length == 0) {
+            $('#filter_org_airport').find('input[type=checkbox]').each(function () {
+                org_airport_keys.push($(this).val());
+            });
+        }
+        if (dst_airport_keys.length == 0) {
+            $('#filter_dst_airport').find('input[type=checkbox]').each(function () {
+                dst_airport_keys.push($(this).val());
+            });
+        }
+        if (carrier_keys.length == 0) {
+            $('#filter_carrier').find('input[type=checkbox]').each(function () {
+                carrier_keys.push($(this).val());
+            });
+        }
+        if (model_keys.length == 0) {
+            $('#filter_model').find('input[type=checkbox]').each(function () {
+                model_keys.push($(this).val());
+            });
+        }
+        for (var time in time_keys) {
+            if (time_keys[time] == 'time_sw') {
+                time_hash.Add(6, 6);
+                time_hash.Add(7, 7);
+                time_hash.Add(8, 8);
+                time_hash.Add(9, 9);
+                time_hash.Add(10, 10);
+                time_hash.Add(11, 11);
+            }
+            if (time_keys[time] == 'time_zw') {
+                time_hash.Add(12, 12);
+            }
+            if (time_keys[time] == 'time_xw') {
+                time_hash.Add(13, 13);
+                time_hash.Add(14, 14);
+                time_hash.Add(15, 15);
+                time_hash.Add(16, 16);
+                time_hash.Add(17, 17);
+            }
+            if (time_keys[time] == 'time_ws') {
+                time_hash.Add(18, 18);
+                time_hash.Add(19, 19);
+                time_hash.Add(20, 20);
+                time_hash.Add(21, 21);
+                time_hash.Add(22, 22);
+                time_hash.Add(23, 23);
+            }
+        }
+        for (var idx in org_airport_keys) {
+            org_airport_hash.Add(org_airport_keys[idx], org_airport_keys[idx]);
+        }
+        for (var idx in dst_airport_keys) {
+            dst_airport_hash.Add(dst_airport_keys[idx], dst_airport_keys[idx]);
+        }
+        for (var idx in carrier_keys) {
+            carrier_hash.Add(carrier_keys[idx], carrier_keys[idx]);
+        }
+        for (var idx in model_keys) {
+            model_hash.Add(model_keys[idx], model_keys[idx]);
+        }
+        $('#flight_list_result').find('div.search_box').each(function () {
+            if (time_keys.length > 0) {
+                var time = $(this).find('table.search_table_header').attr('time');
+                var hour = parseInt(time.split(':')[0]);
+                if (time_hash.Contains(hour)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                    return; //continue;
+                }
+            }
+            if (org_airport_keys.length > 0) {
+                var org = $(this).find('table.search_table_header').attr('org');
+                org = "org_airport_" + org;
+                if (org_airport_hash.Contains(org)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                    return;
+                }
+            }
+            if (dst_airport_keys.length > 0) {
+                var dst = $(this).find('table.search_table_header').attr('dst');
+                dst = "dst_airport_" + dst;
+                if (dst_airport_hash.Contains(dst)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                    return;
+                }
+            }
+            if (carrier_keys.length > 0) {
+                var carrier = $(this).find('table.search_table_header').attr('carrier');
+                carrier = "carrier_" + carrier;
+                if (carrier_hash.Contains(carrier)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                    return;
+                }
+            }
+            if (model_keys.length > 0) {
+                var model = $(this).find('table.search_table_header').attr('model');
+                var m = matchModel(model);
+                if (model_hash.Contains(m)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                    return;
+                }
+            }
+            FilterPolicy(this);
+        });
+        var len = $('#flight_list_result').find('div.search_box:visible').length;
+        $('div.flight_list_search_tips').find('strong').html(len);
+        if (len == 0) {
+            filter_msg('很抱歉，没有找到符合筛选条件的航班！');
+        }
+    };
+    var FilterPolicy = function (item) { };
+    var filter_msg = function (msg) {
+        $('.oneway_tab').show();
+        $('.return_muti_tab').show();
+        $('.search_sort').show();
+        $('.flight_list_search_tips').show();
+        $('.flight_list_filter_choosen').show();
+        $('#flight_list_result').append('<div class="flight_list_noresult"><i></i><h3>' + msg + '</h3></div>');
+    };
+    var no_flts_msg = function (msg) {
+        $('.oneway_tab').show();
+        $('.return_muti_tab').show();
+        $('.search_sort').hide();
+        $('.flight_list_search_tips').hide();
+        $('.flight_list_filter_choosen').hide();
+        $('#flight_list_result').html('<div class="flight_list_noresult"><i></i><h3>' + msg + '</h3></div>');
+    };
+    var moreSeat = function (obj) {
+        var policy = $(obj).attr("sid");
+        var fltno = $(obj).attr("fltno");
+        var from = $(obj).attr("org");
+        var to = $(obj).attr("dst");
+        var d = $(obj).attr("date");
+        var car = $(obj).attr("carrier");
+        $(obj).parent().find("div.seats_box>.data_list_box").hide();
+        $(obj).parent().find("div.seats_box>.data_loading").show();
+        $.ajax({
+            url: '/Air/More/?' + Math.random(),
+            type: 'POST',
+            data: {
+                sid: policy,
+                flt: fltno,
+                org: from,
+                dst: to,
+                date: d,
+                carr: car
+            },
+            cache: false,
+            dataType: 'json',
+            error: function (a, b, c) {
+                moreSeatCallback(new Array(), obj);
+            },
+            success: function (result) {
+                console.log(result);
+                moreSeatCallback(result, obj);
+            },
+            complete: function (req, status) {
+                console.log(status);
+            }
+        });
+    };
+    var moreSeatCallback = function (json, obj) {
+        $(obj).parent().find("div.seats_box>.data_loading").hide();
+        $(obj).parent().find(".seats_box>.data_list_box>.data_list").setTemplateElement("more_seat_template");
+        $(obj).parent().find(".seats_box>.data_list_box>.data_list").processTemplate(json);
+        $(obj).parent().find("div.seats_box>.data_list_box").show();
+
+        if ($(".return_muti_tab>dl>dd").hasClass("selected")) {
+            $(obj).parent().find(".seats_box>.data_list_box>.data_list").find("a.btn_book").html("选择").attr("class", "btn_book_select");
+        }
+    };
+    var timeoutCheck = function (obj) {
+        var time_str = $(obj).parents(".search_box").attr("t");
+        var time = new Date();
+        var now = new Date();
+        time.setTime(time_str);
+        var diff = now.getTime() - time.getTime();
+        //10分钟
+        if (diff >= 60 * 10 * 1000) {
+            layer.open({
+                type: 1,
+                title: '查询提示',
+                closeBtn: false,
+                area: ['425px', '150px'],
+                shade: 0.5,
+                id: 'search_timeout_layer', //设定一个id，防止重复弹出
+                moveType: 1, //拖拽模式，0或者1
+                content: '<div class="layer_msg_box"><p>您的上一次搜索已经过去了10分钟</p><p>，3秒后将为您重新查询更准确报价</p></div>',
+                success: function (layero) { }
+            });
+            var tm = window.setTimeout(function () {
+                window.clearTimeout(tm);
+                window.location.reload();
+            }, 3000);
+            return true;
+        }
+        return false;
+    };
+    var roundTripBooking = function (obj) {
+        if (timeoutCheck(obj)) { return; }
+
+        var tb = $(obj).parents('div.search_box').find('table:eq(0)');
+        var fltno = tb.attr('fltno');
+        var ftime = tb.attr('time');
+        var ttime = tb.attr('totime');
+        var pr = $(obj).attr('pr');
+        var tab = $(".return_muti_tab>dl>dd.selected");
+
+        var sign = $(obj).attr("s");
+        var data = $(obj).parents("div.search_box").attr("data");
+        tab.find("input[name=data_s]").val(sign);
+        tab.find("input[name=data_d]").val(data);
+        tab.find('h3:eq(1)').html('已选择：<span>' + fltno + '</span><span>' + ftime + '<i>至</i>' + ttime + '</span><dfn>¥' + pr + '</dfn>');
+        tab.removeClass('unpicked').addClass('picked');
+        if (tab.hasClass("trip_go")) {
+            $('dd.trip_back').click();
+        } else {
+            var go_sign = $.trim($(".return_muti_tab>dl>dd.trip_go>input[name=data_s]").val());
+            var go_data = $.trim($(".return_muti_tab>dl>dd.trip_go>input[name=data_d]").val());
+            if (go_sign.length == 0 || go_data.length == 0) {
+                $('dd.trip_go').click();
+                return;
+            }
+            var obj_go = new Object();
+            obj_go.s = go_sign;
+            obj_go.d = go_data;
+            var obj_back = new Object();
+            obj_back.s = sign;
+            obj_back.d = data;
+            var arr = new Array();
+            arr.push(obj_go);
+            arr.push(obj_back);
+            var b64 = f.base64_enc(arr);
+            //window.open("/Air/Fill/?d=" + encodeURIComponent(b64));
+            formSubmit("/Air/Fill/", { d: b64 });
+        }
+    };
+    var formSubmit = function (url, params) {
+        if ($("#formSubmit").length == 0) {
+            $("body").append("<form id='formSubmit'></form>");
+        }
+        $("#formSubmit").attr("action", url);
+        $("#formSubmit").attr("method", "post");
+        $("#formSubmit").attr("target", "_blank");
+        $("#formSubmit").empty();
+        for (var k in params) {
+            var ipt = "<input type='hidden' name='" + k + "' value='" + params[k] + "' />";
+            $("#formSubmit").append(ipt);
+        }
+        $("#formSubmit").submit();
+    };
+    //init
+    Init();
+    //return
+    var ret = function () { };
+    ret.InitSort = InitSort;
+    ret.FlightListSort = FlightListSort;
+    ret.InitFlightFilter = InitFlightFilter;
+    ret.filter_msg = filter_msg;
+    ret.no_flts_msg = no_flts_msg;
+    ret.TotalFilter = TotalFilter;
+    return ret;
+});

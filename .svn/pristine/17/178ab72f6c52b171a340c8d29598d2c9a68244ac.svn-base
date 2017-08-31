@@ -1,0 +1,114 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets2014.jsp" %>
+    <title>一达机票-关于我们</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link media="all" rel="stylesheet" href="./america/css/about.css"/>
+</head>
+
+<body>
+<!-- 头部-浮动 -->
+<div class="topNav">
+	<div class="navLeft">
+    	<ul class="nav-ui">
+        	<li class="nav">机票</li>
+            <li>订单咨询</li>
+        </ul>
+    </div>
+    <div class="navcont">
+    	<a href="${context }/"><img src="./america/images/logo.png"/></a>
+    </div>
+    <div class="navRight">
+    	<ul>
+        	<li><a href="${context}/login">登录</a></li>
+        </ul>
+    </div>
+</div>
+<div style="clear:both;"></div>
+<!-- 主体内容 -->
+<div style=" height:70px;"></div>
+<div class="wapper">
+    <h1>关于我们</h1>
+    <p>广州阿方提贸易有限公司创立于2003年，总部设在中国广州，员工500余人。旗下品牌官网-路淘网，是一个集机票旅行搜索服务、酒店、签证、留学、游学为一体的综合在线网络服务平台。路淘网致力于通过智能化的信息搜索和优质的供应商，建立一个为广大消费者提供物超所值、智能便捷的服务平台。</p>
+    <p>路淘自2011年上线运营，经过多年的沉淀与发展，目前已建立了一个以机票为龙头，酒店和签证为辅助，游学和留学为强劲推动力的完整体系，力争全面发展，为广大消费者提供最优惠便捷的服务。</p>
+    <p>金翔达商旅航空成立于2000年，是一家致力于提供全国内数百余家中外企业的机票和旅游的高新技术企业，从前期单一提供机票服务到现在增加的旅游、酒店、签证、会议、电子商务等业务，一路扎实稳打，重视服务品质，并辅以灵活性月结方式，现年销售总额超亿元。</p>
+    <p>2016年广州阿方提贸易有限公司与广州金翔达国际旅行社正式宣布战略合并，两家公司有多年的紧密合作关系，此次合并两家公司完成了资源整合、资源共享并沿用路淘旅行网为官方网站，合并后路淘旅行网在旅游出行服务市场上拥有更大的竟争力。</p>
+    <div class="sevena">
+          <strong>路淘机票</strong>
+          <span>目前，路淘网已实现覆盖广州、深圳、上海、北京、香港、杭州、成都等国内主要城市的国际机票搜索预订服务，并与国内领先商旅服务平台(去哪儿、酷讯、淘宝旅行等)多个五星级级代理商紧密合作，实现全国机票搜索布局。同时，路淘网通过提供强大的信息搜索、专业的出行咨询在线服务、国际热门目的地指南和用户真实点评等特色服务，使用户可以在获取广泛准确信息的基础上作出最佳的旅行决定。</span>
+    </div>
+    <div class="sevena">
+          <strong>路淘酒店</strong>
+          <span>路淘网精选全球150多个国家豪华酒店，为广大消费者营造最舒适、最温馨的住宿环境，并与Booking、agoda等知名酒店服务平台紧密合作，随时为消费者提供全球酒店的详细信息，让消费者一路无忧。</span>
+    </div>
+    <div class="sevena">
+          <strong>路淘签证</strong>
+          <span>路淘网签证中心在全国五大领区北京、上海、广州、成都、沈阳设有直属签证服务网点，资料直接递交领馆，不经过任何环节，方便高效。且与全球36家航司形成紧密的合作伙伴关系，整合各国使馆资源，具有丰富的行业经验。路淘网资深签证专员全程跟进，为您提供表格填写、翻译、行程安排、方案设计、面试培训、陪签等一条龙服务，让您办理签证轻松无忧。</span>
+    </div>
+    <div class="sevena">
+          <strong>路淘留学</strong>
+          <span>路淘网致力于打造中国留学生第一品牌，建设一个为广大留学生提供留学申请、留学规划、境外服务、职业规划等国际留学教育服务为一体的教育平台。路淘网拥有十分专业的教师队伍，随时为广大学子的留学之路保驾护航。</span>
+    </div>
+    <div class="sevena">
+          <strong>路淘游学</strong>
+          <span>路淘网致力于打造中国留学生第一品牌，建设一个为广大留学生提供留学申请、留学规划、境外服务、职业规划等国际留学教育服务为一体的教育平台。路淘网拥有十分专业的教师队伍，随时为广大学子的留学之路保驾护航。
+</span>
+    </div>
+    <div class="sevena">
+          <strong>路淘核心优势</strong>
+          <span>技术优势：完整、有效的服务系统，高质量的专业技术和服务团队，随时为消费者提供优质服务。</span>
+          <span>资源优势：与各大航司、酒店服务平台、留学平台强强联手，整合各方优质资源，为消费者提供全面、准确、即时的信息。</span>
+          <span>价格优势：多家国内外优秀服务代理入驻，超值的价格，让消费者享受最实惠服务。</span>
+          <span>服务优势：资深的专业顾问、优秀的知识人才、无微不至的客服团队，全程为消费者真诚服务。</span>
+    </div>
+    <div class="sevena">
+          <strong>路淘服务承诺</strong>
+          <span>强大的技术能力，智能化的服务系统，24小时为您提供最便捷的服务，让您随时随刻享受路淘无与伦比的价格优惠和品牌服务。</span>
+    </div>
+</div>
+<!-- 底部 -->
+<div class="page-footer">
+	<div class="clearfix">
+	<ul class="links-list">
+    	<li><a href="${context}/about" target="_blank" class="ng-binding">关于我们</a></li>
+    	<li><a href="#" target="_blank" class="ng-binding">美洲机票产品</a></li>
+    	<li><a href="http://www.lutao.com/front/jipiao/flight_apply.jsp" target="_blank" class="ng-binding">特价申请</a></li>
+    	<li><a href="http://www.lutao.com/content/service/12.html" target="_blank" class="ng-binding">服务条款</a></li>
+    </ul>
+    <p>地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼</p>
+    <p>全国服务电话:400-651-8800(免费) 投诉建议:18902221589  一达美洲机票</p>
+    </div>
+</div>
+
+<script>
+		seajs.use(["$",'hidden_e','tabs'], function($,hidden_e,Tabs) {		
+		new Tabs({
+		element: '.paytyle',
+		triggers: '.paytyle .tab_nav span',
+		panels: '.paytyle .e_tab_content',
+		activeTriggerClass: 'active',
+		triggerType:'click',
+		});		
+		
+		$('#hidden_e').toggle(
+			  function(){
+				//$('.conceal-quanbu').css('height', 'auto');
+				$('.PayMain').css('height', 'auto');
+				$(this).html("收起订单详情 ▲");
+			  },
+			  function(){
+				  $('.PayMain').css('height', '');
+				  $(this).html("展开订单详情 ▼");
+			  }
+		  );
+    });
+
+</script>
+
+</body>
+</html>

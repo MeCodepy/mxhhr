@@ -1,0 +1,54 @@
+package com.lutao.america.vo;
+
+import java.io.Serializable;
+import java.util.List;
+
+public class OrderFillParameter implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	private String token="";
+	private String contact="";
+	private String mobile="";
+	private String email="";
+	
+	private List<OrderPassengerParameter> psgs;
+	private List<OrderInsureParameter> insures;
+
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public List<OrderPassengerParameter> getPsgs() {
+		return psgs;
+	}
+	public void setPsgs(List<OrderPassengerParameter> psgs) {
+		this.psgs = psgs;
+	}
+	public List<OrderInsureParameter> getInsures() {
+		return insures;
+	}
+	public void setInsures(List<OrderInsureParameter> insures) {
+		this.insures = insures;
+	}
+	
+}

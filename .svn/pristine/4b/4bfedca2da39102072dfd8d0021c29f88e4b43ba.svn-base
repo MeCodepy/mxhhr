@@ -1,0 +1,42 @@
+package com.lutao.xss;
+
+import java.io.IOException;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * XSS跨站脚本过滤器
+ */
+public class XssFilter implements Filter {
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        System.out.println("Xss filter inited!");
+        log.info("Xss filter inited!");
+    }
+ 
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        XssHttpWrapper htmlRequest = new XssHttpWrapper((HttpServletRequest) request);
+        XssSqlWrapper sqlRequest = new XssSqlWrapper((HttpServletRequest) request);
+        chain.doFilter(htmlRequest, response);//html
+        chain.doFilter(sqlRequest, response);//sql
+        log.info("Xss dofilter http,sql!");
+    }
+ 
+    @Override
+    public void destroy() {
+        System.out.println("Xss filter destroyed!");
+        log.info("Xss filter destroyed!");
+    }
+}

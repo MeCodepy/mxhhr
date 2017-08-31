@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lutao.america.dao.OrderAttrMapper" >
+  <resultMap id="OrderAttrMap" type="OrderAttr" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="NOPAY" property="nopay" jdbcType="DECIMAL" />
+    <result column="TICKETMODE" property="ticketmode" jdbcType="VARCHAR" />
+    <result column="POLICYFRIENDLY" property="policyfriendly" jdbcType="VARCHAR" />
+    <result column="PRO_TYPE" property="proType" jdbcType="VARCHAR" />
+    <result column="ORDER_TYPE" property="orderType" jdbcType="DECIMAL" />
+    <result column="RELATIVE_ORDER" property="relativeOrder" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="EXTRA" property="extra" jdbcType="VARCHAR" />
+    <result column="CABIN_NOTE" property="cabinNote" jdbcType="VARCHAR" />
+    <result column="PRINTTIME" property="printtime" jdbcType="TIMESTAMP" />
+    <result column="FROM_ORDER_ID" property="fromOrderId" jdbcType="DECIMAL" />
+    <result column="SETTLE_DATE" property="settleDate" jdbcType="TIMESTAMP" />
+    <result column="SETTLER" property="settler" jdbcType="DECIMAL" />
+    <result column="IS_NEED_CHANGE_IDCARD" property="isNeedChangeIdcard" jdbcType="DECIMAL" />
+    <result column="CHANGE_IDCARD_STATUS" property="changeIdcardStatus" jdbcType="DECIMAL" />
+    <result column="CHANGE_FLT_STATUS" property="changeFltStatus" jdbcType="DECIMAL" />
+    <result column="DROPTANKSDATE" property="droptanksdate" jdbcType="TIMESTAMP" />
+    <result column="DROPTANKSER" property="droptankser" jdbcType="VARCHAR" />
+     
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, ORDER_ID, NOPAY, TICKETMODE, POLICYFRIENDLY, PRO_TYPE, ORDER_TYPE, RELATIVE_ORDER, 
+    OPERATOR, MEMO, EXTRA, CABIN_NOTE, PRINTTIME, FROM_ORDER_ID, SETTLE_DATE, SETTLER, 
+    IS_NEED_CHANGE_IDCARD, CHANGE_IDCARD_STATUS, CHANGE_FLT_STATUS, DROPTANKSDATE, DROPTANKSER
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="OrderAttrMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_omd_order_attr
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_omd_order_attr
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="com.lutao.america.model.OrderAttr" >
+    insert into t_omd_order_attr (ID, ORDER_ID, NOPAY, 
+      TICKETMODE, POLICYFRIENDLY, PRO_TYPE, 
+      ORDER_TYPE, RELATIVE_ORDER, OPERATOR, 
+      MEMO, EXTRA, CABIN_NOTE, 
+      PRINTTIME, FROM_ORDER_ID, SETTLE_DATE, 
+      SETTLER, IS_NEED_CHANGE_IDCARD, CHANGE_IDCARD_STATUS, 
+      CHANGE_FLT_STATUS, DROPTANKSDATE, DROPTANKSER
+      )
+    values (#{id,jdbcType=DECIMAL}, #{orderId,jdbcType=DECIMAL}, #{nopay,jdbcType=DECIMAL}, 
+      #{ticketmode,jdbcType=VARCHAR}, #{policyfriendly,jdbcType=VARCHAR}, #{proType,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=DECIMAL}, #{relativeOrder,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, 
+      #{memo,jdbcType=VARCHAR}, #{extra,jdbcType=VARCHAR}, #{cabinNote,jdbcType=VARCHAR}, 
+      #{printtime,jdbcType=TIMESTAMP}, #{fromOrderId,jdbcType=DECIMAL}, #{settleDate,jdbcType=TIMESTAMP}, 
+      #{settler,jdbcType=DECIMAL}, #{isNeedChangeIdcard,jdbcType=DECIMAL}, #{changeIdcardStatus,jdbcType=DECIMAL}, 
+      #{changeFltStatus,jdbcType=DECIMAL}, #{droptanksdate,jdbcType=TIMESTAMP}, #{droptankser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lutao.america.model.OrderAttr" >
+    insert into t_omd_order_attr
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="nopay != null" >
+        NOPAY,
+      </if>
+      <if test="ticketmode != null" >
+        TICKETMODE,
+      </if>
+      <if test="policyfriendly != null" >
+        POLICYFRIENDLY,
+      </if>
+      <if test="proType != null" >
+        PRO_TYPE,
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE,
+      </if>
+      <if test="relativeOrder != null" >
+        RELATIVE_ORDER,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="extra != null" >
+        EXTRA,
+      </if>
+      <if test="cabinNote != null" >
+        CABIN_NOTE,
+      </if>
+      <if test="printtime != null" >
+        PRINTTIME,
+      </if>
+      <if test="fromOrderId != null" >
+        FROM_ORDER_ID,
+      </if>
+      <if test="settleDate != null" >
+        SETTLE_DATE,
+      </if>
+      <if test="settler != null" >
+        SETTLER,
+      </if>
+      <if test="isNeedChangeIdcard != null" >
+        IS_NEED_CHANGE_IDCARD,
+      </if>
+      <if test="changeIdcardStatus != null" >
+        CHANGE_IDCARD_STATUS,
+      </if>
+      <if test="changeFltStatus != null" >
+        CHANGE_FLT_STATUS,
+      </if>
+      <if test="droptanksdate != null" >
+        DROPTANKSDATE,
+      </if>
+      <if test="droptankser != null" >
+        DROPTANKSER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="nopay != null" >
+        #{nopay,jdbcType=DECIMAL},
+      </if>
+      <if test="ticketmode != null" >
+        #{ticketmode,jdbcType=VARCHAR},
+      </if>
+      <if test="policyfriendly != null" >
+        #{policyfriendly,jdbcType=VARCHAR},
+      </if>
+      <if test="proType != null" >
+        #{proType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=DECIMAL},
+      </if>
+      <if test="relativeOrder != null" >
+        #{relativeOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinNote != null" >
+        #{cabinNote,jdbcType=VARCHAR},
+      </if>
+      <if test="printtime != null" >
+        #{printtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fromOrderId != null" >
+        #{fromOrderId,jdbcType=DECIMAL},
+      </if>
+      <if test="settleDate != null" >
+        #{settleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="settler != null" >
+        #{settler,jdbcType=DECIMAL},
+      </if>
+      <if test="isNeedChangeIdcard != null" >
+        #{isNeedChangeIdcard,jdbcType=DECIMAL},
+      </if>
+      <if test="changeIdcardStatus != null" >
+        #{changeIdcardStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="changeFltStatus != null" >
+        #{changeFltStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="droptanksdate != null" >
+        #{droptanksdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="droptankser != null" >
+        #{droptankser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lutao.america.model.OrderAttr" >
+    update t_omd_order_attr
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="nopay != null" >
+        NOPAY = #{nopay,jdbcType=DECIMAL},
+      </if>
+      <if test="ticketmode != null" >
+        TICKETMODE = #{ticketmode,jdbcType=VARCHAR},
+      </if>
+      <if test="policyfriendly != null" >
+        POLICYFRIENDLY = #{policyfriendly,jdbcType=VARCHAR},
+      </if>
+      <if test="proType != null" >
+        PRO_TYPE = #{proType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        ORDER_TYPE = #{orderType,jdbcType=DECIMAL},
+      </if>
+      <if test="relativeOrder != null" >
+        RELATIVE_ORDER = #{relativeOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="extra != null" >
+        EXTRA = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinNote != null" >
+        CABIN_NOTE = #{cabinNote,jdbcType=VARCHAR},
+      </if>
+      <if test="printtime != null" >
+        PRINTTIME = #{printtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fromOrderId != null" >
+        FROM_ORDER_ID = #{fromOrderId,jdbcType=DECIMAL},
+      </if>
+      <if test="settleDate != null" >
+        SETTLE_DATE = #{settleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="settler != null" >
+        SETTLER = #{settler,jdbcType=DECIMAL},
+      </if>
+      <if test="isNeedChangeIdcard != null" >
+        IS_NEED_CHANGE_IDCARD = #{isNeedChangeIdcard,jdbcType=DECIMAL},
+      </if>
+      <if test="changeIdcardStatus != null" >
+        CHANGE_IDCARD_STATUS = #{changeIdcardStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="changeFltStatus != null" >
+        CHANGE_FLT_STATUS = #{changeFltStatus,jdbcType=DECIMAL},
+      </if>
+      <if test="droptanksdate != null" >
+        DROPTANKSDATE = #{droptanksdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="droptankser != null" >
+        DROPTANKSER = #{droptankser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lutao.america.model.OrderAttr" >
+    update t_omd_order_attr
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      NOPAY = #{nopay,jdbcType=DECIMAL},
+      TICKETMODE = #{ticketmode,jdbcType=VARCHAR},
+      POLICYFRIENDLY = #{policyfriendly,jdbcType=VARCHAR},
+      PRO_TYPE = #{proType,jdbcType=VARCHAR},
+      ORDER_TYPE = #{orderType,jdbcType=DECIMAL},
+      RELATIVE_ORDER = #{relativeOrder,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      EXTRA = #{extra,jdbcType=VARCHAR},
+      CABIN_NOTE = #{cabinNote,jdbcType=VARCHAR},
+      PRINTTIME = #{printtime,jdbcType=TIMESTAMP},
+      FROM_ORDER_ID = #{fromOrderId,jdbcType=DECIMAL},
+      SETTLE_DATE = #{settleDate,jdbcType=TIMESTAMP},
+      SETTLER = #{settler,jdbcType=DECIMAL},
+      IS_NEED_CHANGE_IDCARD = #{isNeedChangeIdcard,jdbcType=DECIMAL},
+      CHANGE_IDCARD_STATUS = #{changeIdcardStatus,jdbcType=DECIMAL},
+      CHANGE_FLT_STATUS = #{changeFltStatus,jdbcType=DECIMAL},
+      DROPTANKSDATE = #{droptanksdate,jdbcType=TIMESTAMP},
+      DROPTANKSER = #{droptankser,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="getMaxId" resultType="java.lang.Long">
+     select max(ID) from t_omd_order_attr
+  </select>
+</mapper>

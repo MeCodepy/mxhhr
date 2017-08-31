@@ -1,0 +1,444 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+<%@taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets2014.jsp" %>
+    <title>一达机票-查询列表</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link media="all" rel="stylesheet" href="./america/css/flightList.css"/>
+    <script type="text/javascript" data-main="./america/js/list.js?6cc69f90389f73736d1d80806a289eba" src="./america/js/thirdparty/require.js"></script>
+</head>
+
+<body>
+
+<!-- 头部-浮动 -->
+<jsp:include page="/top"></jsp:include>
+
+<div style="clear:both;"></div>
+<!-- 主体内容 -->
+<div style=" height:70px;"></div>
+<div class="FlListMain">
+	<div id="listSearch" class="listSearch wapper">
+    	<ul class="xingcheng">
+        	<li d="D"><em></em>往返</li>
+            <li d="S" class="active" style="margin-top:20px;"><em></em>单程</li>
+        </ul>
+        <div class="search-wap">
+        	<div class="flightPeople">
+            	<label>成人</label>
+            	<select class="eye-dropdown-select" name="adultQuantity" >
+                    <option value="1" selected="selected">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+                <label>儿童(2-12岁)</label>
+                <select class="eye-dropdown-select" name="childQuantity">
+                	<option value="0" selected="selected">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+            	<label>婴儿(<2岁)</label>
+            	<select class="eye-dropdown-select" name="childQuantity">
+                 	 <option value="0" selected="selected">0</option>
+                     <option value="1">1</option>
+                     <option value="2">2</option>
+                     <option value="3">3</option>
+                     <option value="4">4</option>
+                     <option value="5">5</option>
+                     <option value="6">6</option>
+                     <option value="7">7</option>
+                     <option value="8">8</option>
+                     <option value="9">9</option>
+                 </select>
+            </div>
+            <div class="flight-search">
+            	<label>出发城市</label><input type="text" id="org_city" class="flight-input"/>
+                <label>到达城市</label><input type="text" id="dst_city" class="flight-input"/>
+                <a class="charges"></a>
+                <label>出发时间</label><input type="text" id="org_date" name="org_date" class="flight-input"/>
+                <label>回程时间</label><input type="text" id="dst_date" name="dst_date" class="flight-input"/>
+            </div>
+        </div>
+        <div class="search-btn-box">
+           	<a class="searchFlight">搜索航班</a>
+            <label>舱位等级</label>
+            <select name="seat">
+            	<option value="normal">经济舱</option>
+                <option value="business">商务舱</option>
+                <option value="first">头等舱</option>
+            </select>
+            <input type="hidden" name="org_city" value=""/>
+            <input type="hidden" name="dst_city" value=""/>
+            <input type="hidden" name="trip_type" value="S"/>
+        </div>
+    </div>
+    <div style="clear:both;"></div>
+    <div class="ListBox wapper">
+    	<div class="ListLeft">
+        	<div class="search-promotions">
+            	<div class="search-trip">
+                	<span>上海—纽约</span><em>2017-04-18 出发</em><em>共47个航班</em>
+                </div>
+                <div class="search-choose">
+                	<ul class="choose-list">
+                    	<li class="nav">默认排序</li>
+                        <li>人均价格</li>
+                        <li>飞行时长</li>
+                        <li>起飞时间</li>
+                    </ul>
+                </div>
+                
+                <!--机票列表-->
+                <div class="flight-table">
+                	<ul class="flight-iu-detail">
+                        <!--单程直达-->
+                    	<li>
+                            <div class="flight-detali">
+                        	    <img src="images/airline/CA.gif">
+                            	<p class="flight-time" style="text-align:right;"><strong>10:40</strong><span>广州</span></p>
+                                <p class="zhuan">8小时20分钟<em><dfn class="zhidaa">直达</dfn></em></p>
+                                <p class="flight-time"><strong>10:40</strong><span>纽约</span></p>
+                                <span class="cangwei">经济舱</span>
+                            </div>
+                            <p class="flightPrice"><span>￥<em>1234</em>起</span><dfn>税费 ¥125</dfn><a class="bookBtn">预定</a></p>
+                            <div style="clear:both;"></div>
+								<a class="more-detail" onclick="display('more-detail0')">航班详情</a>
+                                <div id="more-detail" class="more-detail0">
+                                	<p class="detail-top-tip"><span>2017-04-18(周二)</span><span>上海—纽约</span><em>20小时</em></p>
+                                    <div class="flight-icon">
+                                        <span class="icon_turnplane dcbj"></span>
+                                    </div>
+                                    <div class="flight_fr">
+                                    	<div class="w200 fl"><b>10:25</b><br>12:55<span class="price mgl3"></span></div>
+                                        <div class="w200 fl">广州<br>台湾</div>
+                                        <div class="w130 fl">四川航空<br>3U8738</div>
+                                        <div class="w90 fl dcfl">2小时30分</div>
+                                    </div>
+                                </div>
+                        </li>
+                        <li>
+                            <div class="flight-detali">
+                        	    <img src="images/airline/CA.gif">
+                            	<p class="flight-time" style="text-align:right;"><strong>10:40</strong><span>广州</span></p>
+                                <p class="zhuan">8小时20分钟<em><dfn>转</dfn>台湾</em></p>
+                                <p class="flight-time"><strong>10:40</strong><span>纽约</span></p>
+                                <span class="cangwei">经济舱</span>
+                            </div>
+                            <p class="flightPrice"><span>￥<em>1234</em>起</span><dfn>税费 ¥125</dfn><a class="bookBtn">预定</a></p>
+                            <div style="clear:both;"></div>
+								<a class="more-detail" onclick="display('more-detail1')">航班详情</a>
+                                <div id="more-detail" class="more-detail1">
+                                	<p class="detail-top-tip"><span>2017-04-18(周二)</span><span>上海—纽约</span><em>20小时</em></p>
+                                    <div class="flight-icon">
+                                    	<span class="icon_plane"></span>
+                                        <span class="icon_turnplane"></span>
+                                        <span class="icon_plane"></span>
+                                    </div>
+                                    <div class="flight_fr">
+                                    	<div class="w200 fl"><b>10:25</b><br>12:55<span class="price mgl3"></span></div>
+                                        <div class="w200 fl">广州<br>台湾</div>
+                                        <div class="w130 fl">四川航空<br>3U8738</div>
+                                        <div class="w90 fl">2小时30分</div>
+                                        <div class="flight_transit"><strong>成都</strong><span class="zhongz">中转</span><span class="fr">6小时25分</span></div>
+                                    </div>
+                                    <div class="flight_fr">
+                                    	<div class="w200 fl"><b>10:25</b><br>12:55<span class="price mgl3"></span></div>
+                                        <div class="w200 fl">广州<br>成都</div>
+                                        <div class="w130 fl">四川航空<br>3U8738</div>
+                                        <div class="w90 fl">2小时30分</div>
+                                    </div>
+                                </div>
+                        </li>
+                        <!--往返直飞-->
+                        <li>
+                            <div class="flight-detali">
+                                <div class="detaila">
+                                      <img src="images/airline/CA.gif">
+                                      <p class="flight-time" style="text-align:right;"><strong>10:40</strong><span>广州</span></p>
+                                      <p class="zhuan">8小时20分钟<em><dfn class="zhidaa">直达</dfn></em></p>
+                                      <p class="flight-time"><strong>10:40</strong><span>纽约</span></p>
+                                      <span class="cangwei">经济舱</span>
+                                </div>
+                                <hr/>
+                                <div class="detaila">
+                                      <img src="images/airline/CA.gif">
+                                      <p class="flight-time" style="text-align:right;"><strong>10:40</strong><span>纽约</span></p>
+                                      <p class="zhuan">8小时20分钟<em><dfn class="zhidaa">直达</dfn></em></p>
+                                      <p class="flight-time"><strong>10:40</strong><span>广州</span></p>
+                                      <span class="cangwei">经济舱</span>
+                                 </div>
+                                 <div style=" clear:both;"></div>
+                            </div>
+                            <p class="flightPrice bookBtntwo"><span>￥<em>1234</em>起</span><dfn>税费 ¥125</dfn><a class="bookBtn">预定</a></p>
+                            <div style="clear:both;"></div>
+								<a class="more-detail" onclick="display('more-detail3')">航班详情</a>
+                                <div id="more-detail" class="more-detail3">
+                                	<p class="detail-top-tip"><span>2017-04-18(周二)</span><span>上海—纽约</span><em>20小时</em></p>
+                                    <div class="flight-icon">
+                                        <span class="icon_turnplane dcbj"></span>
+                                    </div>
+                                    <div class="flight_fr">
+                                    	<div class="w200 fl"><b>10:25</b><br>12:55<span class="price mgl3"></span></div>
+                                        <div class="w200 fl">广州<br>台湾</div>
+                                        <div class="w130 fl">四川航空<br>3U8738</div>
+                                        <div class="w90 fl dcfl">2小时30分</div>
+                                    </div>
+                                    <div style=" clear:both;"></div>
+                                    <div style=" height:30px;"></div>
+                                	<p class="detail-top-tip"><span>2017-04-18(周二)</span><span>上海—纽约</span><em>20小时</em></p>
+                                    <div class="flight-icon">
+                                        <span class="icon_turnplane dcbj"></span>
+                                    </div>
+                                    <div class="flight_fr">
+                                    	<div class="w200 fl"><b>10:25</b><br>12:55<span class="price mgl3"></span></div>
+                                        <div class="w200 fl">广州<br>台湾</div>
+                                        <div class="w130 fl">四川航空<br>3U8738</div>
+                                        <div class="w90 fl dcfl">2小时30分</div>
+                                    </div>
+                                    <div style=" clear:both;"></div>
+                                </div>
+                        </li>
+                        <li>
+                            <div class="flight-detali">
+                                <div class="detaila">
+                                      <img src="images/airline/CA.gif">
+                                      <p class="flight-time" style="text-align:right;"><strong>10:40</strong><span>广州</span></p>
+                                      <p class="zhuan">8小时20分钟<em><dfn>转</dfn>台湾</em></p>
+                                      <p class="flight-time"><strong>10:40</strong><span>纽约</span></p>
+                                      <span class="cangwei">经济舱</span>
+                                </div>
+                                <hr/>
+                                <div class="detaila">
+                                      <img src="images/airline/CA.gif">
+                                      <p class="flight-time" style="text-align:right;"><strong>10:40</strong><span>纽约</span></p>
+                                      <p class="zhuan">8小时20分钟<em><dfn>转</dfn>台湾</em></p>
+                                      <p class="flight-time"><strong>10:40</strong><span>广州</span></p>
+                                      <span class="cangwei">经济舱</span>
+                                 </div>
+                                 <div style=" clear:both;"></div>
+                            </div>
+                            <p class="flightPrice bookBtntwo"><span>￥<em>1234</em>起</span><dfn>税费 ¥125</dfn><a class="bookBtn">预定</a></p>
+                            <div style="clear:both;"></div>
+								<a class="more-detail" onclick="display('more-detail4')">航班详情</a>
+                                <div id="more-detail" class="more-detail4">
+                                	<p class="detail-top-tip"><span>2017-04-18(周二)</span><span>上海—纽约</span><em>20小时</em></p>
+                                    <div class="flight-icon">
+                                    	<span class="icon_plane"></span>
+                                        <span class="icon_turnplane"></span>
+                                        <span class="icon_plane"></span>
+                                    </div>
+                                    <div class="flight_fr">
+                                    	<div class="w200 fl"><b>10:25</b><br>12:55<span class="price mgl3"></span></div>
+                                        <div class="w200 fl">广州<br>台湾</div>
+                                        <div class="w130 fl">四川航空<br>3U8738</div>
+                                        <div class="w90 fl">2小时30分</div>
+                                        <div class="flight_transit"><strong>成都</strong><span class="zhongz">中转</span><span class="fr">6小时25分</span></div>
+                                    </div>
+                                    <div class="flight_fr">
+                                    	<div class="w200 fl"><b>10:25</b><br>12:55<span class="price mgl3"></span></div>
+                                        <div class="w200 fl">广州<br>成都</div>
+                                        <div class="w130 fl">四川航空<br>3U8738</div>
+                                        <div class="w90 fl">2小时30分</div>
+                                    </div>
+                                    <div style=" clear:both;"></div>
+                                    <div style=" height:30px;"></div>
+                                	<p class="detail-top-tip"><span>2017-05-05(周二)</span><span>纽约—上海</span><em>20小时</em></p>
+                                    <div class="flight-icon">
+                                    	<span class="icon_plane"></span>
+                                        <span class="icon_turnplane"></span>
+                                        <span class="icon_plane"></span>
+                                    </div>
+                                    <div class="flight_fr">
+                                    	<div class="w200 fl"><b>10:25</b><br>12:55<span class="price mgl3"></span></div>
+                                        <div class="w200 fl">广州<br>台湾</div>
+                                        <div class="w130 fl">四川航空<br>3U8738</div>
+                                        <div class="w90 fl">2小时30分</div>
+                                        <div class="flight_transit"><strong>成都</strong><span class="zhongz">中转</span><span class="fr">6小时25分</span></div>
+                                    </div>
+                                    <div class="flight_fr">
+                                    	<div class="w200 fl"><b>10:25</b><br>12:55<span class="price mgl3"></span></div>
+                                        <div class="w200 fl">广州<br>成都</div>
+                                        <div class="w130 fl">四川航空<br>3U8738</div>
+                                        <div class="w90 fl">2小时30分</div>
+                                    </div>
+                                    <div style=" clear:both;"></div>
+                                </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="ListRight">
+             <div class="righttop">
+                    <h4 class="rightss"><i></i>搜索历史</h4>  
+                    <div class="rightbox">
+                       <div class="ssnr">
+                              <span class="ssleft">单程</span>
+                              <span class="ssleft">上海—巴黎</span>
+                              <div style=" clear:both;"></div>
+                              <span class="ssleft">04-21（周五）</span>
+                       </div>
+                       <div style=" clear:both;"></div>
+                       <div class="seachqk">刚刚查询</div>
+                   </div>
+                   <div style=" clear:both;"></div>
+                   <hr/>
+                  <div class="rightbox">
+                     <div class="ssnr">
+                            <span class="ssleft">单程</span>
+                            <span class="ssleft">上海—巴黎</span>
+                            <div style=" cler:both;"></div>
+                            <span class="ssleft">04-21（周五）</span>
+                     </div>
+                     <div style=" clear:both;"></div>
+                     <div class="seachqk">2分钟</div>
+                 </div>
+             </div> 
+             <div style=" clear:both;"></div>
+             <div class="rightbottom">
+                   <h4 class="rightsaa">筛选条件<span>清除全部</span></h4>  
+                   <div style=" clear:both;"></div>
+                   <div class="gonggroup">
+                         <div class="groupbtt">直飞/中转</div> 
+                         <div class="groupntt">
+                                 <span class="eye-checkbox">
+                                       <label><input name="ikk" type="checkbox" value="" />&nbsp;&nbsp;国泰航空 </label>
+                                 </span>
+                                 <span class="eye-jiage">¥1286</span>
+                                 <div style=" clear:both;"></div>
+                         </div>
+                         <div class="groupntt">
+                                 <span class="eye-checkbox">
+                                       <label><input name="ikk" type="checkbox" value="" />&nbsp;&nbsp;国泰航空 </label>
+                                 </span>
+                                 <span class="eye-jiage">¥1286</span>
+                                 <div style=" clear:both;"></div>
+                         </div>
+                   </div>
+                   <hr/>
+                   <div style=" clear:both;"></div>
+                   <div class="gonggroup">
+                         <div class="groupbtt">出发时段</div> 
+                         <div class="groupntt">
+                                 <span class="eye-checkbox">
+                                       <label><input name="ikk" type="checkbox" value="" />&nbsp;&nbsp;上午(00:00 - 12:00) </label>
+                                 </span>
+                         </div>
+                         <div class="groupntt">
+                                 <span class="eye-checkbox">
+                                       <label><input name="ikk" type="checkbox" value="" />&nbsp;&nbsp;中午(12:00 - 14:00)</label>
+                                 </span>
+                         </div>
+                         <div class="groupntt">
+                                 <span class="eye-checkbox">
+                                       <label><input name="ikk" type="checkbox" value="" />&nbsp;&nbsp;下午(14:00 - 18:00)</label>
+                                 </span>
+                         </div>
+                         <div class="groupntt">
+                                 <span class="eye-checkbox">
+                                       <label><input name="ikk" type="checkbox" value="" />&nbsp;&nbsp;晚上(18:00 - 24:00)</label>
+                                 </span>
+                         </div>
+                   </div>
+                   <hr/>
+                   <div style=" clear:both;"></div>
+                   <div class="gonggroup">
+                         <div class="groupbtt">航空公司</div> 
+                         <div class="groupntt">
+                                 <span class="eye-checkbox">
+                                       <label><input name="ikk" type="checkbox" value="" />&nbsp;&nbsp;国泰航空 </label>
+                                 </span>
+                                 <span class="eye-jiage">¥1286</span>
+                                 <div style=" clear:both;"></div>
+                         </div>
+                         <div class="groupntt">
+                                 <span class="eye-checkbox">
+                                       <label><input name="ikk" type="checkbox" value="" />&nbsp;&nbsp;国泰航空 </label>
+                                 </span>
+                                 <span class="eye-jiage">¥1286</span>
+                                 <div style=" clear:both;"></div>
+                         </div>
+                         <div class="groupntt">
+                                 <span class="eye-checkbox">
+                                       <label><input name="ikk" type="checkbox" value="" />&nbsp;&nbsp;国泰航空 </label>
+                                 </span>
+                                 <span class="eye-jiage">¥1286</span>
+                                 <div style=" clear:both;"></div>
+                         </div>
+                         <div class="groupntt">
+                                 <span class="eye-checkbox">
+                                       <label><input name="ikk" type="checkbox" value="" />&nbsp;&nbsp;国泰航空 </label>
+                                 </span>
+                                 <span class="eye-jiage">¥1286</span>
+                                 <div style=" clear:both;"></div>
+                         </div>
+                   </div>
+             </div>
+        </div>
+    </div>
+</div>
+    <div style="clear:both;"></div>
+<!-- 底部 -->
+<div class="page-footer">
+	<div class="clearfix">
+	<ul class="links-list">
+    	<li><a href="" target="_blank" class="ng-binding">关于我们</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">美洲机票产品</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">特价申请</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">服务条款</a></li>
+    </ul>
+    <p>地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼</p>
+    <p>全国服务电话:400-651-8800(免费) 投诉建议:13800138000  一达美洲机票</p>
+    </div>
+</div>
+
+<script>
+		seajs.use(["$",'tabs'], function($,Tabs) {		
+		new Tabs({
+		element: '#listSearch',
+		triggers: '#listSearch .xingcheng li',
+		panels: '#listSearch .search-wap',
+		activeTriggerClass: 'active',
+		triggerType:'click',
+		});		
+    });
+	
+	
+$(".choose-list li").click(function(){
+		$(".choose-list li").each(function(){
+			$(this).css({"background-color":"#fff","color":"#666"});
+		});
+		$(this).css({"background-color":"#0195ff","color":"#fff"});
+	    });
+
+</script>
+
+<script>
+function display(detailclass){
+      var more = $("."+detailclass);
+      if(more.css('display')=="none"){
+          more.show();
+      }else{
+          more.hide();
+      }
+  }
+</script>
+</body>
+</html>

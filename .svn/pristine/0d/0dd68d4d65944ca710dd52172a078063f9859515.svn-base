@@ -1,0 +1,494 @@
+﻿@charset "utf-8";
+/* CSS Document */
+.main{
+	width:100%;
+	width:100%;
+	position:relative;
+	min-width:960px;
+	left:0;
+	z-index:99;
+	background-size:cover;
+	box-sizing:border-box;
+	height:400px;}
+
+/******************************  头部样式   **************************************/
+.topNav{
+	width:99%;
+	padding:0 0.5%;
+	background:#000;
+	height:50px;
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:10;}
+
+.topNav .navLeft{
+	width:33%;
+	float:left;}
+
+.topNav .navLeft .nav-ui li{
+	float:left;
+	line-height:47px;
+	font-size:20px;
+	color:#fff;
+	margin-right:20px;
+	padding:0 10px;
+	cursor:pointer;}
+
+.topNav .navLeft .nav-ui li:hover{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navLeft .nav-ui .nav{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navcont{
+	width:33%;
+	float:left;
+	text-align:center;}
+
+.topNav .navRight{
+	width:33%;
+	float:left;}
+
+.topNav .navRight ul li{
+	float:right;
+	line-height:50px;
+	font-size:20px;
+	color:#fff;}
+
+.contMain{
+    background: rgba(0, 0, 0, 0) url("../images/findflight.jpg") no-repeat scroll center center / cover ;
+    height: 400px;
+    width:100%;
+    z-index: 0;
+}	
+
+.contMain .ticFind{
+	width:1004px;
+	z-index:3;
+	margin:0 auto;
+}
+
+
+#ticketBox {
+    padding-top: 125px;
+}
+
+#ticketBox .ticNav{
+	width:240px;
+	float:left;}
+
+#ticketBox .ticNav li{
+	font-size:20px;
+	color:#FFF;
+	margin-right:45px;
+	float:left;
+	cursor:pointer;
+	margin-bottom:20px;}
+
+#ticketBox .ticNav li i{
+	width:10px;
+	height:10px;
+	float:left;
+	border-radius:50%;
+	background:#ececec;
+	border:4px solid #FFF;
+	display:block;
+	box-shadow:1px 1px 1px #ccc;
+	margin-top:5px;
+	margin-right:5px;}
+
+#ticketBox .ticNav li:hover i{
+	background:#ececec;
+	border:4px solid #FFF;}
+
+#ticketBox .ticNav li.active i{
+	background:#0195ff;
+	border:4px solid #FFF;}
+
+#ticketBox .hiddenBox{
+	clear:both;
+	width:1004px;
+	float:left;}
+
+#ticketBox .hiddenBox select{
+	float:left;
+	appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+	color:#999;
+	text-align:center;
+	font-size:20px;
+	 background:fff;
+   width: 90px;
+   padding: 5px;
+   font-size: 14px;
+   border:none;
+   border-right:1px solid #ddd;
+   height: 48px;
+   -webkit-appearance: none; /*for chrome*/}
+   
+   /*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+select::-ms-expand { display: none; }
+
+#ticketBox .hiddenBox .jicang select option{
+	border:none;
+	background:rgba(0,0,0,.8)}
+
+#ticketBox .hiddenBox .chang{
+	width:48px;
+	height:48px;
+	cursor:pointer;
+	border-right:1px solid #ddd;
+	background:url(../images/change.jpg) no-repeat center;
+	display:block;
+	float:left;}
+
+#ticketBox .hiddenBox input{
+	height:48px;
+	font-size:14px;
+	padding-left:30px;
+	border:none;
+	border-right:1px solid #ddd;
+	color:#333;
+	float:left;}
+
+#ticketBox .hiddenBox label{
+	float:left;
+	width:80px;
+	font-size:12px;
+	color:#FFF;
+	margin-right:5px;
+	line-height:46px;}
+
+#ticketBox .hiddenBox .city-chufa, .city-daoda{
+	width:180px;}
+
+#ticketBox .hiddenBox .date-chufa, .date-fan{
+	width:100px;}
+
+#ticketBox .hiddenBox .city-chufa{
+	background:rgb(255, 255, 255) url("../images/icon-qi.jpg") no-repeat;
+	background-position:center left;}
+
+#ticketBox .hiddenBox .city-daoda{
+	background:rgb(255, 255, 255) url("../images/icon-luo.jpg") no-repeat;
+	background-position:center left;}
+
+#ticketBox .hiddenBox .date-chufa{
+	background:rgb(255, 255, 255) url("../images/icon-dat.jpg") no-repeat;
+	background-position:center left;}
+	
+#ticketBox .hiddenBox .date-fan{
+	background:rgb(255, 255, 255) url("../images/icon-dat.jpg") no-repeat;
+	background-position:center left;}
+	
+#ticketBox .hiddenBox .search-flight{
+	background:#0195ff;
+	color:#FFF;
+	display:block;
+	float:right;
+	margin-right:0px;
+	margin-top:16px;
+	font-size:16px;
+	height:44px;
+	line-height:44px;
+	text-align:center;
+	padding:0px 35px;
+	font-weight:bold;
+	border-radius:5px;}
+
+#ticketBox .hiddenBox .search-flight img{
+	margin-top:-5px;}
+
+.contMain .ticBg {
+    width: 100%;
+    height:48px;
+	display:none;}
+
+.contMain .ticBg .bgImg{
+	background:url(../images/findflight.jpg) no-repeat center;
+	background-size:cover;
+	width: 100%;
+    height: 100%;
+    z-index: 0;
+	position:absolute;}
+
+/******************************  标题样式   **************************************/
+.titleCont{
+	width:1183px;
+	margin:auto;
+	text-align:center;}
+
+.titleCont h2{
+	color: #666;
+    font-size: 44px;
+    position: relative;}
+
+.titleCont h2 .brick{
+	background-color: #0195ff;
+    bottom: -4px;
+    display: inline-block;
+    height: 6px;
+    left: 50%;
+    margin-left: -30px;
+    position: absolute;
+    width: 60px;}
+
+.titleCont p{
+	color: #999;
+    font-size: 20px;
+    font-weight: 100;}
+
+/******************************  热门城市样式   **************************************/
+.hotCity{
+	margin-top:20px;}
+	
+.flash4{width:1180px;height:400px;margin:0px auto;margin-bottom:20px;position:relative;}
+.flash4 ul li{width:107px;height:400px;position:relative;overflow:hidden;float:left;}
+
+.flash4 ul li .imgTop img{opacity:0.4;}
+.flash4 ul li .imgTop img.tm{opacity:1;}
+.flash4 ul li .imgTop img.tn{opacity:0.5;}
+.flash4 ul li .imgCon{width:538px;height:405px;}
+.flash4 ul li .imgCen{width:538px;color:#fff;font-size:14px;line-height:30px;position:absolute;left:0px;bottom:165px; text-align:center; text-shadow:1px 1px 5px rgba(0,0,0,.8);}
+.flash4 ul li:hover .imgCen{ animation:1s pulse;}
+.flash4 ul li .imgCen p{ font-size:22px !important;margin-bottom: 6px !important;}
+.flash4 ul li .imgCen .liaojie{ display:block; width:160px; color:#FFF; background:#2bb9eb; font-size:14px; line-height:30px; border-radius:20px; text-shadow:none; margin:0 auto;}
+.flash4 ul li .imgBot{width:538px;height: 60px; color:#FFF; position:relative;top: -65px;text-shadow:1px 1px 5px rgba(0,0,0,.8);background: rgba(0, 0, 0, 0) -moz-linear-gradient(center top , rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8)) repeat scroll 0 0;}
+.flash4 ul li .imgBot p.bt_1{line-height:81px;font-size:16px;color:#fff;text-indent:20px;float:left;}
+.flash4 ul li:hover .imgBot{ animation:1s slideOutLeft; display:none;}
+.flash4 ul li.first{width:538px;}
+.flash4 ul li.fast{position:absolute;right:0px;bottom:0px;}
+@-webkit-keyframes pulse {
+    0% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+
+    50% {
+        -webkit-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+    }
+
+    50% {
+        -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        transform: scale(1.1);
+    }
+
+    100% {
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+.pulse {
+    -webkit-animation-name: pulse;
+    animation-name: pulse;
+}
+
+
+@-webkit-keyframes slideOutLeft {
+    0% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: translateX(-2000px);
+        transform: translateX(-2000px);
+    }
+}
+
+@keyframes slideOutLeft {
+    0% {
+        -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+        transform: translateX(0);
+    }
+
+    100% {
+        opacity: 0;
+        -webkit-transform: translateX(-2000px);
+        -ms-transform: translateX(-2000px);
+        transform: translateX(-2000px);
+    }
+}
+
+.slideOutLeft {
+    -webkit-animation-name: slideOutLeft;
+    animation-name: slideOutLeft;
+}
+
+
+/******************************  优惠机票样式   **************************************/
+.page-ticket{
+	margin-top:20px;
+	height: auto;
+    left: 0;
+	z-index:33;
+    position: relative;}
+
+.page-ticket .ticketList {
+	width:1183px;
+	margin:20px auto 0;}
+
+.page-ticket .ticketList .tic-ui li{
+	width: 50%;
+    height: auto;
+	float:left;
+	background:#333;}
+
+.page-ticket .ticketList .tic-ui li .fareset-link{
+    overflow: hidden;
+	display: block;
+    position: relative;
+    height: 100%;
+	text-decoration:none;
+	vertical-align:baseline;
+	background:transparent;}
+
+.page-ticket .ticketList .tic-ui li .fareset-link img{
+	height:auto;
+	width:100%;}
+
+.page-ticket .ticketList .tic-ui li .fareset-link  .fareset-detail{
+	width: 100%;
+    height: 100%;
+    -webkit-transition: none !important;
+    transition: none !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;}
+
+.page-ticket .ticketList .tic-ui li .fareset-link .fareset-text-wrap{
+	width: 100%;
+    height: 100%;
+    display: table;
+    word-spacing: -1em;}
+
+.page-ticket .ticketList .tic-ui li .fareset-link .fareset-text-wrap .fareset-text{
+	display: table-cell;
+    width: 100%;
+    vertical-align: middle;
+    word-spacing: normal;
+    padding: 0 10px;
+    text-align: center;
+	color:#FFF;}
+
+.page-ticket .ticketList .tic-ui li:hover .fareset-link .fareset-text-wrap .fareset-text{
+	background:rgba(0,0,0,.7);}
+
+.page-ticket .ticketList .tic-ui li .fareset-link .fareset-text-wrap .fareset-text .txt{
+	font-size:1.5rem;
+	display:block;}
+
+.page-ticket .ticketList .tic-ui li .fareset-link .fareset-text-wrap .fareset-text .txtf{
+	font-size:1rem;}
+
+.page-ticket .ticketList .tic-ui li .fareset-link .fareset-text-wrap .fareset-text .price{
+	font-size:1.5rem;}
+
+.page-ticket .ticketList .tic-ui li .fareset-link .fareset-text-wrap .fareset-text .price span{
+	font-size:2rem;
+	font-weight:bold;
+	margin-left:5px;
+}
+.activities{ 
+    margin-top:20px; 
+	margin-bottom:40px;
+}
+.activities .switch_hd{
+	margin: 20px auto 0;
+    width: 1183px;
+}
+/* --------------官方活动图片切换-------------- */
+#switch_hd {
+	position:relative;
+	height:300px;
+}
+#switch_hd .ui-switchable-content li {
+	width:1183px;
+	height:300px;
+	background-repeat:no-repeat;
+}
+
+#switch_hd .ui-switchable-nav {
+    bottom: -30px;
+    position: absolute;
+    right: 47.5%;
+    z-index: 100;
+}
+
+#switch_hd .ui-switchable-nav li {
+    background: rgba(0, 0, 0, 0) url("/front/yida/images/pagination.png") no-repeat scroll 0 0;
+    cursor: pointer;
+    float: left;
+    height:22px;
+    margin: 0 2px;
+    text-align: center;
+    text-indent: -9999px;
+    width: 25px;
+}
+#switch_hd .ui-switchable-nav li.ui-switchable-active {
+    background-position: 0 -21px;
+}
+
+
+/******************************  底部样式   **************************************/
+.page-footer{
+	clear: both;
+    background: #fff;
+    padding-bottom: 12px;
+    padding-top: 12px;
+	position:relative;
+	left:0;
+	bottom:0;
+	z-index:44;}
+
+.page-footer .clearfix{
+	text-align:center;}
+
+.page-footer .clearfix .links-list li{
+	    margin: 0;
+    text-decoration: none;
+    border-right: 1px solid #969696;
+    padding-left: 50px;
+    text-align: center;
+    padding-right: 50px;
+    line-height: 50px;
+    display: inline;
+    color: #969696;}
+
+.page-footer .clearfix .links-list li .ng-binding{
+	color: #969696;
+    text-decoration: none;
+    font-weight: 400;}
+
+.page-footer .clearfix p{
+	text-align: center;
+    line-height: 1.3;
+    padding-top: 5px;
+    margin: 0;
+    color: #969696;}
+.slideBox{  border: none !important;}
+div.slideBox div.tips {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+}

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lutao.america.dao.OrderOperLogMapper" >
+  <resultMap id="BaseResultMap" type="com.lutao.america.model.OrderOperLog" >
+    <id column="LOG_ID" property="logId" jdbcType="INTEGER" />
+    <result column="ORDER_ID" property="orderId" jdbcType="DECIMAL" />
+    <result column="OPER_TYPE" property="operType" jdbcType="VARCHAR" />
+    <result column="OPER_INFO" property="operInfo" jdbcType="VARCHAR" />
+    <result column="OPER_SRC" property="operSrc" jdbcType="VARCHAR" />
+    <result column="OPER_STAFF" property="operStaff" jdbcType="DECIMAL" />
+    <result column="RECORD_DATE" property="recordDate" jdbcType="TIMESTAMP" />
+    <result column="RESULT_CODE" property="resultCode" jdbcType="VARCHAR" />
+    <result column="RESULT_INFO" property="resultInfo" jdbcType="VARCHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    LOG_ID, ORDER_ID, OPER_TYPE, OPER_INFO, OPER_SRC, OPER_STAFF, RECORD_DATE, RESULT_CODE, 
+    RESULT_INFO, MEMO
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_odm_operlog
+    where LOG_ID = #{logId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_odm_operlog
+    where LOG_ID = #{logId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lutao.america.model.OrderOperLog" >
+    insert into t_odm_operlog (LOG_ID, ORDER_ID, OPER_TYPE, 
+      OPER_INFO, OPER_SRC, OPER_STAFF, 
+      RECORD_DATE, RESULT_CODE, RESULT_INFO, 
+      MEMO)
+    values (#{logId,jdbcType=INTEGER}, #{orderId,jdbcType=DECIMAL}, #{operType,jdbcType=VARCHAR}, 
+      #{operInfo,jdbcType=VARCHAR}, #{operSrc,jdbcType=VARCHAR}, #{operStaff,jdbcType=DECIMAL}, 
+      #{recordDate,jdbcType=TIMESTAMP}, #{resultCode,jdbcType=VARCHAR}, #{resultInfo,jdbcType=VARCHAR}, 
+      #{memo,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lutao.america.model.OrderOperLog" >
+    insert into t_odm_operlog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        LOG_ID,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="operType != null" >
+        OPER_TYPE,
+      </if>
+      <if test="operInfo != null" >
+        OPER_INFO,
+      </if>
+      <if test="operSrc != null" >
+        OPER_SRC,
+      </if>
+      <if test="operStaff != null" >
+        OPER_STAFF,
+      </if>
+      <if test="recordDate != null" >
+        RECORD_DATE,
+      </if>
+      <if test="resultCode != null" >
+        RESULT_CODE,
+      </if>
+      <if test="resultInfo != null" >
+        RESULT_INFO,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        #{logId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="operType != null" >
+        #{operType,jdbcType=VARCHAR},
+      </if>
+      <if test="operInfo != null" >
+        #{operInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="operSrc != null" >
+        #{operSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="operStaff != null" >
+        #{operStaff,jdbcType=DECIMAL},
+      </if>
+      <if test="recordDate != null" >
+        #{recordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultCode != null" >
+        #{resultCode,jdbcType=VARCHAR},
+      </if>
+      <if test="resultInfo != null" >
+        #{resultInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lutao.america.model.OrderOperLog" >
+    update t_odm_operlog
+    <set >
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="operType != null" >
+        OPER_TYPE = #{operType,jdbcType=VARCHAR},
+      </if>
+      <if test="operInfo != null" >
+        OPER_INFO = #{operInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="operSrc != null" >
+        OPER_SRC = #{operSrc,jdbcType=VARCHAR},
+      </if>
+      <if test="operStaff != null" >
+        OPER_STAFF = #{operStaff,jdbcType=DECIMAL},
+      </if>
+      <if test="recordDate != null" >
+        RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultCode != null" >
+        RESULT_CODE = #{resultCode,jdbcType=VARCHAR},
+      </if>
+      <if test="resultInfo != null" >
+        RESULT_INFO = #{resultInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where LOG_ID = #{logId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lutao.america.model.OrderOperLog" >
+    update t_odm_operlog
+    set ORDER_ID = #{orderId,jdbcType=DECIMAL},
+      OPER_TYPE = #{operType,jdbcType=VARCHAR},
+      OPER_INFO = #{operInfo,jdbcType=VARCHAR},
+      OPER_SRC = #{operSrc,jdbcType=VARCHAR},
+      OPER_STAFF = #{operStaff,jdbcType=DECIMAL},
+      RECORD_DATE = #{recordDate,jdbcType=TIMESTAMP},
+      RESULT_CODE = #{resultCode,jdbcType=VARCHAR},
+      RESULT_INFO = #{resultInfo,jdbcType=VARCHAR},
+      MEMO = #{memo,jdbcType=VARCHAR}
+    where LOG_ID = #{logId,jdbcType=INTEGER}
+  </update>
+</mapper>

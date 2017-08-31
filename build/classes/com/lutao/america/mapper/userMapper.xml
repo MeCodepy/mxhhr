@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致
+	
+ -->
+<mapper namespace="com.lutao.america.dao.UserMapper">
+	
+	<parameterMap type="java.util.Map" id="loginReq">
+		<parameter property="ucode" mode="IN" jdbcType="VARCHAR"/>
+		<parameter property="pwd" mode="IN" jdbcType="VARCHAR"/>
+		<parameter property="id" mode="OUT" jdbcType="INTEGER"/>
+		<parameter property="name" mode="OUT" jdbcType="VARCHAR"/>
+	</parameterMap>
+	<select id="login" parameterMap="loginReq" statementType="CALLABLE">
+		call member_login(?,?,?,?)
+	</select>
+	<select id="admin_login" parameterMap="loginReq" statementType="CALLABLE">
+		call admin_login(?,?,?,?)
+	</select>
+	
+	<insert id="save" parameterType="User">
+		insert into t_odm_contact(USERNAME,PASSWORD,CREATETIME) values(#{userCode},#{userPwd},#{createTime})
+	</insert>
+	
+	<update id="update" parameterType="User">
+		update user_info set USER_NAME=#{userName},PASSWORD=#{age} where USER_ID=#{id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from user_info where USER_ID=#{id}
+	</delete>
+	
+	 <!-- mybsits_config中配置的alias类别名,也可直接配置resultType为类路劲 -->  
+	<select id="findById" parameterType="int" resultType="User">
+		select USER_ID id,USER_NAME userName,PASSWORD age from user_info where USER_ID=#{id}
+	</select>
+	
+	<select id="findAll" resultType="User">
+		select USER_ID id,USER_NAME userName,PASSWORD age,CREATE_TIME createTime from user_info
+	</select>
+	<select id="findByWhere"  parameterMap="loginReq" resultType="User">
+	  select CUST_ID id,USERNAME userCode,PASSWORD userPwd,CONT_NAME userName 
+	  from t_odm_contact where  USERNAME = #{ucode}
+	</select>
+</mapper>

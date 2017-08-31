@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 实体类,简称 -设置别名 -->
+	<typeAliases>
+		<typeAlias alias="User" type="com.lutao.america.model.User" />
+		<typeAlias alias="Order" type="com.lutao.america.model.Order" />
+		<typeAlias alias="OrderAttr" type="com.lutao.america.model.OrderAttr" />
+		<typeAlias alias="FltInfo" type="com.lutao.america.model.FltInfo" />
+		<typeAlias alias="PasgInfo" type="com.lutao.america.model.PasgInfo" />
+		<typeAlias alias="Pasgsect" type="com.lutao.america.model.Pasgsect" />
+		<typeAlias alias="PasInfo" type="com.lutao.america.model.PasInfo" />
+		<typeAlias alias="PayInfo" type="com.lutao.america.model.PayInfo" />
+		<typeAlias alias="Contact" type="com.lutao.america.model.Contact" />
+		<typeAlias alias="City" type="com.lutao.america.model.City" />
+		<typeAlias alias="OrderList" type="com.lutao.america.model.OrderList" />
+		<typeAlias alias="OrderListFlt" type="com.lutao.america.model.OrderListFlt" />
+		<typeAlias alias="Passenger" type="com.lutao.america.model.Passenger"/>
+	</typeAliases>
+
+		
+	
+	<!-- 实体接口映射资源 -->
+	<!--
+		说明：如果xxMapper.xml配置文件放在和xxMapper.java统一目录下，mappers也可以省略，因为org.mybatis.spring.mapper.MapperFactoryBean默认会去查找与xxMapper.java相同目录和名称的xxMapper.xml
+	-->
+	
+	<!-- 省略 mappers -->
+	
+	<mappers>
+		<mapper resource="com/lutao/america/mapper/userMapper.xml"/>
+		<mapper resource="com/lutao/america/mapper/OrderMapper.xml"/>
+		<mapper resource="com/lutao/america/mapper/OrderAttrMapper.xml"/>
+		<mapper resource="com/lutao/america/mapper/FltInfoMapper.xml"/>
+		<mapper resource="com/lutao/america/mapper/PasgInfoMapper.xml"/>
+		<mapper resource="com/lutao/america/mapper/PasgsectMapper.xml"/>
+		<mapper resource="com/lutao/america/mapper/PasInfoMapper.xml"/>
+		<mapper resource="com/lutao/america/mapper/PayInfoMapper.xml"/>
+		<mapper resource="com/lutao/america/mapper/ContactMapper.xml"/>
+		<mapper resource="com/lutao/america/mapper/CityMapper.xml"/>
+		<mapper resource="com/lutao/america/mapper/OrderListMapper.xml"/>
+		<mapper resource="com/lutao/america/mapper/PassengerMapper.xml"/>
+	</mappers>
+	
+</configuration>

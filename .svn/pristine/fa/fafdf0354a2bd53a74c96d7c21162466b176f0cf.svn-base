@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lutao.america.dao.ContactMapper" >
+  <resultMap id="BaseResultMap" type="com.lutao.america.model.Contact" >
+    <id column="CUST_ID" property="custId" jdbcType="INTEGER" />
+    <result column="P_ID" property="pId" jdbcType="INTEGER" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="PASSWORD" property="password" jdbcType="CHAR" />
+    <result column="SALT" property="salt" jdbcType="CHAR" />
+    <result column="LAST_LOGIN_TIME" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="LAST_LOGIN_IP" property="lastLoginIp" jdbcType="VARCHAR" />
+    <result column="LOGIN_COUNT" property="loginCount" jdbcType="INTEGER" />
+    <result column="CONT_NAME" property="contName" jdbcType="VARCHAR" />
+    <result column="CONT_MOBILE" property="contMobile" jdbcType="VARCHAR" />
+    <result column="CONT_TEL" property="contTel" jdbcType="VARCHAR" />
+    <result column="CONT_EMAIL" property="contEmail" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="DECIMAL" />
+    <result column="OTHER_TYPE" property="otherType" jdbcType="VARCHAR" />
+    <result column="OTHER_INFO" property="otherInfo" jdbcType="VARCHAR" />
+    <result column="SOURCE" property="source" jdbcType="VARCHAR" />
+    <result column="OWNER_COMPANY" property="ownerCompany" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="CONT_INTRO" property="contIntro" jdbcType="VARCHAR" />
+    <result column="QQ_OPEN_ID" property="qqOpenId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CUST_ID, P_ID, USERNAME, PASSWORD, SALT, LAST_LOGIN_TIME, LAST_LOGIN_IP, LOGIN_COUNT, 
+    CONT_NAME, CONT_MOBILE, CONT_TEL, CONT_EMAIL, SEX, OTHER_TYPE, OTHER_INFO, SOURCE, 
+    OWNER_COMPANY, STATUS, CREATETIME, UPDATETIME, CONT_INTRO, QQ_OPEN_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_odm_contact
+    where CUST_ID = #{custId,jdbcType=INTEGER}
+  </select>
+  <select id="findByUsername" resultType="Contact" parameterType="java.lang.String">
+    SELECT * FROM t_odm_contact WHERE USERNAME = #{username}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_odm_contact
+    where CUST_ID = #{custId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lutao.america.model.Contact" >
+    insert into t_odm_contact (CUST_ID, P_ID, USERNAME, 
+      PASSWORD, SALT, LAST_LOGIN_TIME, 
+      LAST_LOGIN_IP, LOGIN_COUNT, CONT_NAME, 
+      CONT_MOBILE, CONT_TEL, CONT_EMAIL, 
+      SEX, OTHER_TYPE, OTHER_INFO, 
+      SOURCE, OWNER_COMPANY, STATUS, 
+      CREATETIME, UPDATETIME, CONT_INTRO, 
+      QQ_OPEN_ID)
+    values (#{custId,jdbcType=INTEGER}, #{pId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
+      #{password,jdbcType=CHAR}, #{salt,jdbcType=CHAR}, #{lastLoginTime,jdbcType=TIMESTAMP}, 
+      #{lastLoginIp,jdbcType=VARCHAR}, #{loginCount,jdbcType=INTEGER}, #{contName,jdbcType=VARCHAR}, 
+      #{contMobile,jdbcType=VARCHAR}, #{contTel,jdbcType=VARCHAR}, #{contEmail,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=DECIMAL}, #{otherType,jdbcType=VARCHAR}, #{otherInfo,jdbcType=VARCHAR}, 
+      #{source,jdbcType=VARCHAR}, #{ownerCompany,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{contIntro,jdbcType=VARCHAR}, 
+      #{qqOpenId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lutao.america.model.Contact" >
+    insert into t_odm_contact
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="custId != null" >
+        CUST_ID,
+      </if>
+      <if test="pId != null" >
+        P_ID,
+      </if>
+      <if test="username != null" >
+        USERNAME,
+      </if>
+      <if test="password != null" >
+        PASSWORD,
+      </if>
+      <if test="salt != null" >
+        SALT,
+      </if>
+      <if test="lastLoginTime != null" >
+        LAST_LOGIN_TIME,
+      </if>
+      <if test="lastLoginIp != null" >
+        LAST_LOGIN_IP,
+      </if>
+      <if test="loginCount != null" >
+        LOGIN_COUNT,
+      </if>
+      <if test="contName != null" >
+        CONT_NAME,
+      </if>
+      <if test="contMobile != null" >
+        CONT_MOBILE,
+      </if>
+      <if test="contTel != null" >
+        CONT_TEL,
+      </if>
+      <if test="contEmail != null" >
+        CONT_EMAIL,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="otherType != null" >
+        OTHER_TYPE,
+      </if>
+      <if test="otherInfo != null" >
+        OTHER_INFO,
+      </if>
+      <if test="source != null" >
+        SOURCE,
+      </if>
+      <if test="ownerCompany != null" >
+        OWNER_COMPANY,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+      <if test="contIntro != null" >
+        CONT_INTRO,
+      </if>
+      <if test="qqOpenId != null" >
+        QQ_OPEN_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="custId != null" >
+        #{custId,jdbcType=INTEGER},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=CHAR},
+      </if>
+      <if test="salt != null" >
+        #{salt,jdbcType=CHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null" >
+        #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginCount != null" >
+        #{loginCount,jdbcType=INTEGER},
+      </if>
+      <if test="contName != null" >
+        #{contName,jdbcType=VARCHAR},
+      </if>
+      <if test="contMobile != null" >
+        #{contMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contTel != null" >
+        #{contTel,jdbcType=VARCHAR},
+      </if>
+      <if test="contEmail != null" >
+        #{contEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=DECIMAL},
+      </if>
+      <if test="otherType != null" >
+        #{otherType,jdbcType=VARCHAR},
+      </if>
+      <if test="otherInfo != null" >
+        #{otherInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerCompany != null" >
+        #{ownerCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contIntro != null" >
+        #{contIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="qqOpenId != null" >
+        #{qqOpenId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lutao.america.model.Contact" >
+    update t_odm_contact
+    <set >
+      <if test="pId != null" >
+        P_ID = #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        PASSWORD = #{password,jdbcType=CHAR},
+      </if>
+      <if test="salt != null" >
+        SALT = #{salt,jdbcType=CHAR},
+      </if>
+      <if test="lastLoginTime != null" >
+        LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastLoginIp != null" >
+        LAST_LOGIN_IP = #{lastLoginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="loginCount != null" >
+        LOGIN_COUNT = #{loginCount,jdbcType=INTEGER},
+      </if>
+      <if test="contName != null" >
+        CONT_NAME = #{contName,jdbcType=VARCHAR},
+      </if>
+      <if test="contMobile != null" >
+        CONT_MOBILE = #{contMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="contTel != null" >
+        CONT_TEL = #{contTel,jdbcType=VARCHAR},
+      </if>
+      <if test="contEmail != null" >
+        CONT_EMAIL = #{contEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=DECIMAL},
+      </if>
+      <if test="otherType != null" >
+        OTHER_TYPE = #{otherType,jdbcType=VARCHAR},
+      </if>
+      <if test="otherInfo != null" >
+        OTHER_INFO = #{otherInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        SOURCE = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerCompany != null" >
+        OWNER_COMPANY = #{ownerCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contIntro != null" >
+        CONT_INTRO = #{contIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="qqOpenId != null" >
+        QQ_OPEN_ID = #{qqOpenId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CUST_ID = #{custId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lutao.america.model.Contact" >
+    update t_odm_contact
+    set P_ID = #{pId,jdbcType=INTEGER},
+      USERNAME = #{username,jdbcType=VARCHAR},
+      PASSWORD = #{password,jdbcType=CHAR},
+      SALT = #{salt,jdbcType=CHAR},
+      LAST_LOGIN_TIME = #{lastLoginTime,jdbcType=TIMESTAMP},
+      LAST_LOGIN_IP = #{lastLoginIp,jdbcType=VARCHAR},
+      LOGIN_COUNT = #{loginCount,jdbcType=INTEGER},
+      CONT_NAME = #{contName,jdbcType=VARCHAR},
+      CONT_MOBILE = #{contMobile,jdbcType=VARCHAR},
+      CONT_TEL = #{contTel,jdbcType=VARCHAR},
+      CONT_EMAIL = #{contEmail,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=DECIMAL},
+      OTHER_TYPE = #{otherType,jdbcType=VARCHAR},
+      OTHER_INFO = #{otherInfo,jdbcType=VARCHAR},
+      SOURCE = #{source,jdbcType=VARCHAR},
+      OWNER_COMPANY = #{ownerCompany,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      CONT_INTRO = #{contIntro,jdbcType=VARCHAR},
+      QQ_OPEN_ID = #{qqOpenId,jdbcType=VARCHAR}
+    where CUST_ID = #{custId,jdbcType=INTEGER}
+  </update>
+</mapper>

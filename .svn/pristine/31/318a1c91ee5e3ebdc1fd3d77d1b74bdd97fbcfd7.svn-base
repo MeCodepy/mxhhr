@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lutao.america.dao.ContactsMapper">
+   <insert id="insert" parameterType="Contacts">
+      insert into t_omd_contacts
+      <trim prefix="(" suffix=")" suffixOverrides="," >
+        <if test="orderId != null">
+          orderId,
+        </if>
+        <if test="name != null">
+          name,
+        </if>
+        <if test="telephone != null">
+          telephone,
+        </if>
+        <if test="email != null">
+          email,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides="," >
+        <if test="orderId != null" >
+          #{orderId,jdbcType=DECIMAL},
+        </if>
+        <if test="name != null" >
+          #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="telephone != null" >
+          #{telephone,jdbcType=VARCHAR},
+        </if>
+        <if test="email != null" >
+          #{email,jdbcType=VARCHAR},
+        </if>
+      </trim>
+   </insert>
+</mapper>

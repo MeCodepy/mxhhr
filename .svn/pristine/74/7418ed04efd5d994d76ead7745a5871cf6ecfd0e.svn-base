@@ -1,0 +1,78 @@
+package com.lutao.america.service;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.lutao.america.model.User;
+
+public class UserRealm extends AuthorizingRealm {
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
+	@Autowired
+	private UserService userService;
+	
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public static final String SESSION_USER_KEY="lutao_user_session";
+
+	@Override
+	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection arg0) {
+		// TODO Auto-generated method stub
+		//User user =(User)SecurityUtils.getSubject().getSession().getAttribute(SESSION_USER_KEY);
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		//info.addRole( );
+		return info;
+	}
+
+	@Override
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
+		// TODO Auto-generated method stub
+		UsernamePasswordToken tk = (UsernamePasswordToken)authcToken;
+		boolean succeed = false;
+		//账号密码校验
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ucode", tk.getUsername());//
+		map.put("pwd", String.valueOf(tk.getPassword()));//
+		userService.login(map);
+		Object id = map.get("id");
+		Pattern pat = Pattern.compile("(\\d+)");
+		Matcher mch = pat.matcher(id.toString());
+		if(mch.matches()){
+			Long idx = Long.valueOf(id.toString());
+			if(idx > 0){
+				succeed = true;
+			}
+		}
+		if(succeed){
+			log.info(String.format("用户[%s %s]登陆成功!", map.get("id"), map.get("name")));
+			AuthenticationInfo info = new SimpleAuthenticationInfo(map.get("ucode"), map.get("pwd"), map.get("name").toString());
+			assertCredentialsMatch(authcToken, info);
+			SecurityUtils.getSubject().getSession().setAttribute("name", map.get("name"));
+			return info;
+		}else{
+			throw new AuthenticationException(String.format("用户[%s]登陆失败！", tk.getUsername()));
+		}
+	}
+}

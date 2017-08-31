@@ -1,0 +1,29 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<%@ include file="../common/commonAssets2014.jsp" %>
+</head>
+                            <%-- <form action="${pageContext.request.contextPath}/pay/weixinPay" id="weixin-form" class="fn-hide">
+								<input type="hidden" name="payNo" value="${order.payInfo.orderno }">
+								<input type="hidden" name="price" value="${order.payInfo.payPrice }">
+								<input type="hidden" name="payReq.spbill_create_ip" value="127.0.0.1">
+						 	</form> --%> 
+						 	<c:if test="${payPattern eq 'payeco' }">
+	                             <form action="https://taishan2.payeco.com/services/ApiV2ServerRSA"  method="post" id="payeco-form" class="fn-hide">
+	                              <input type="hidden" id="payecoReq" name="${textContent }"> 
+	                            </form>
+              				</c:if>
+              				<c:if test="${payPattern eq 'alipay' }">
+					        </c:if>
+<script type="text/javascript">
+	$(function(){
+		var payPattern='${payPattern}';
+		var formName="#"+payPattern+"-form";
+		$("#payeco-form").submit();
+	})              
+ 				
+</script>
+     
+</html>

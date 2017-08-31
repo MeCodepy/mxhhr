@@ -1,0 +1,129 @@
+﻿@charset "utf-8";
+/* 机票查询列表页 */
+body{
+	background:#ced5dd;}
+
+/******************************  头部样式   **************************************/
+.topNav{
+	width:99%;
+	padding:0 0.5%;
+	background:#000;
+	height:50px;
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:10;}
+
+.topNav .navLeft{
+	width:33%;
+	float:left;}
+
+.topNav .navLeft .nav-ui li{
+	float:left;
+	line-height:47px;
+	font-size:20px;
+	color:#fff;
+	margin-right:20px;
+	padding:0 10px;
+	cursor:pointer;}
+
+.topNav .navLeft .nav-ui li:hover{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navLeft .nav-ui .nav{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navcont{
+	width:33%;
+	float:left;
+	text-align:center;}
+
+.topNav .navRight{
+	width:33%;
+	float:left;}
+.topNav .navRight ul li{
+	float:right;
+	line-height:50px;
+	font-size:20px;
+	color:#fff;margin-left:15px;}
+.topNav .navRight ul li a{color:#fff;}
+
+/********* 主内容 **********/
+.wapper{
+	width:1190px;
+	margin:0 auto;}
+	
+
+.wapper .shuzis {
+    color: #575b5e;
+    font-size: 180px;
+    text-align: center;
+}
+
+.wapper .shuziw {
+    color:#575b5e;
+    font-size: 30px;
+    text-align: center;
+}
+
+.wapper .ying {
+    font-size: 35px;
+    margin-top: 7px;
+}
+
+.wapper .tishi {
+    color: #575b5e;
+    display: block;
+    font-size: 65px;
+    margin-top: 13px;
+    text-align: center;
+}
+
+
+.wapper .code-lenaa {
+    background: #575b5e none repeat scroll 0 0;
+    border-radius: 4px;
+    color: #fff;
+    display: block;
+    font-size: 20px;
+    margin: 30px auto 100px;
+    padding:6px 12px;
+    text-align: center;
+    width: 150px;
+}
+
+
+/******************************  底部样式   **************************************/
+.page-footer{
+	clear: both;
+    background: #fff;
+    padding-bottom: 12px;
+    padding-top: 12px;}
+
+.page-footer .clearfix{
+	text-align:center;}
+
+.page-footer .clearfix .links-list li{
+	    margin: 0;
+    text-decoration: none;
+    border-right: 1px solid #969696;
+    padding-left: 50px;
+    text-align: center;
+    padding-right: 50px;
+    line-height: 50px;
+    display: inline;
+    color: #969696;}
+
+.page-footer .clearfix .links-list li .ng-binding{
+	color: #969696;
+    text-decoration: none;
+    font-weight: 400;}
+
+.page-footer .clearfix p{
+	text-align: center;
+    line-height: 1.3;
+    padding-top: 5px;
+    margin: 0;
+    color: #969696;}
+
+

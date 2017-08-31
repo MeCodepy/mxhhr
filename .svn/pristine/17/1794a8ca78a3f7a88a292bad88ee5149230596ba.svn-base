@@ -1,0 +1,8 @@
+#\u56FD\u9645\u76F4\u8FDE
+inter_search_url = http://59.41.215.186:8066/rest/gdsResource/queryLowPrice
+
+#
+app_requestPath=http://localhost:8080
+
+#\u56FD\u9645B2B\u63A5\u53E3
+b2b_inter_search_url=http://139.129.216.68/GJAPI/AVWithPolicy.aspx

@@ -1,0 +1,70 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets.jsp" %>
+    <title>登录-美洲机票专线-路淘网</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link media="all" rel="stylesheet" href="./america/css/login.css"/>
+    <script type="text/javascript" data-main="./america/js/login.js?6cc69f90389f73736d1d80806a289eba" src="./america/js/thirdparty/require.js"></script>
+    <c:if test="${error}">
+    	<script type="text/javascript">
+    		var error={
+   				error: "${error}",
+   				msg  : "${msg}"
+    		};
+    	</script>
+    </c:if>
+</head>
+
+<body>
+<!-- 头部-浮动 -->
+<div class="TopNav">
+	<div class="topmain wapper" >
+    	<a href="${context }/"><img src="./america/images/logo.png"/></a>
+        <img class="baozheng" src="./america/images/bao.jpg"/>
+    </div>
+</div>
+<!-- 主体内容 -->
+<div class="login_main">
+	<div class="wapper">
+        <div class="login_box">
+        	<form id="frm_login" action="login/auth" method="POST" target="_self">
+	            <h3>用户登录</h3>
+	            <p class="user_p"><i></i><input type="text" class="user" name="userCode" placeholder="手机号/邮箱"/></p>
+	            <p class="password_p"><i></i><input type="password" class="password" name="userPwd" placeholder="密码" autocomplete="off"/></p>
+	            <p class="Code">
+	            	<i></i>
+	            	<input class="Codea" name="captcha" placeholder="验证码" autocomplete="off"/>
+	            	<img id="captcha" alt="" src="captcha?" title="点击换一个"/>
+            	</p>
+	            <c:if test="${error}">
+	            <p style="margin-top:15px;color:#fff;float:left;text-align:center;width:100%;font-size:14px;"><c:out value="${msg}"></c:out> </p>
+	            </c:if>
+	            
+	            <a id="btn_login" class="userLogin" href="javascript:;" title="立即登录">立即登录</a>
+	            <p class="link" style=" border-bottom:none;"><a class="link_register" href="reg">新来的？去注册</a></p>
+	            <div class="more_login_box">
+	                <h4></h4>
+	                <!-- <ul>
+	                    <li class="qq_link"><a>QQ</a></li>
+	                    <li class="wei_link"><a>微信</a></li>
+	                    <li class="xin_link"><a>新浪</a></li>
+	                </ul> -->
+	            </div>
+            </form>
+        </div>
+        <div style="clear:both;"></div>
+    	<div class="footer">
+    	地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼<br/>
+
+全国服务电话:400-651-8800(免费) 投诉建议:18902221589 一达美洲机票
+    </div>
+    </div>
+</div>
+<div style="clear:both;"></div>
+</body>
+</html>

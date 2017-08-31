@@ -1,0 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+	pageContext.setAttribute("context", path);
+%>
+<base href='<%=basePath%>'>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="./america/images/favicon.ico" type="image/x-icon">
+<link rel="icon" href="./america/images/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="./america/images/favicon.ico" type="image/x-icon" />
+<link rel="bookmark" href="./america/images/favicon.ico" type="image/x-icon" />
+<link rel="stylesheet" media="all" type="text/css" href="${context}/america/css/one.css" />
+<link rel="stylesheet" media="all" type="text/css" href="${context}/america/css/common.css" />

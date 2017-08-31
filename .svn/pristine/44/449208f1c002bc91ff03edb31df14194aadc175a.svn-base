@@ -1,0 +1,135 @@
+package com.lutao.america.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.annotation.Resource;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.lutao.america.dao.ContactMapper;
+import com.lutao.america.dao.FltInfoMapper;
+import com.lutao.america.dao.OrderAttrMapper;
+import com.lutao.america.dao.OrderMapper;
+import com.lutao.america.dao.PasInfoMapper;
+import com.lutao.america.dao.PasgInfoMapper;
+import com.lutao.america.dao.PasgsectMapper;
+import com.lutao.america.dao.PayInfoMapper;
+import com.lutao.america.model.Contact;
+import com.lutao.america.model.FltInfo;
+import com.lutao.america.model.Order;
+import com.lutao.america.model.OrderAttr;
+import com.lutao.america.model.PasInfo;
+import com.lutao.america.model.PasgInfo;
+import com.lutao.america.model.Pasgsect;
+import com.lutao.america.model.PayInfo;
+import com.lutao.america.service.OrderAttrService;
+import com.lutao.america.service.OrderService;
+@Service
+@Transactional
+public class OrderServiceImp implements OrderService{
+	private Log log = LogFactory.getLog(this.getClass().getName());
+    @Resource
+    private OrderMapper orderMapper;
+    @Resource
+    private ContactMapper contactMapper;
+    @Resource
+    private OrderAttrService orderAttrService;
+    @Resource
+    private OrderAttrMapper orderAttrMapper;
+    @Resource
+    private FltInfoMapper fltInfoMapper;
+    @Resource
+    private PasgInfoMapper pasgInfoMapper;
+    @Resource
+    private PasgsectMapper pasgsectMapper;
+    @Resource
+    private PasInfoMapper pasInfoMapper;
+    @Resource
+    private PayInfoMapper payInfoMapper;
+    
+	@Override
+	public Order findById(Long id) {
+		Order order=orderMapper.findOrderAllDetail(id);
+		return order;
+	}
+	@Override
+	public int save(Order order) throws Exception {
+		//分开表保存
+		int num = 0;
+		try{
+			Subject sub = SecurityUtils.getSubject();
+			Object member = sub.getSession().getAttribute("member");
+			order.setOrderId(getMaxOrderId() + 1);
+			if (order.getExorderId() == null || order.getExorderId().equals("")) {
+				order.setExorderId("lt" + order.getOrderId());
+			}
+			order.setMemberId(Integer.parseInt(""+member));
+			order.setCustId(Integer.parseInt(""+member));
+			order.setOrderSrc("OS013");
+			/*联系人*/
+			Contact c = order.getContact();
+			c.setCustId(order.getMemberId());
+			
+			contactMapper.updateByPrimaryKeySelective(c);
+			//关联表
+			OrderAttr orderAttr=order.getOrderAttr();
+			orderAttr.setId(orderAttrMapper.getMaxId()+1);
+			orderAttr.setOrderId(order.getOrderId());
+			insertSelective(order);
+			orderAttrService.insert(orderAttr);
+			//支付信息
+			PayInfo payInfo=order.getPayInfo();
+			payInfo.setOrderId(order.getOrderId());
+			payInfo.setId(payInfoMapper.getMaxId()+1);
+			payInfoMapper.insert(payInfo);
+			Set<PasgInfo> pfSet=orderAttr.getPasgInfos();
+			List<Pasgsect> pasgsects=new ArrayList<Pasgsect>();
+			for(PasgInfo pasgInfo:pfSet){
+				pasgsects=pasgInfo.getPasgsects();
+				//乘机人信息
+				PasInfo pasInfo=pasgInfo.getPasInfo();
+				pasInfo.setPasgId(pasInfoMapper.getMaxId()+1);
+				pasInfo.setCustId(Integer.parseInt(""+member));
+				pasgInfo.setOrderAttrId(orderAttr.getId());
+				pasgInfo.setId(pasgInfoMapper.getMaxId()+1);
+				pasgInfo.setPasgId(pasInfo.getPasgId());
+				pasInfoMapper.insert(pasInfo);
+				pasgInfoMapper.insert(pasgInfo);
+				for(Pasgsect pasgsect:pasgsects){
+					//航程信息
+					FltInfo fltinfo=pasgsect.getFltinfo();
+					fltinfo.setId(fltInfoMapper.getMaxId()+1);
+					fltInfoMapper.insert(fltinfo);
+					pasgsect.setPasgInfoId(pasgInfo.getId());
+					pasgsect.settOId(fltinfo.getId());
+					pasgsect.setId(pasgsectMapper.getMaxId()+1);
+					pasgsectMapper.insert(pasgsect);
+					
+				}
+			}
+		}catch(Exception e){
+			log.error("事务回滚--保存订单失败 ：" + e);
+			num = 1 ;
+			throw new RuntimeException(); 
+		}
+		return num;
+	}
+	@Override
+	public long getMaxOrderId() {
+		return orderMapper.getMaxOrderId();
+	}
+	@Override
+	public int insertSelective(Order record) {
+		return orderMapper.insertSelective(record);
+	}
+	
+}

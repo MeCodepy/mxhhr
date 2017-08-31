@@ -1,0 +1,127 @@
+package com.lutao.america.controller;
+
+
+import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import com.lutao.america.model.User;
+import com.lutao.america.service.UserService;
+
+@Controller
+@RequestMapping("/")
+public class IndexController {
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
+	@Autowired
+	private UserService userService;
+	
+	/**
+	 * 首页
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/index")
+	public String Index(HttpServletRequest req){
+		return "/index";
+	}
+	
+	/**
+	 * 登陆
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/login")
+	public String Login(HttpServletRequest req){
+		return "/login";
+	}
+	
+	/**
+	 * 执行登陆
+	 * @param user
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="login/auth", method=RequestMethod.POST)
+	public ModelAndView Login(User user, HttpServletRequest req){
+		ModelAndView view = new ModelAndView();
+		view.setViewName("/login");
+		//需要做验证码校验
+		
+		//shiro登陆
+		Subject sub = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken(user.getUserCode(), user.getUserPwdMd5());
+		try{
+			sub.login(token);
+			//登陆成功
+			view.setViewName("redirect:/index");
+		}catch(AuthenticationException e){
+			e.printStackTrace();
+		}
+		return view;
+	}
+	
+	@RequestMapping(value="/logout")
+	public String Logout(HttpServletRequest req){
+		Subject sub = SecurityUtils.getSubject();
+		try {
+			sub.logout();
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
+		}
+		return "redirect:/login";
+	}
+	
+	/**
+	 * 注册
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/reg")
+	public String Register(HttpServletRequest req){
+		return "/register";
+	}
+	
+	/**
+	 * 航班列表
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/list")
+	public ModelAndView List(HttpServletRequest req){
+		ModelAndView view = new ModelAndView("/flightList");
+		
+		Subject sub = SecurityUtils.getSubject();
+		if(sub.isAuthenticated()){
+			Object name = sub.getSession().getAttribute("name");
+			view.getModel().put("name", name);
+			view.getModel().put("login", true);
+		}
+		return view;
+	}
+	
+	/**
+	 * 头部页
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="/top")
+	public ModelAndView Top(HttpServletRequest req){
+		ModelAndView view = new ModelAndView("/top");
+		Subject sub = SecurityUtils.getSubject();
+		if(sub.isAuthenticated()){
+			Object name = sub.getSession().getAttribute("name");
+			view.getModel().put("name", name);
+			view.getModel().put("login", true);
+		}
+		return view;
+	}
+}

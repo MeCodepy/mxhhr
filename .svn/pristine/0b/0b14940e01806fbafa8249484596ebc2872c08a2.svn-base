@@ -1,0 +1,387 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+<%@taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets.jsp" %>
+    <title>查询列表-美洲机票专线-路淘网</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" type="text/css"  href="./america/css/flightList.css"/>
+    <link rel="Stylesheet" type="text/css" href="./america/css/icbcJcal.css" />
+	<link rel="Stylesheet" type="text/css" href="./america/css/city.css" />
+	<link rel="Stylesheet" type="text/css" href="./america/css/suggest.css" />
+	<link rel="Stylesheet" type="text/css" href="./america/css/layer.css" />
+    <script type="text/javascript" data-main="./america/js/list.js?sdfsssdfsssdfsdfsdf" src="./america/js/thirdparty/require.js"></script>
+</head>
+
+<body>
+
+<!-- 头部-浮动 -->
+<jsp:include page="/top"></jsp:include>
+
+<div style="clear:both;"></div>
+<!-- 主体内容 -->
+<input type="hidden" id="ipt_auth" value="${login}"/>
+<div style=" height:70px;"></div>
+<div class="FlListMain">
+	<div id="listSearch" class="listSearch wapper">
+		<form id="frm_query" action="list" target="_self">
+    	<ul class="xingcheng">
+    		<li d="S" ><em></em>单程</li>
+        	<li d="D" class="active" style="margin-top:20px;"><em></em>往返</li>
+        </ul>
+        <div class="search-wap">
+        	<div class="flightPeople">
+            	<label>成人</label><select class="eye-dropdown-select" name="adult" >
+                    <option value="1" selected="selected">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+                <label>儿童(2-12岁)</label><select class="eye-dropdown-select" name="inf">
+                	<option value="0" selected="selected">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                </select>
+                <label>出发时间</label><input type="text" id="org_date" name="org_date" class="flight-input" placeholder="出发日期" autocomplete="off"/>
+            </div>
+            <div class="flight-search">
+            	<label>出发城市</label><input type="text" id="org_city" class="flight-input" placeholder="出发城市" autocomplete="off"/>
+                <label>到达城市</label><input type="text" id="dst_city" class="flight-input" placeholder="到达城市" autocomplete="off"/>
+                <a class="charges"></a>
+                <label>回程时间</label><input type="text" id="dst_date" name="dst_date" class="flight-input" placeholder="返程日期" autocomplete="off"/>
+            </div>
+        </div>
+        <div class="search-btn-box">
+           	<a class="searchFlight">搜索航班</a>
+            <label>舱位等级</label>
+            <select name="seat">
+            	<option value="normal">经济舱</option>
+            	<!-- 
+                <option value="business">商务舱</option>
+                <option value="first">头等舱</option>
+                -->
+            </select>
+            <input type="hidden" name="org_city" value=""/>
+            <input type="hidden" name="dst_city" value=""/>
+            <input type="hidden" name="trip_type" value="S"/>
+        </div>
+        </form>
+    </div>
+    <div style="clear:both;"></div>
+    <div class="ListBox wapper">
+    	<div class="ListLeft">
+        	<div class="search-promotions">
+            	<div class="search-trip">
+                	<span id="title_trips">上海—纽约</span>
+                	<em id="title_date">2017-04-18 出发</em>
+                	<em id="title_flight_number">共47个航班</em>
+                </div>
+                <div class="search-choose">
+                	<ul class="choose-list">
+                    	<li class="nav sort_normal" t="normal">默认排序</li>
+                        <li class="" t="price" d="down">人均价格</li>
+                        <li class="" t="long" d="down">飞行时长</li>
+                        <li class="" t="time" d="down">起飞时间</li>
+                    </ul>
+                </div>
+                <!--加载-->
+                <div id="flight_loading" class="loading">
+                     <div class="lbb">正在为您搜索航班信息...</div>
+                     <img src="./america/images/loading.gif">
+                </div>
+                <!--查询失败-->
+                <div id="flight_error" class="shibai" style="display:none;">
+                	<i class="lt-iconfont ssbb">&#xf0122;</i>
+                	<span class="sbnraa flight_error_msg">很抱歉，暂未查询到符合您要求的航班。您可以调整出行时间或目的地重新查询。</span>
+               	</div>
+                <!--机票列表-->
+                <div class="flight-table">
+                	<ul id="flight_list_result" class="flight-iu-detail"></ul>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+        <div class="ListRight">
+             <div class="righttop">
+                 <h4 class="rightss"><i></i>搜索历史</h4>
+                    <div id="historys">
+                    
+	                    <div class="rightbox">
+	                       <div class="ssnr">
+	                              <span class="ssleft">单程</span>
+	                              <span class="ssleft">上海—巴黎</span>
+	                              <div style=" clear:both;"></div>
+	                              <span class="ssleft">04-21（周五）</span>
+	                       </div>
+	                       <div style=" clear:both;"></div>
+	                       <div class="seachqk">刚刚查询</div>
+	                   </div>
+	                   <div style=" clear:both;"></div>
+	                   <hr/>
+	                  <div class="rightbox">
+	                     <div class="ssnr">
+	                            <span class="ssleft">单程</span>
+	                            <span class="ssleft">上海—巴黎</span>
+	                            <div style=" cler:both;"></div>
+	                            <span class="ssleft">04-21（周五）</span>
+	                     </div>
+	                     <div style=" clear:both;"></div>
+	                     <div class="seachqk">2分钟</div>
+	                 </div>
+                 </div>
+             </div> 
+             <div style=" clear:both;"></div>
+             <div class="rightbottom">
+                   <h4 class="rightsaa">筛选条件<span class="filter_clear">清除全部</span></h4>  
+                   <div style=" clear:both;"></div>
+                   <div id="filter_loading">
+                   		<div><img style="width:268px;" src="./america/images/loading.gif"/></div>
+                   </div>
+                   <div id="filter_checkbox" style="display:none;">
+	                   <div id="filter_direct" class="gonggroup"></div>
+	                   <hr/>
+	                   <div style=" clear:both;"></div>
+	                   <div id="filter_time" class="gonggroup">
+	                         <div class="groupbtt">出发时段</div> 
+	                         <div class="groupntt">
+	                             <span class="eye-checkbox">
+	                                   <label><input type="checkbox" value="time_sw" />&nbsp;&nbsp;上午(00:00 - 12:00) </label>
+	                             </span>
+	                         </div>
+	                         <div class="groupntt">
+	                             <span class="eye-checkbox">
+	                                   <label><input type="checkbox" value="time_zw" />&nbsp;&nbsp;中午(12:00 - 14:00)</label>
+	                             </span>
+	                         </div>
+	                         <div class="groupntt">
+	                             <span class="eye-checkbox">
+	                                   <label><input type="checkbox" value="time_xw" />&nbsp;&nbsp;下午(14:00 - 18:00)</label>
+	                             </span>
+	                         </div>
+	                         <div class="groupntt">
+	                             <span class="eye-checkbox">
+	                                   <label><input type="checkbox" value="time_ws" />&nbsp;&nbsp;晚上(18:00 - 24:00)</label>
+	                             </span>
+	                         </div>
+	                   </div>
+	                   <hr/>
+	                   <div style=" clear:both;"></div>
+	                   <div id="filter_airline" class="gonggroup"></div>
+                   </div>
+             </div>
+        </div>
+    </div>
+</div>
+    <div style="clear:both;"></div>
+<!-- 底部 -->
+<div class="page-footer">
+	<div class="clearfix">
+	<ul class="links-list">
+    	<li><a href="${context}/about" target="_blank" class="ng-binding">关于我们</a></li>
+    	<li><a href="#" target="_blank" class="ng-binding">美洲机票产品</a></li>
+    	<li><a href="http://www.lutao.com/front/jipiao/flight_apply.jsp" target="_blank" class="ng-binding">特价申请</a></li>
+    	<li><a href="http://www.lutao.com/content/service/12.html" target="_blank" class="ng-binding">服务条款</a></li>
+    </ul>
+    <p>地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼</p>
+    <p>全国服务电话:400-651-8800(免费) 投诉建议:18902221589  一达美洲机票</p>
+    </div>
+</div>
+
+
+<div id="jcal_panel" class="icbcJcalendar"></div>
+<div id="dst_date_panel" class="icbcJcalendar"></div>
+<!-- 酒店日期 -->
+<div id="hotel_in_date_jcal" class="icbcJcalendar"></div>
+<div id="hotel_out_date_jcal" class="icbcJcalendar"></div>
+<!-- end酒店日期 -->
+<div id="org_city_tips"></div>
+<div id="dst_city_tips"></div>
+
+<!--非会员登陆begin-->
+<div class="fn-hide">
+	
+</div>
+<!--非会员登陆end-->
+
+<div style="display:none;">
+	<div id="box_login_popup">
+		<!-- 登录框 -->
+		<div class="nologin">
+			<div class="noleft">
+				<form action="login/popup" method="post" target="_self">
+					<h3>用户登录</h3>
+					<p class="user_pa">
+						<i></i>
+						<input class="user" name="userCode" placeholder="手机号/邮箱" type="text" autocomplete="off"/>
+					</p>
+					<p class="password_pa">
+						<i></i>
+						<input class="password" name="userPwd" placeholder="密码" type="password" autocomplete="off"/>
+					</p>
+					<p class="Codea">
+						<i></i>
+						<input class="Codeb" name="captcha"  placeholder="验证码"  type="text"/>
+						<img class="captcha" src="captcha?"  title="点击换一个">
+					</p>
+					<a class="userLogina" href="javascript:void(0);" title="立即登录">立即登录</a>
+					<p class="link">
+						<a class="link_register" href="reg">新来的？去注册</a>
+					</p>
+					<input type="hidden" name="popup_token" value=""/>
+				</form>
+			</div>
+			<div class="noright">
+				<p class="ha">非会员预订</p>
+				<p><a href="javascript:;" class="lg_btn5" style="background-color:#ccc;border-color:#ccc;cursor:not-allowed;">不登录，直接预订 &gt;</a></p>
+			</div>
+		</div>
+	</div>
+	
+	<!-- view history -->
+    <textarea id="history_template" rows="0" cols="0">
+        <!--
+        {#foreach $T as h}
+        <div class="rightbox">
+            <div class="ssnr">
+                <span class="ssleft">单程</span>
+                <span class="ssleft">{$T.h.depCN}—{$T.h.arrCN}</span>
+                <div style=" clear:both;"></div>
+                <span class="ssleft">{$P.get_week($T.h.date)}</span>
+            </div>
+            <div style=" clear:both;"></div>
+            <div class="seachqk">{$P.get_time($T.h.time)}</div>
+        </div>
+        <div style=" clear:both;"></div>
+        <hr/>
+        {#/for}
+        -->
+    </textarea>
+    <!-- filter direct -->
+    <textarea id="filter_direct_template" rows="0" cols="0">
+    	<!-- 
+    	<div class="groupbtt">直飞/中转</div>
+        <div class="groupntt">
+            <span class="eye-checkbox">
+                <label><input type="checkbox" value="direct" />&nbsp;&nbsp;直飞</label>
+            </span>
+            <span class="eye-jiage">￥{$T.direct}</span>
+            <div style=" clear:both;"></div>
+        </div>
+        <div class="groupntt">
+            <span class="eye-checkbox">
+                <label><input type="checkbox" value="round" />&nbsp;&nbsp;中转</label>
+            </span>
+            <span class="eye-jiage">￥{$T.round}</span>
+            <div style=" clear:both;"></div>
+        </div>
+    	 -->
+    </textarea>
+    <!-- filter airline -->
+    <textarea id="filter_airline_template" rows="0" cols="0">
+    	<!-- 
+    	<div class="groupbtt">航空公司</div>
+    	{#foreach $T as a}
+        <div class="groupntt">
+           <span class="eye-checkbox">
+               <label><input type="checkbox" value="{$T.a.k}" />&nbsp;&nbsp;{$T.a.n}</label>
+           </span>
+           <span class="eye-jiage">￥{$T.a.p}</span>
+           <div style=" clear:both;"></div>
+        </div>
+        {#/for}
+    	 -->
+    </textarea>
+    <!-- flt item -->
+    <textarea id="flt_item_template" rows="0" cols="0">
+    	<!-- 
+    	{#foreach $T as f}
+    	<li style="display:list-item;" t="{$T.f.time}">
+    		<input type="hidden" name="token" value="{$P.base64_enc($T.f)}"/>
+    		<input type="hidden" class="field_sort_normal" value="{$T.f$index}" />
+    		<input type="hidden" class="field_sort_price" value="{$T.f.price}" />
+    		<input type="hidden" class="field_sort_long" value="{$T.f.segs[0].airDiff}" />
+    		<input type="hidden" class="field_sort_time" value="{$P.get_time_millis($T.f.segs[0].airFromTime)}" />
+    		
+    		<input type="hidden" class="field_hour" value="{$P.get_hour($T.f.segs[0].airFromTime)}"/>
+    		<input type="hidden" class="field_direct" value="{#if $T.f.segs[0].airIsStop}round{#else}direct{#/if}"/>
+    		<input type="hidden" class="field_airline" value="{$T.f.segs[0].airline}"/>
+            <div class="flight-detali">
+            	{#foreach $T.f.segs as s}
+            	{#if $T.s.seg > 1}<hr/>{#/if}
+                <div class="detaila">
+                    <img src="./america/images/logo/{$T.s.airline}.png">
+                    <p class="flight-time" style="text-align:right;"><strong>{$P.date_substr($T.s.airFromTime,5)}</strong><span>{$T.s.airFromAirport}</span></p>
+                    <p class="zhuan">{$P.total_times($T.s.airDiff)}<em>
+                    {#if $T.s.airIsStop}<dfn>转</dfn>{$T.s.airStop}{#else}<dfn class="zhidaa">直达</dfn>{#/if}</em>
+                    </p>
+                    <p class="flight-time"><strong>{$P.date_substr($T.s.airToTime,5)}</strong><span>{$T.s.airToAirport}</span></p>
+                    <span class="cangwei">经济舱</span>
+                </div>
+                {#/for}
+                <div style="clear:both;"></div>
+            </div>
+            <p class="flightPrice {#if $T.f.segs.length > 1}bookBtntwo{#/if}"><span>￥<em>{$T.f.price}</em>起</span><dfn>税费 ￥{$T.f.fee}</dfn><a class="bookBtn">预定</a></p>
+            <div style="clear:both;"></div>
+			<a class="more-detail">航班详情</a>
+            <div id="more-detail" class="more-detail4 more_detail_box">
+            	{#foreach $T.f.segs as s}
+            	<p class="detail-top-tip"><span>{$P.get_week($T.s.airDate)}</span><span>{$T.s.airFromAirport}—{$T.s.airToAirport}</span><em>{$P.total_times($T.s.airDiff)}</em></p>
+                {#if $T.s.airIsStop}
+	                <div class="flight-icon">
+	                	<span class="icon_plane"></span>
+	                    <span class="icon_turnplane"></span>
+	                    <span class="icon_plane"></span>
+	                </div>
+	                {#foreach $T.s.airLegs as g}
+	                	<div class="flight_fr">
+	                		{#if $T.g.seq > 1}
+		                    <div class="flight_transit"><strong style="background:#fff;padding:0px 2px;">{$T.g.fromName}</strong><span class="zhongz">中转</span><span class="fr">{$P.total_times($T.g.stopTime)}</span></div>
+		                    {#/if}
+		                	<div class="w200 fl">{$P.get_time_route($T.g.fromTime)}<br>{$P.get_time_route($T.g.toTime)}<span class="price mgl3"></span></div>
+		                    <div class="w200 fl">{$T.g.fromName}<br>{$T.g.toName}</div>
+		                    <div class="w130 fl">{$T.g.airlineName}<br>{$T.g.airline}{$T.g.airNo}</div>
+		                    <div class="w90 fl">{$P.total_times($T.g.airDiff)}</div>
+		                </div>
+	                {#/for}
+	                <div style=" clear:both;"></div>
+	                <div style=" height:30px;"></div>
+                {#else}
+	                <div class="flight-icon">
+	                    <span class="icon_turnplane dcbj"></span>
+	                </div>
+	                {#foreach $T.s.airLegs as g}
+	                <div class="flight_fr">
+	                	<div class="w200 fl">{$P.get_time_route($T.g.fromTime)}<br>{$P.get_time_route($T.g.toTime)}<span class="price mgl3"></span></div>
+	                    <div class="w200 fl">{$T.g.fromName}<br>{$T.g.toName}</div>
+	                    <div class="w130 fl">{$T.g.airlineName}<br>{$T.g.airline}{$T.g.airNo}</div>
+	                    <div class="w90 fl">{$P.total_times($T.g.airDiff)}</div>
+	                </div>
+	                {#/for}
+                {#/if}
+                {#/for}
+                <div style=" clear:both;"></div>
+            </div>
+         </li>
+         {#/for}
+    	 -->
+    </textarea>
+</div>
+
+</body>
+</html>

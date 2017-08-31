@@ -1,0 +1,261 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+	<%@ include file="../common/commonAssets2014.jsp" %>
+    <title>一达机票</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link type="text/css" rel="stylesheet" href="./america/css/index.css" />
+</head>
+
+<body>
+<!-- 头部-浮动 -->
+<div class="main">
+<div class="topNav">
+	<div class="navLeft">
+    	<ul class="nav-ui">
+        	<li class="nav">机票</li>
+            <li>订单咨询</li>
+        </ul>
+    </div>
+    <div class="navcont">
+    	<img src="./america/images/logo.png"/>
+    </div>
+    <div class="navRight">
+    	<ul>
+        	<li><a href="login">登录</a></li>
+        </ul>
+    </div>
+</div>
+
+<!-- 机票查询内容 -->
+<div class="contMain">
+	<div class="ticFind">
+    	<div id="ticketBox">
+        	<ul class="ticNav">
+            	<li><i></i>双程</li>
+                <li><i></i>单程</li>
+            </ul>
+            <div class="hiddenBox">
+            	<input type="text" name="city-chufa" class="city-chufa" placeholder="出发城市"/>
+                <a class="chang"></a>
+                <input type="text" name="city-daoda" class="city-daoda" placeholder="到达城市"/>
+                <input type="text" name="date-chufa" class="date-chufa" placeholder="出发日期"/>
+                <input type="text" name="date-fan" class="date-fan" placeholder="返程日期"/>
+                <select>
+                	<option>儿童人数</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                </select>
+            	<select>
+                	<option>经济舱</option>
+                    <option>商务舱</option>
+                    <option>头等舱</option>
+                </select>
+                <label><input type="checkbox" name="zhifei"/>直飞</label>
+                <label><input type="checkbox" name="zhongzhuan"/>中转</label>
+                <a class="search-flight" href="list"><img src="./america/images/icon-sch.png"/>查询航班</a>
+            </div>
+            <div class="hiddenBox" style="display:none;">
+            	<input type="text" name="city-chufa" class="city-chufa" placeholder="出发城市"/>
+                <a class="chang"></a>
+                <input type="text" name="city-daoda" class="city-daoda" placeholder="到达城市"/>
+                <input type="text" name="date-chufa" class="date-chufa" placeholder="出发日期"/>
+                <input type="text" name="date-fan" class="date-fan" placeholder="返程日期" disabled="true"/>
+                <select>
+                	<option>儿童人数</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                </select>
+            	<select>
+                	<option>经济舱</option>
+                    <option>商务舱</option>
+                    <option>头等舱</option>
+                </select>
+                <label><input type="checkbox" name="zhifei"/>直飞</label>
+                <label><input type="checkbox" name="zhongzhuan"/>中转</label>
+                <a class="search-flight" href="list"><img src="./america/images/icon-sch.png"/>查询航班</a>
+            </div>
+        </div>
+    </div>
+    <div class="ticBg">
+    	<div class="bgImg"></div>
+    </div>
+</div>
+</div>
+<div style="clear:both;"></div>
+<!-- 手风琴内容 -->
+<div class="hotCity">
+	<div class="titleCont">
+    	<h2>美洲热门城市<span class="brick"></span></h2>
+        <hr>
+        <p>American Popular Cities</p>
+    </div>
+    <div class="cityBox">
+    	<div class="flash4" style="margin-top:15px">
+	<ul>
+    	<li class="first">
+        	<div class="imgTop"><img src="./america/images/city1.jpg" width="538" height="405"  alt="" class="tm"/></div>
+            <div class="imgCen"><p>纽约</p>蒂芙尼为你吟唱一曲自然颂<a href="" target="_blank" class="liaojie">点击了解</a></div>
+            <div class="imgBot"><p class="bt_1">纽约</p></div>
+        </li>
+        <li>
+        	<div class="imgTop"><img src="./america/images/city2.jpg" width="538" height="405"  alt=""/></div>
+            <div class="imgCen"><p>华盛顿</p>蒂芙尼为你吟唱一曲自然颂<a href="" target="_blank" class="liaojie">点击了解</a></div>
+            <div class="imgBot"><p class="bt_1">华盛顿</p></div>
+        </li>
+        <li>
+        	<div class="imgTop"><img src="./america/images/city3.jpg" width="538" height="405"  alt=""/></div>
+            <div class="imgCen"><p>芝加哥</p>瑞丽·妆 线上精品轻杂志<a href="" target="_blank" class="liaojie">点击了解</a></div>
+            <div class="imgBot"><p class="bt_1">芝加哥</p></div>
+        </li>
+        <li>
+        	<div class="imgTop"><img src="./america/images/city4.jpg" width="538" height="405"  alt=""/></div>
+            <div class="imgCen"><p>匹兹堡</p>刘海造型 女孩只需这样即刻焕然一新<a href="" target="_blank" class="liaojie">点击了解</a></div>
+            <div class="imgBot"><p class="bt_1">匹兹堡</p></div>
+        </li>
+        <li>
+        	<div class="imgTop"><img src="./america/images/city5.jpg" width="538" height="405"  alt=""/></div>
+            <div class="imgCen"><p>亚特兰大</p>电影×大明星 见证传奇从戛纳诞生<a href="" target="_blank" class="liaojie">点击了解</a></div>
+            <div class="imgBot"><p class="bt_1">亚特兰大</p></div>
+        </li>
+        <li>
+        	<div class="imgTop"><img src="./america/images/city6.jpg" width="538" height="405"  alt=""/></div>
+            <div class="imgCen"><p>底特律</p>重返20岁试用周<a href="" target="_blank" class="liaojie">点击了解</a></div>
+            <div class="imgBot"><p class="bt_1">底特律</p></div>
+        </li>
+        <li class="fast">
+        	<div class="imgTop"><img src="./america/images/city7.jpg" width="538" height="405"  alt=""/></div>
+            <div class="imgCen"><p>迈阿密</p>玩美女孩盖天天 阳光女神进阶攻略<a href="" target="_blank" class="liaojie">点击了解</a></div>
+            <div class="imgBot"><p class="bt_1">迈阿密</p></div>
+        </li>
+    </ul>	
+</div>
+    </div>
+</div>
+<!-- 限时优惠机票内容 -->
+<div class="page-ticket">
+	<div class="titleCont">
+    	<h2>限时优惠<span class="brick"></span></h2>
+        <hr>
+        <p>Limited-time Offers</p>
+    </div>
+    <div class="ticketList">
+    	<ul class="tic-ui">
+        	<li><a class="fareset-link">
+            	<img src="./america/images/ticimg1.jpg"/>
+                <div class="fareset-detail">
+                    <div class="fareset-text-wrap">
+                        <div class="fareset-text">
+                            <p class="txt">北京</p>
+                            <p class="txtf">↓</p>
+                            <p class="txt">东京</p>
+                            <p class="txtf">↓</p>
+                            <p class="txt">温哥华</p>
+                            <p class="price">最低<span>CNY3,0000</span></p>
+                        </div>
+                    </div>
+                </div>
+            </a></li>
+        	<li><a class="fareset-link">
+            	<img src="./america/images/ticimg2.jpg"/>
+                <div class="fareset-detail">
+                    <div class="fareset-text-wrap">
+                        <div class="fareset-text">
+                            <p class="txt">北京</p>
+                            <p class="txtf">↓</p>
+                            <p class="txt">东京</p>
+                            <p class="txtf">↓</p>
+                            <p class="txt">圣何塞</p>
+                            <p class="price">最低<span>CNY2,800</span></p>
+                        </div>
+                    </div>
+                </div>
+            </a></li>
+        	<li><a class="fareset-link">
+            	<img src="./america/images/ticimg3.jpg"/>
+                <div class="fareset-detail">
+                    <div class="fareset-text-wrap">
+                        <div class="fareset-text">
+                            <p class="txt">上海</p>
+                            <p class="txtf">↓</p>
+                            <p class="txt">东京</p>
+                            <p class="txtf">↓</p>
+                            <p class="txt">墨西哥城</p>
+                            <p class="price">最低<span>CNY5,950</span></p>
+                        </div>
+                    </div>
+                </div>
+            </a></li>
+        	<li><a class="fareset-link">
+            	<img src="./america/images/ticimg4.jpg"/>
+                <div class="fareset-detail">
+                    <div class="fareset-text-wrap">
+                        <div class="fareset-text">
+                            <p class="txt">广州</p>
+                            <p class="txtf">↓</p>
+                            <p class="txt">东京</p>
+                            <p class="txtf">↓</p>
+                            <p class="txt">悉尼</p>
+                            <p class="price">最低<span>CNY2,200</span></p>
+                        </div>
+                    </div>
+                </div>
+            </a></li>
+        </ul>
+    </div>
+</div>
+<!-- 底部 -->
+<div class="page-footer">
+	<div class="clearfix">
+	<ul class="links-list">
+    	<li><a href="" target="_blank" class="ng-binding">关于我们</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">美洲机票产品</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">特价申请</a></li>
+    	<li><a href="" target="_blank" class="ng-binding">服务条款</a></li>
+    </ul>
+    <p>地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼</p>
+    <p>全国服务电话:400-651-8800(免费) 投诉建议:13800138000  一达美洲机票</p>
+    </div>
+</div>
+
+<script>
+		seajs.use(["$",'tabs'], function($,Tabs) {		
+		new Tabs({
+		element: '#ticketBox',
+		triggers: '#ticketBox .ticNav li',
+		panels: '#ticketBox .hiddenBox',
+		activeTriggerClass: 'active',
+		triggerType:'click',
+		});		
+    });
+
+</script>
+<script  type="text/javascript">
+//手风琴动画效果
+var _index7=0;
+$(".flash4 ul li").mouseover(function(){
+	_index7=$(this).index();
+	$(this).stop().stop().animate({width:538},500).siblings("li").stop().animate({width:106},500);
+	$(".imgCen").eq(_index7).css("display","block").siblings(".imgCen").css("display","none");
+	$(".imgBot").eq(_index7).css("display","none").siblings(".imgBot").css("display","block");
+	$(".imgTop img").eq(_index7).addClass("tm").siblings(".imgTop img").removeClass("tn");
+});
+$(".flash4 ul li").mouseout(function(){
+	$(".imgBot").css("display","block");
+});
+
+</script>
+</body>
+</html>

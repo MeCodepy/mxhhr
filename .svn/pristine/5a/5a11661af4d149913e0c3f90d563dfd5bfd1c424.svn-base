@@ -1,0 +1,590 @@
+@charset "utf-8";
+/* 机票查询列表页 */
+body{
+	background:#f3f2f5;}
+.wapper{
+	width:1190px;
+	margin:0 auto;}
+/******************************  头部样式   **************************************/
+.topNav{
+	width:99%;
+	padding:0 0.5%;
+	background:#000;
+	height:50px;
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:10;}
+
+.topNav .navLeft{
+	width:33%;
+	float:left;}
+
+.topNav .navLeft .nav-ui li{
+	float:left;
+	line-height:47px;
+	font-size:20px;
+	color:#fff;
+	margin-right:20px;
+	padding:0 10px;
+	cursor:pointer;}
+
+.topNav .navLeft .nav-ui li:hover{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navLeft .nav-ui .nav{
+	border-bottom:3px solid #0195ff;}
+
+.topNav .navcont{
+	width:33%;
+	float:left;
+	text-align:center;}
+
+.topNav .navRight{
+	width:33%;
+	float:left;}
+
+.topNav .navRight ul li{
+	float:right;
+	line-height:50px;
+	font-size:20px;
+	color:#fff;margin-left:15px;}
+.topNav .navRight ul li a{color:#fff;}
+
+/********* 主内容 **********/
+.FlListMain{
+	background:#f3f2f5;
+	width:100%;}
+
+.FlListMain .listSearch{
+	height:68px;
+	width:1148px;
+	border:1px solid #ececec;
+	padding:20px;
+	background:#FFF;}
+
+.FlListMain .listSearch .xingcheng{
+	width:80px;
+	margin-right:20px;
+	float:left;
+	border-right:1px solid #ccc;}
+
+.FlListMain .listSearch .xingcheng li{
+	margin-right:30px;
+	cursor:pointer;}
+
+.FlListMain .listSearch .xingcheng li em{
+	display:block;
+	float:left;
+	margin-top:3px;
+	margin-right:7px;
+	width:8px;
+	height:8px;
+	border-radius:50%;
+	border:2px solid #0195ff;}
+
+.FlListMain .listSearch .xingcheng li:hover em{
+	background:#28a1f8;}
+
+.FlListMain .listSearch .xingcheng li.active em{
+	background:#28a1f8;}
+
+.FlListMain .listSearch .search-wap{
+	width:1027;
+	float:left;}
+	
+.FlListMain .listSearch .search-wap label{
+	color:#999;}
+
+.FlListMain .listSearch .search-wap .eye-dropdown-select{
+	width:90px;
+	margin-left:5px;
+	margin-right:60px;
+	border: 1px solid #D9D9D9;}
+
+.FlListMain .listSearch .search-wap .flightPeople{
+	margin-top:5px;}
+
+.FlListMain .listSearch .search-wap .flight-search{
+	margin-top:10px;
+	width:780px}
+
+.FlListMain .listSearch .search-wap .flight-search label{
+	padding-right:5px;}
+
+.FlListMain .listSearch .search-wap .flight-search input{
+	border: 1px solid #D9D9D9;
+    padding: 5px;
+    background-color: #FFF;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+	width:110px;
+	margin-right:15px;}
+
+.FlListMain .listSearch .search-btn-box{
+	float:left;
+	width:215px;
+	padding-left:50px;}
+
+.FlListMain .listSearch .search-btn-box .searchFlight{
+	display:block;
+	border-radius:20px;
+	width:180px;
+	height:40px;
+	line-height:40px;
+	font-size:14px;
+	color:#fff;
+	background:#0195ff;
+	text-align:center;}
+
+.FlListMain .listSearch .search-btn-box label{
+	margin-left:10px;
+	margin-top:10px;
+	font-size:14px;
+	color:#999;}
+	
+.FlListMain .listSearch .search-btn-box select{
+	width:100px;
+	margin-top:10px;}
+.FlListMain .ListBox{
+	margin-top:20px;}
+
+.FlListMain .ListBox .ListLeft{
+	width:898px;
+	float:left;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .search-trip{
+	line-height:34px;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .search-trip span{
+	font-size:20px;
+	font-weight: 400;
+    color: #666;
+	padding-right:30px;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .search-trip em{
+	font-size:12px;
+	color:#999;
+	margin-right:20px;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .search-choose{
+	border-top:4px solid #0195ff;
+	background:#fff;
+	height:50px;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .search-choose .choose-list li{
+	width:88px; 
+	height:30px;
+	line-height:30px;
+	font-size:14px;
+	text-align:center;
+	border-radius:1px;
+	cursor:pointer;
+	float:left;
+	margin-left:10px;
+	margin-right:15px;
+	margin-top:10px;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .search-choose .choose-list li.nav{
+	background:#0195ff;
+	color:#FFF;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table{
+	margin-top:10px;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li{
+	width:876px;
+	padding:10px;
+	background:#FFF;
+	border:1px solid #ececec;
+/*	box-shadow:0px 2px 4px #DFDCE3;
+*/	margin-bottom:10px;
+float:left;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li img{
+	width:160px;
+	float:left;
+	margin-top:13px;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flight-detali{
+	float:left;
+	width:700px;
+	margin-bottom:7px;}
+	
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-detali hr {
+    width: 700px;
+	border-bottom: 1px solid #ececec !important;
+    float: left;
+    margin: 19px 0px 10px 0px;
+	border:none;
+}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flight-detali .flight-time{
+	width:140px;
+	float:left;
+	text-align:left;
+	margin-top:11px;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flight-detali .flight-time strong{
+	font-size:16px;
+	color:#333;
+	display:block;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flight-detali .zhuan{
+	width:200px;
+	float:left;
+	margin-top:11px;
+	line-height:24px;
+	text-align:center;
+	background:url(../images/zhuan.png) no-repeat center;}
+
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flight-detali .zhuan em{
+	display:block;
+	text-align:center;
+	margin-top:2px;}
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flight-detali .zhuan em dfn {
+    background: #f977ba none repeat scroll 0 0;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 18px;
+    margin: 2px 3px 0;
+    text-align: center;
+    width: 18px;
+}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flight-detali .zhuan em .zhidaa {
+    margin-top: 4px;
+    padding: 0 5px;
+    width: auto;
+	background:#f96e6c ;
+}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flight-detali .cangwei{
+	font-size:16px;
+	color:#333;
+	float:left;
+	display:block;
+	width:60px;
+	line-height:60px;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flightPrice{
+	width:160px;
+	float:left;
+	margin-top:3px;
+	text-align:center;}
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .bookBtntwo{ margin-top:50px !important;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flightPrice span{
+	font-size:12px;
+	color:#999;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flightPrice dfn {
+    color: #666;
+    display: block;
+    margin-bottom: 1px;
+    text-align: center;
+}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flightPrice span em{
+	font-size:22px;
+	color:#ff5452;
+	font-weight:bold;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .flight-table .flight-iu-detail li .flightPrice .bookBtn{
+	width:110px;
+	height:30px;
+	line-height:30px;
+	display:block;
+	color:#FFF;
+	margin-left:33px;
+	border-radius:20px;
+	background:#0195ff;
+	text-align:center;
+	float:left;
+	cursor:pointer;}
+
+.FlListMain .ListBox .ListLeft .search-promotions .more-detail{
+	color:#0195ff;
+	position:relative;
+	top:-16px;
+	left:64px;
+	cursor:pointer;}
+
+#more-detail{
+	display:none;
+	float:left;
+	background:#FFF;
+	padding:20px 30px;
+	width:820px;
+	border-top:1px dashed #d9d9d9;}
+
+#more-detail .detail-top-tip{
+	font-size:14px;
+	color:#333;
+	margin-bottom:20px;
+	font-weight:bold;}
+
+#more-detail .detail-top-tip span{
+	margin-right:30px;}
+
+#more-detail .detail-top-tip em{
+	float:right;}
+
+#more-detail .flight_fr{
+	float:left;
+	width:700px;
+	line-height:20px;}
+
+#more-detail .flight_fr .fl{
+	float:left;}
+
+#more-detail .flight_fr .w80{
+	width:80px;}
+
+#more-detail .flight_fr .w200{
+	width:200px;}
+
+#more-detail .flight_fr .w130{
+	width:130px;}
+
+#more-detail .flight_fr .w90{
+	width:90px;}
+
+#more-detail .flight_fr .dcfl {
+    margin-top: 12px;
+}
+
+#more-detail .flight_fr .flight_transit{
+	background: url(../images/bg_transit.gif) no-repeat scroll center transparent;
+    line-height: 22px;
+    padding-left: 80px;
+    margin: 17px 0;
+	width:650px;
+	float:left;}
+
+#more-detail .flight_fr  .flight_transit .fr{
+	float:right;}
+
+#more-detail .flight_fr  .flight_transit .zhongz{
+	width: 34px;
+    height: 20px;
+    background: #FFF;
+    padding: 2px 5px;
+    border: 1px solid #D6D6D6;
+    margin-left: 15px;
+    color: #ff5452;}
+
+#more-detail .flight-icon{
+	margin:0 20px;
+	width:60px;
+	float:left;}
+
+#more-detail .flight-icon .icon_plane{
+	display:block;
+	width:26px;
+	height:26px;
+	background:url(../images/icon_fight.png) no-repeat center;
+	background-position:0 0;}
+
+#more-detail .flight-icon .icon_turnplane{
+	display:block;
+	width:26px;
+	height:80px;
+	background:url(../images/icon_fight.png) no-repeat center;
+	background-position:0 -25px;}
+
+#more-detail .flight-icon .dcbj {
+    background-position: 0 -105px;
+    height: 30px;
+    margin-top: 8px;
+}
+.FlListMain .ListBox .ListLeft .search-promotions .loading{
+	background: #fff;
+    float: left;
+    position: relative;
+    width: 896px;
+	margin-top:10px;
+	border:1px solid #ececec;
+}
+
+.FlListMain .ListBox .ListLeft .search-promotions .loading .lbb {
+    color: #666;
+    font-size: 17px;
+    left: 349px;
+    position: absolute;
+    text-align: center;
+    top: 50px;
+    width: 200px;
+}
+.FlListMain .ListBox .ListLeft .search-promotions .loading img {
+    margin-left: 274px;
+}
+.FlListMain .ListBox .ListRight{
+	width:270px;
+	margin-left:20px;
+	float:left;}
+
+.FlListMain .ListBox .ListRight hr {
+    background: #ececec none repeat scroll 0 0;
+    border: medium none;
+    float: left;
+    height: 1px;
+    width: 269px;
+}
+.FlListMain .ListBox .ListRight .righttop {
+	border:1px solid #ececec;
+	background:#fff;
+	float:left;
+	margin-bottom:20px;
+}
+
+
+.FlListMain .ListBox .ListRight .righttop .rightss {
+    background: #efeff0 none repeat scroll 0 0;
+    color: #666;
+    font-size: 17px;
+    line-height: 40px;
+    padding-left: 13px;
+}
+
+
+.FlListMain .ListBox .ListRight .righttop .rightbox {
+    float: left;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    padding-top: 10px;
+    width: 270px;
+}
+.FlListMain .ListBox .ListRight .righttop .rightbox .ssnr {
+    margin-left: 13px;
+}
+
+.FlListMain .ListBox .ListRight .righttop .rightbox .ssleft {
+    display: inline-block;
+    float: left;
+    font-size: 15px;
+    margin-right: 18px;
+	margin-top:-2px;
+}
+
+
+.FlListMain .ListBox .ListRight .righttop .rightbox  .seachqk {
+    color: #0195ff;
+    float: right;
+    font-size: 13px;
+	margin-right: 13px
+}
+
+
+.FlListMain .ListBox .ListRight .rightbottom {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ececec;
+    float: left;
+    width: 268px;
+	padding-bottom:10px;
+	margin-bottom:20px;
+}
+
+.FlListMain .ListBox .ListRight .rightbottom .rightsaa {
+    background: #efeff0 none repeat scroll 0 0;
+    color: #666;
+    font-size: 17px;
+    line-height: 40px;
+    padding-left: 13px;
+}
+
+.FlListMain .ListBox .ListRight .rightbottom .rightsaa span {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ccc;
+    color: #444;
+    display: inline-block;
+    float: right;
+    font-size: 13px;
+    line-height: 18px;
+    margin-right: 8px;
+    margin-top: 8px;
+    padding: 2px 3px;
+	cursor:pointer;}
+
+.FlListMain .ListBox .ListRight .rightbottom  hr {
+    margin: 10px 13px;
+    width: 242px !important;
+}
+
+.FlListMain .ListBox .ListRight .rightbottom .gonggroup .groupbtt {
+    color: #444;
+    font-size: 14px;
+    height: 18px;
+    margin-bottom: 12px;
+    margin-left: 13px;
+    margin-top: 8px;
+	font-weight: 700;
+}
+
+.FlListMain .ListBox .ListRight .rightbottom .gonggroup .groupntt {
+    font-size: 13px;
+    margin-left: 13px;
+	height: 18px;
+	line-height:18px;
+	margin-bottom:7px;
+
+}
+
+.FlListMain .ListBox .ListRight .rightbottom .gonggroup .groupntt.eye-checkbox {
+    font-size: 14px;
+}
+
+.FlListMain .ListBox .ListRight .rightbottom  .gonggroup .groupntt .eye-jiage {
+    color: #ff9913;
+    float: right;
+    font-size: 13px;
+    margin-right: 13px;
+}
+
+
+
+
+
+
+
+
+
+
+/******************************  底部样式   **************************************/
+.page-footer{
+	clear: both;
+    background: #fff;
+    padding-bottom: 12px;
+    padding-top: 12px;}
+
+.page-footer .clearfix{
+	text-align:center;}
+
+.page-footer .clearfix .links-list li{
+	    margin: 0;
+    text-decoration: none;
+    border-right: 1px solid #969696;
+    padding-left: 50px;
+    text-align: center;
+    padding-right: 50px;
+    line-height: 50px;
+    display: inline;
+    color: #969696;}
+
+.page-footer .clearfix .links-list li .ng-binding{
+	color: #969696;
+    text-decoration: none;
+    font-weight: 400;}
+
+.page-footer .clearfix p{
+	text-align: center;
+    line-height: 1.3;
+    padding-top: 5px;
+    margin: 0;
+    color: #969696;}
+
+

@@ -1,0 +1,98 @@
+package com.lutao.america.controller;
+
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.lutao.america.model.User;
+import com.lutao.america.service.UserService;
+
+@Controller
+@RequestMapping("/")
+public class IndexController {
+	private Log log = LogFactory.getLog(this.getClass().getName());
+	
+	@Autowired
+	private UserService userService;
+	
+	/**
+	 * 首页
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/index")
+	public String Index(HttpServletRequest req){
+		return "/index";
+	}
+	
+	/**
+	 * 登陆
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/login")
+	public String Login(HttpServletRequest req){
+		return "/login";
+	}
+	
+	/**
+	 * 执行登陆
+	 * @param user
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping(value="login/auth", method=RequestMethod.POST)
+	public String Login(User user, HttpServletRequest req){
+		//需要做验证码校验
+		
+		//账号密码校验
+		user.setUserCode("dingwenzhao");
+		user.setUserPwd("dwz123");
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("ucode", user.getUserCode());//dingwenzhao
+		map.put("pwd", user.getUserPwdMd5());//1c44d3592cd1132fff7e1d9dae5cdf43
+		Object id = userService.login(map);
+		boolean succeed = false;
+		Pattern pat = Pattern.compile("(\\d+)");
+		Matcher mch = pat.matcher(id.toString());
+		if(mch.matches()){
+			//登陆成功
+			
+		}
+		System.out.println("login:"+id);
+		log.info("login:"+id);
+		return "";
+	}
+	
+	/**
+	 * 注册
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/reg")
+	public String Register(HttpServletRequest req){
+		return "/register";
+	}
+	
+	/**
+	 * 航班列表
+	 * @param req
+	 * @return
+	 */
+	@RequestMapping("/list")
+	public String List(HttpServletRequest req){
+		return "/flightList";
+	}
+}

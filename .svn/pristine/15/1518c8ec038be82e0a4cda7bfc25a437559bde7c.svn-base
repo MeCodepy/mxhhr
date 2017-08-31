@@ -1,0 +1,290 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.*, java.text.SimpleDateFormat" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!DOCTYPE html>
+<html>
+<head>    
+	<%@ include file="../common/commonAssets2014.jsp" %>
+    <title>订单详情-美洲机票专线-路淘网</title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link media="all" rel="stylesheet" href="./america/css/OrderDetail.css"/>
+    <script type="text/javascript" src="${context}/america/js/MyOrder.js"></script>
+</head>
+
+<body>
+<!-- 头部-浮动 -->
+<jsp:include page="/top"></jsp:include>
+<div style="clear:both;"></div>
+<!-- 主体内容 -->
+<div style=" height:70px;"></div>
+<div class="wapper order_detail_main">
+	<div class="main_box order_mation">
+    	<div class="eye-box-title">
+                        <i></i>
+                        <h6>订单信息</h6>
+                    </div>
+        <div class="Opportunity">
+            <div class="mation_cont">
+            
+                <p><span>状态</span><em>
+                <c:if test="${order.stat eq '012' }"> 待支付确认</c:if>
+                <c:if test="${order.stat eq '011' }"> 待价格确认</c:if>
+                <c:if test="${order.stat eq '010' }"> 待座位确认</c:if>
+                <c:if test="${order.stat eq '009' }"> 订单取消</c:if>
+                <c:if test="${order.stat eq '013' }"> 待支付</c:if>
+                <c:if test="${order.stat eq '002' }"> 出票完成</c:if>
+                <c:if test="${order.stat eq '001' }"> 出票中</c:if>
+                
+                </em>为免价格变动，建议您下单后15分钟内完成支付!</p>
+                <p><span>订单号</span>${order.exorderId }</p>
+                <p><span>下单时间</span><fmt:formatDate value="${order.createDate }" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+            </div>
+            <div class="metion_price"> 
+                <p>订单金额:<span>￥${order.orderAttr.nopay }</span></p>
+                <c:if test="${order.stat eq '012' }">
+                <a href="air/pay?orderId=${order.orderId }" class="pay_btn">立即支付</a>
+                </c:if>
+                <c:if test="${order.stat != '009' &&  order.stat != '002' &&  order.stat != '001'}">
+                <a href="javascript:();" class="cancel_btn" onclick="cancel('${order.orderId}')">取消订单</a>
+                </c:if>
+            </div>
+       	</div>
+    </div>
+    
+    <div class="main_box airplane_mation">
+    	<div class="eye-box-title">
+                        <i></i>
+                        <h6>航班信息</h6>
+		</div>
+        <div class="Opportunity">
+        	<!-- 单程 -->
+        	<c:forEach  items="${order.orderAttr.pasgInfos }" var="pasgInfo">
+        	 <c:forEach items="${pasgInfo.pasgsects}" var="pasgsects">
+        	 
+            <ul class="fix">
+                <li class="col1">
+                    <i class="qif-goFlight"></i>
+                    <span><fmt:formatDate value="${pasgsects.depday }" pattern="yyyy-MM-dd"/></span>
+                    <span>${pasgsects.fltinfo.depname } - ${pasgsects.fltinfo.arrname }</span>
+                </li>
+                <li class="col2">
+                    <h3>${pasgsects.fltinfo.branch }</h3>
+                    <span>${pasgsects.fltinfo.fltNo }</span>
+                    <span></span>
+                    <p><span class="tdcColor">${pasgsects.cabinClass }</span></p>
+                </li>
+                <li class="col3">
+                    <span class="scol1">
+                        <h3>${pasgsects.fltinfo.deptime }</h3>
+                        <p>${pasgsects.fltinfo.depname }</p>
+                    </span>
+                    <span class="scol2">
+                         <i class="time"></i> 
+                    </span>
+                    <span class="scol3">
+                        <h3>${pasgsects.fltinfo.arrtime }</h3>
+                        <p>${pasgsects.fltinfo.arrname }</p>
+                    </span>
+                </li>
+            </ul>
+            <div style="clear:both;"></div>
+            <div class="line"></div>
+            </c:forEach>
+            </c:forEach>
+            <!-- 往返 -->
+            <!-- <ul class="fix">
+                <li class="col1">
+                    <i class="qif-goFlight"></i>
+                    <span>04-24</span>
+                    <span>贵阳 - 广州</span>
+                </li>
+                <li class="col2">
+                    <h3>南航</h3>
+                    <span>CZ6296</span>
+                    <span>波音737(中)</span>
+                    <p><span class="tdcColor">经济舱</span></p>
+                </li>
+                <li class="col3">
+                    <span class="scol1">
+                        <h3>08:30</h3>
+                        <p>龙洞堡机场T2</p>
+                    </span>
+                    <span class="scol2">
+                        <i class="time">1小时45分钟</i>
+                    </span>
+                    <span class="scol3">
+                        <h3>10:15</h3>
+                        <p>白云机场</p>
+                    </span>
+                </li>
+            </ul> -->
+        </div>
+    </div>
+    
+    <!--乘机人信息-->
+    <div class="main_box passenger_mation">
+    	<div class="eye-box-title">
+                        <i></i>
+                        <h6>乘机人信息</h6>
+		</div>
+		<c:forEach var="pasgInfo" items="${order.orderAttr.pasgInfos }">
+        <div class="Opportunity">
+        	<ul class="passenger_navtop" style="border-bottom:1px solid #ccc; color:#999;">
+            	<li>英文姓名</li>
+                <li style="width:100px;">性别</li>
+                <li>出生日期</li>
+                <li>证件类型</li>
+                <li style="width:200px;">证件号码</li>
+            </ul>
+            <ul class="passenger_navtop">
+            	<li>${pasgInfo.pasInfo.pasgName }</li>
+                <li style="width:100px;">
+				<c:if test="${pasgInfo.pasInfo.sex ==0}">女</c:if>
+				<c:if test="${pasgInfo.pasInfo.sex ==1}">男</c:if>
+				</li>
+                <li>${pasgInfo.pasInfo.birthday } </li>
+                <li>
+ 					<c:if test="${pasgInfo.pasInfo.certType eq 'NI'}">
+                      	身份证
+                        </c:if>
+                        <c:if test="${pasgInfo.pasInfo.certType eq 'PP'}">
+                      	护照
+                        </c:if>
+                        <c:if test="${pasgInfo.pasInfo.certType eq 'ID'}">
+                      	回乡证
+                        </c:if>
+                        <c:if test="${pasgInfo.pasInfo.certType eq 'HX'}">
+                      	台胞证
+                        </c:if>
+                        <c:if test="${pasgInfo.pasInfo.certType eq 'TB'}">
+                      	港澳通行证
+                        </c:if>
+                        <c:if test="${pasgInfo.pasInfo.certType eq 'GA'}">
+                      	国际海员证
+                        </c:if>
+                        <c:if test="${pasgInfo.pasInfo.certType eq 'HY'}">
+                      	其他 
+                        </c:if>
+                        <c:if test="${pasgInfo.pasInfo.certType eq 'JR'}">
+                      	军人证
+                        </c:if>
+                        <c:if test="${pasgInfo.pasInfo.certType eq 'XS'}">
+                      	学生证 
+                        </c:if>
+                        <c:if test="${pasgInfo.pasInfo.certType eq 'HM'}">
+                      	港澳台胞
+                        </c:if>
+                        <c:if test="${pasgInfo.pasInfo.certType eq 'WY'}">
+                      	外国人永久居留证
+                        </c:if>
+                  	</li>
+                <li style="width:200px;">${pasgInfo.pasInfo.certNo }</li>
+            </ul>
+        </div>
+        </c:forEach>
+    </div>
+    <!--联系人信息-->
+    <div class="main_box contact_mation">
+    
+    	<div class="eye-box-title">
+                        <i></i>
+                        <h6>联系人信息</h6>
+		</div>
+    	<div class="Opportunity">
+        	<p><span><em>姓名:</em>${order.contacts.name }</span><span><em>手机号码:</em>（+86）${order.contacts.telephone }</span><span><em>邮箱:</em>${order.contacts.email }</span></p>
+        </div>
+    </div>
+     <!--保险信息-->
+     <c:forEach items="${order.orderAttr.pasgInfos }" var="pasgInfo">
+     	<c:choose >
+     	<c:when test="${fn:length(pasgInfo.insurance)>0 }">
+     		<div class="main_box insurance_mation">
+     	</c:when>
+     	<c:otherwise>
+     		<div class="main_box insurance_mation" style="display: none;">
+     	</c:otherwise>
+     	</c:choose>
+     </c:forEach>
+    	<div class="eye-box-title">
+                        <i></i>
+                        <h6>保险信息</h6>
+		</div>
+    	<div class="Opportunity">
+    	
+        	<ul class="passenger_navtop" style="border-bottom:1px solid #ccc; color:#999;">
+            	<li>英文姓名</li>
+                <li style="width:200px;">保险名称</li>
+                <li>价格</li>
+                <li style="width:100px;">数量</li>
+                <li>保险状态</li>
+            </ul>
+            <c:forEach items="${order.orderAttr.pasgInfos }" var="pasgInfo">
+            <c:if test="${fn:length(pasgInfo.insurance)>0 }">
+            <c:forEach items="${pasgInfo.insurance }" var="insurance">
+            <ul class="passenger_navtop">
+            	<li>${pasgInfo.pasInfo.pasgName }</li>
+                <li style="width:200px;">${insurance.INSURANCE_COM_NAME }</li>
+                <li>¥${insurance.price }/份</li>
+                <li style="width:100px;">1份</li>
+                <li><c:if test="${insurance.state =='0' }"> 可用</c:if><c:if test="${insurance.state =='1' }">不可用</c:if></li>
+            </ul>
+            </c:forEach>
+            </c:if>
+         </c:forEach>   
+        </div>
+    </div>
+ <div style="clear:both;"></div>    
+     <!--保险信息-->
+   <!--  <div class="main_box instructions_box">
+    	<div class="eye-box-title">
+             <i></i>
+             <h6>退改签费用标准及特殊票务说明</h6>
+		</div>
+        <div class="Opportunity">
+        	<table border="1">
+            	<tr>
+                    <th>类型</th>
+                    <th>退改签时间点</th>
+                    <th>退票扣费</th>
+                    <th>同舱改期手续费</th>
+                    <th>签转</th>
+                </tr>
+                <tr>
+                    <td>成人票</td>
+                    <td>起飞前2小时之前，起飞前2小时之后</td>
+                    <td>¥265/人只退机建和燃油</td>
+                    <td>¥159/人</td>
+                    <td>不可签转</td>
+                </tr>
+                <tr>
+                    <td>儿童票</td>
+                    <td>起飞前2小时之前，起飞前2小时之后</td>
+                    <td>¥265/人只退机建和燃油</td>
+                    <td>¥159/人</td>
+                    <td>不可签转</td>
+                </tr>
+            </table>
+            <p>*以上均为乘客自愿退改签规则，非自愿退改签规则以可适用法律及航空公司规定为准。航空公司规定以各航空公司官方网站的公示为准。</p>
+            <p>*申请改签，同舱位变更时，如变更前后的票面价之间存在差价，需补足差价；如同时存在改期手续费和升舱费，则需同时收取改期手续费和舱位差额。</p>
+        </div>
+	</div>    -->
+    
+</div>
+
+<div style="clear:both;"></div>
+<!-- 底部 -->
+<div class="page-footer">
+	<div class="clearfix">
+	<ul class="links-list">
+    	<li><a href="${context}/about" target="_blank" class="ng-binding">关于我们</a></li>
+    	<li><a href="#" target="_blank" class="ng-binding">美洲机票产品</a></li>
+    	<li><a href="http://www.lutao.com/front/jipiao/flight_apply.jsp" target="_blank" class="ng-binding">特价申请</a></li>
+    	<li><a href="http://www.lutao.com/content/service/12.html" target="_blank" class="ng-binding">服务条款</a></li>
+    </ul>
+    <p>地址:广东省广州市增城区永宁街誉山国际B1栋1栋5楼</p>
+    <p>全国服务电话:400-651-8800(免费) 投诉建议:18902221589  一达美洲机票</p>
+    </div>
+</div>
+</body>
+</html>
